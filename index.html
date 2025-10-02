@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#6b3e1b" />
+  <title>Prairie Sun Brewery — Live Taplist</title>
+
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192.png" sizes="192x192" />
+  <style>
+    :root{
+      --bg:#fbfbfb; --card:#fff; --accent:#6b3e1b; --muted:#666;
+      --gap:12px; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%; margin:0; background:var(--bg); color:#111}
+    header{background:linear-gradient(90deg,var(--accent),#8b5a32); color:white; padding:18px 14px;}
+    header h1{margin:0; font-size:1.15rem; letter-spacing:0.6px}
+    header p{margin:6px 0 0 0; font-size:0.9rem; opacity:0.95}
+
+    .container{padding:14px; max-width:900px; margin:0 auto}
+    .meta{display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px; flex-wrap:wrap}
+    .meta .updated{color:var(--muted); font-size:0.9rem}
+    input[type=search]{padding:8px 12px; border-radius:8px; border:1px solid #ddd; width:100%; max-width:340px}
+
+    .grid{display:grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap:var(--gap)}
+    .card{background:var(--card); border-radius:12px; padding:12px; box-shadow:0 1px 6px rgba(0,0,0,0.06)}
+    .card h3{margin:0; font-size:1.02rem}
+    .meta-row{display:flex; gap:8px; align-items:center; margin-top:6px}
+    .pill{background:#eee; padding:4px 8px; border-radius:999px; font-size:0.85rem}
+    .on-tap{background:#dff5e1; color:#196619; font-weight:600; padding:4px 8px; border-radius:8px}
+    .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px}
+    .tag{font-size:0.78rem; color:var(--muted); background:#f6f6f6; padding:4px 8px; border-radius:999px}
+
+    .sizes{margin-top:10px; display:flex; gap:8px; flex-wrap:wrap}
+    .size{font-weight:700}
+    footer{padding:12px; color:var(--muted); text-align:center; font-size:0.9rem}
+    .tv-note{display:none}
+    @media (min-width:900px){ header h1{font-size:1.35rem} .tv-note{display:block; font-size:0.9rem; color:#fff; opacity:0.9} }
+  </style>
+</head>
+<body>
+<header>
+  <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; max-width:900px; margin:0 auto;">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <img src="icons/icon-192.png" alt="Prairie Sun Brewery Logo" style="height:50px; width:auto; border-radius:6px;" />
+      <div>
+        <h1>Prairie Sun Brewery — Live Taplist</h1>
+        <p class="tv-note">Open the menu on a phone — staff can update taps in seconds.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+  <div class="container">
+    <div class="meta">
+      <div>
+        <div class="venue" id="venueName">Prairie Sun Brewery</div>
+        <div class="updated" id="lastUpdated">Updated: —</div>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <input id="search" type="search" placeholder="Search beers, styles or tags" />
+        <button id="refresh">Refresh</button>
+      </div>
+    </div>
+
+    <div id="beerGrid" class="grid" aria-live="polite"></div>
+
+    <footer>
+      <div id="status">Loading menu…</div>
+      <div style="margin-top:6px; font-size:0.85rem">Scan QR around the taproom for this live menu.</div>
+    </footer>
+  </div>
+
+<script>
+  const API_URL = 'taplist.json';
+  const beerGrid = document.getElementById('beerGrid');
+  const status = document.getElementById('status');
+  const lastUpdatedEl = document.getElementById('lastUpdated');
+  const searchEl = document.getElementById('search');
+  const venueNameEl = document.getElementById('venueName');
+
+  async function fetchTaplist() {
+    status.textContent = 'Fetching latest menu…';
+    try {
+      const resp = await fetch(API_URL + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!resp.ok) throw new Error('Network response not ok');
+      const data = await resp.json();
+      renderTaplist(data);
+      status.textContent = 'Menu updated.';
+      return data;
+    } catch (err) {
+      status.textContent = 'Offline or fetch failed — loading cached menu if available.';
+      try {
+        const cachedResp = await fetch(API_URL);
+        const cachedData = await cachedResp.json();
+        renderTaplist(cachedData);
+        return cachedData;
+      } catch (err2) {
+        status.textContent = 'Unable to load menu.';
+        console.error(err, err2);
+      }
+    }
+  }
+
+  function renderTaplist(data) {
+    if (!data) return;
+    venueNameEl.textContent = data.meta?.venue ?? 'Prairie Sun Brewery';
+    lastUpdatedEl.textContent = 'Updated: ' + (data.meta?.last_updated ?? '—');
+    const beers = (data.beers || []).slice().sort((a,b)=> (a.sort_order||999)-(b.sort_order||999));
+    beerGrid.innerHTML = '';
+    for (const beer of beers) {
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.innerHTML = `
+        <h3>${escapeHtml(beer.name)} <span style="font-weight:400; font-size:0.86rem; color:var(--muted)">— ${escapeHtml(beer.style || '')}</span></h3>
+        <div class="meta-row">
+          <div class="pill">ABV: ${beer.abv ?? '—'}%</div>
+          ${beer.ibu ? `<div class="pill">IBU: ${beer.ibu}</div>` : ''}
+          ${beer.on_tap ? `<div class="on-tap">On tap</div>` : `<div class="pill">Not on</div>`}
+        </div>
+        <p style="margin-top:8px; color:var(--muted); font-size:0.95rem">${escapeHtml(beer.description || '')}</p>
+        <div class="sizes">${(beer.sizes || []).map(s=>`<div class="size">${escapeHtml(s.label)} — $${Number(s.price).toFixed(2)}</div>`).join('')}</div>
+        <div class="tags">${(beer.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+      `;
+      beerGrid.appendChild(card);
+    }
+  }
+
+  document.getElementById('refresh').addEventListener('click', fetchTaplist);
+  searchEl.addEventListener('input', (e)=> filterGrid(e.target.value));
+
+  function filterGrid(q) {
+    const ql = (q || '').toLowerCase().trim();
+    for (const card of beerGrid.children) {
+      const text = card.textContent.toLowerCase();
+      card.style.display = ql ? (text.includes(ql) ? '' : 'none') : '';
+    }
+  }
+
+  function escapeHtml(s){ return (s===undefined||s===null) ? '' : String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]); }
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js').then(reg=>{
+      console.log('SW registered', reg);
+    }).catch(err=>console.warn('SW registration failed', err));
+  }
+
+  fetchTaplist();
+</script>
+
+</body>
+</html>

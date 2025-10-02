@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "venue": "Prairie Sun Brewery",
+    "location": "Saskatoon, SK",
+    "last_updated": "2025-10-02T12:00:00-06:00"
+  },
+  "beers": [
+    {
+      "id": "psb-hazy-01",
+      "name": "Prairie Hazy IPA",
+      "style": "Hazy IPA",
+      "abv": 6.5,
+      "ibu": 25,
+      "sizes": [
+        { "label": "4oz", "price": 3.00 },
+        { "label": "12oz", "price": 6.50 },
+        { "label": "Pint", "price": 8.00 }
+      ],
+      "price_note": "Growler fills available",
+      "description": "Juicy, tropical hop character with a pillowy mouthfeel.",
+      "tags": ["hazy", "ipa", "fruity"],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 10
+    },
+    {
+      "id": "psb-lager-01",
+      "name": "Saskatoon Lager",
+      "style": "American Lager",
+      "abv": 4.6,
+      "ibu": 12,
+      "sizes": [{ "label": "Pint", "price": 6.00 }],
+      "description": "Crisp, clean, and sessionable.",
+      "tags": ["lager", "session"],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 20
+    }
+  ]
+}
