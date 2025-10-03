@@ -1,5 +1,5 @@
 {
-  "id": "./index.html",
+  "id": "prairie-sun-taplist",
   "name": "Prairie Sun Brewery Taplist",
   "short_name": "Prairie Taplist",
   "description": "Real-time beer menu for Prairie Sun Brewery",
@@ -8,7 +8,7 @@
   "background_color": "#6b3e1b",
   "theme_color": "#6b3e1b",
   "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }

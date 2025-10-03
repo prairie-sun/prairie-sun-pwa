@@ -74,89 +74,105 @@
 
 <script>
   const API_URL = 'taplist.json';
+  const UPDATE_URL = '/update-beer-status';
+  const isStaff = true; // TODO: replace with login/auth check later
   const beerGrid = document.getElementById('beerGrid');
   const status = document.getElementById('status');
   const lastUpdatedEl = document.getElementById('lastUpdated');
-  const searchEl = document.getElementById('search');
   const venueNameEl = document.getElementById('venueName');
+  const searchEl = document.getElementById('search');
 
-  async function fetchTaplist() {
-    status.textContent = 'Fetching latest menu…';
-    try {
-      const resp = await fetch(API_URL + '?t=' + Date.now(), { cache: 'no-store' });
-      if (!resp.ok) throw new Error('Network response not ok');
-      const data = await resp.json();
-      renderTaplist(data);
-      status.textContent = 'Menu updated.';
-      return data;
-    } catch (err) {
-      status.textContent = 'Offline or fetch failed — loading cached menu if available.';
-      try {
-        const cachedResp = await fetch(API_URL);
-        const cachedData = await cachedResp.json();
-        renderTaplist(cachedData);
-        return cachedData;
-      } catch (err2) {
-        status.textContent = 'Unable to load menu.';
-        console.error(err, err2);
+  let taplist = null;
+
+  // ---- WebSocket live updates ----
+  let socket;
+  function connectSocket() {
+    socket = new WebSocket(`ws://${location.host}`);
+    socket.onmessage = event => {
+      const msg = JSON.parse(event.data);
+      if (msg.type === 'taplist-update') {
+        renderTaplist(msg.taplist);
       }
+    };
+    socket.onclose = () => {
+      console.warn("Socket closed, retry in 3s...");
+      setTimeout(connectSocket, 3000);
+    };
+  }
+
+  // ---- Render taplist with toggles ----
+  function renderTaplist(data) {
+    if (!data) return;
+    taplist = data;
+    venueNameEl.textContent = data.meta?.venue ?? 'Prairie Sun Brewery';
+    lastUpdatedEl.textContent = 'Updated: ' + (data.meta?.last_updated ?? '—');
+    const beers = (data.beers || []).slice().sort((a,b)=>(a.sort_order||999)-(b.sort_order||999));
+    beerGrid.innerHTML = '';
+
+    for (const beer of beers) {
+      const card = document.createElement('article');
+      card.className = 'card';
+
+      const toggleHTML = isStaff ? `
+        <div style="margin-top:8px; display:flex; align-items:center; gap:8px">
+	  <label class="toggle">
+	    <input type="checkbox" ${beer.on_tap ? 'checked':''} 
+	      onchange="toggleBeer('${beer.id}', this.checked)" />
+	    <span class="slider"></span>
+	  </label>
+	  <span class="toggle-label">${beer.on_tap ? 'On tap' : 'Not on'}</span>
+	</div>` : 
+        (beer.on_tap ? `<div class="on-tap">On tap</div>` : `<div class="pill">Not on</div>`);
+
+      card.innerHTML = `
+        <h3>
+          ${escapeHtml(beer.name)}
+          ${beer.style ? `<span style="font-weight:400; font-size:0.86rem; color:var(--muted)">— ${escapeHtml(beer.style)}</span>` : ''}
+        </h3>
+        <div style="font-size:0.85rem; color:var(--muted); margin-top:2px">
+          ${escapeHtml(beer.producer||'')}${beer.location ? ', '+escapeHtml(beer.location) : ''}
+        </div>
+        <div class="meta-row">
+          <div class="pill">ABV: ${beer.abv ?? '—'}%</div>
+          ${beer.ibu ? `<div class="pill">IBU: ${beer.ibu}</div>` : ''}
+          ${toggleHTML}
+        </div>
+        <p style="margin-top:8px; color:var(--muted); font-size:0.95rem">${escapeHtml(beer.description||'')}</p>
+        <div class="sizes">${(beer.sizes||[]).map(s=>`<div class="size">${escapeHtml(s.label)} — $${Number(s.price).toFixed(2)}</div>`).join('')}</div>
+        <div class="tags">${(beer.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+      `;
+      beerGrid.appendChild(card);
     }
   }
 
-  function renderTaplist(data) {
-  if (!data) return;
-  venueNameEl.textContent = data.meta?.venue ?? 'Prairie Sun Brewery';
-  lastUpdatedEl.textContent = 'Updated: ' + (data.meta?.last_updated ?? '—');
-  const beers = (data.beers || []).slice().sort((a,b)=> (a.sort_order||999)-(b.sort_order||999));
-  beerGrid.innerHTML = '';
-  for (const beer of beers) {
-    const card = document.createElement('article');
-    card.className = 'card';
-    card.innerHTML = `
-      <h3>
-        ${escapeHtml(beer.name)}
-        ${beer.style ? ` <span style="font-weight:400; font-size:0.86rem; color:var(--muted)">— ${escapeHtml(beer.style)}</span>` : ''}
-      </h3>
+  // ---- Toggle handler ----
+  async function toggleBeer(beerId, onTap) {
+  try {
+    // Update backend
+    await fetch(UPDATE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json' },
+      body: JSON.stringify({ beerId, onTap })
+    });
 
-      <!-- Added producer and location here -->
-      <div style="font-size:0.85rem; color:var(--muted); margin-top:2px">
-        ${escapeHtml(beer.producer || '')}${beer.location ? ', ' + escapeHtml(beer.location) : ''}
-      </div>
-
-      <div class="meta-row">
-        <div class="pill">ABV: ${beer.abv ?? '—'}%</div>
-        ${beer.ibu ? `<div class="pill">IBU: ${beer.ibu}</div>` : ''}
-        ${beer.on_tap ? `<div class="on-tap">On tap</div>` : `<div class="pill">Not on</div>`}
-      </div>
-      <p style="margin-top:8px; color:var(--muted); font-size:0.95rem">${escapeHtml(beer.description || '')}</p>
-      <div class="sizes">${(beer.sizes || []).map(s=>`<div class="size">${escapeHtml(s.label)} — $${Number(s.price).toFixed(2)}</div>`).join('')}</div>
-      <div class="tags">${(beer.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
-    `;
-    beerGrid.appendChild(card);
+    // Update UI label text immediately
+    const input = document.querySelector(`input[type="checkbox"][onchange*="'${beerId}'"]`);
+    if (input) {
+      const label = input.closest('div').querySelector('.toggle-label');
+      if (label) label.textContent = onTap ? 'On tap' : 'Not on';
+    }
+  } catch (err) {
+    alert('Failed to update beer status');
+    console.error(err);
   }
 }
 
-
-  document.getElementById('refresh').addEventListener('click', fetchTaplist);
-  searchEl.addEventListener('input', (e)=> filterGrid(e.target.value));
-
-  function filterGrid(q) {
-    const ql = (q || '').toLowerCase().trim();
-    for (const card of beerGrid.children) {
-      const text = card.textContent.toLowerCase();
-      card.style.display = ql ? (text.includes(ql) ? '' : 'none') : '';
-    }
-  }
-
+  // ---- Helpers ----
   function escapeHtml(s){ return (s===undefined||s===null) ? '' : String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]); }
 
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js').then(reg=>{
-      console.log('SW registered', reg);
-    }).catch(err=>console.warn('SW registration failed', err));
-  }
-
-  fetchTaplist();
+  // Initial fetch and socket connect
+  fetch(API_URL).then(r=>r.json()).then(renderTaplist);
+  connectSocket();
 </script>
 
 </body>
