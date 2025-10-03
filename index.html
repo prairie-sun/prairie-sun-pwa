@@ -113,7 +113,10 @@
     const card = document.createElement('article');
     card.className = 'card';
     card.innerHTML = `
-      <h3>${escapeHtml(beer.name)} <span style="font-weight:400; font-size:0.86rem; color:var(--muted)">— ${escapeHtml(beer.style || '')}</span></h3>
+      <h3>
+        ${escapeHtml(beer.name)}
+        ${beer.style ? ` <span style="font-weight:400; font-size:0.86rem; color:var(--muted)">— ${escapeHtml(beer.style)}</span>` : ''}
+      </h3>
 
       <!-- Added producer and location here -->
       <div style="font-size:0.85rem; color:var(--muted); margin-top:2px">
