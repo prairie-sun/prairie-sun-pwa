@@ -6,35 +6,412 @@
   },
   "beers": [
     {
-      "id": "psb-hazy-01",
-      "name": "Prairie Hazy IPA",
-      "style": "Hazy IPA",
-      "abv": 6.5,
-      "ibu": 25,
+      "id": "cerveza-rebelion-01",
+      "name": "Cerveza",
+      "style": "",
+      "abv": 4.2,
+      "ibu": null,
       "sizes": [
-        { "label": "4oz", "price": 3.00 },
-        { "label": "12oz", "price": 6.50 },
-        { "label": "Pint", "price": 8.00 }
+        { "label": "Tulip", "price": 8.25 },
+        { "label": "Pint", "price": 9.75 },
+        { "label": "Pitcher", "price": 31.00 }
       ],
-      "price_note": "Growler fills available",
-      "description": "Juicy, tropical hop character with a pillowy mouthfeel.",
-      "tags": ["hazy", "ipa", "fruity"],
+      "price_note": "",
+      "description": "",
+      "tags": [],
       "on_tap": true,
       "image": "",
       "sort_order": 10
     },
     {
-      "id": "psb-lager-01",
-      "name": "Saskatoon Lager",
-      "style": "American Lager",
-      "abv": 4.6,
-      "ibu": 12,
-      "sizes": [{ "label": "Pint", "price": 6.00 }],
-      "description": "Crisp, clean, and sessionable.",
-      "tags": ["lager", "session"],
+      "id": "ryed-or-die-paddockwood-01",
+      "name": "Rye'd or Die",
+      "style": "",
+      "abv": 4.8,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 8.25 },
+        { "label": "Pint", "price": 9.75 },
+        { "label": "Pitcher", "price": 31.00 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
       "on_tap": true,
       "image": "",
       "sort_order": 20
+    },
+    {
+      "id": "the-ticket-9mile-01",
+      "name": "The Ticket",
+      "style": "",
+      "abv": 4.7,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 9.00 },
+        { "label": "Pint", "price": 9.75 },
+        { "label": "Pitcher", "price": 31.00 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 30
+    },
+    {
+      "id": "prairie-sun-pale-ale-01",
+      "name": "Prairie Sun Pale Ale",
+      "style": "",
+      "abv": 4.2,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 7.50 },
+        { "label": "Pint", "price": 9.00 },
+        { "label": "Pitcher", "price": 28.50 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 40
+    },
+    {
+      "id": "hopped-honey-amber-paddockwood-01",
+      "name": "Hopped Honey Amber",
+      "style": "",
+      "abv": 5.8,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 8.25 },
+        { "label": "Pint", "price": 9.75 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 50
+    },
+    {
+      "id": "brown-ale-nokomis-01",
+      "name": "Brown Ale",
+      "style": "",
+      "abv": 5.5,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 8.25 },
+        { "label": "Pint", "price": 9.75 },
+        { "label": "Pitcher", "price": 31.00 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 60
+    },
+    {
+      "id": "cats-got-the-cream-rebelion-01",
+      "name": "Cats got the Cream",
+      "style": "",
+      "abv": 5.5,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 8.25 },
+        { "label": "Pint", "price": 9.75 },
+        { "label": "Pitcher", "price": 31.00 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 70
+    },
+    {
+      "id": "oktoberfest-9mile-01",
+      "name": "Oktoberfest",
+      "style": "",
+      "abv": 5.5,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 8.25 },
+        { "label": "Pint", "price": 9.75 },
+        { "label": "Pitcher", "price": 31.00 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 80
+    },
+    {
+      "id": "berry-dark-ale-saskatoon-01",
+      "name": "Berry Dark Ale",
+      "style": "",
+      "abv": 5.0,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 8.25 },
+        { "label": "Pint", "price": 9.75 },
+        { "label": "Pitcher", "price": 31.00 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 90
+    },
+    {
+      "id": "oatmeal-stout-rebelion-01",
+      "name": "Oatmeal Stout",
+      "style": "",
+      "abv": 5.5,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 8.25 },
+        { "label": "Pint", "price": 9.75 },
+        { "label": "Pitcher", "price": 31.00 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 100
+    },
+    {
+      "id": "belgian-witbier-prairie-01",
+      "name": "Belgian Witbier",
+      "style": "",
+      "abv": 4.9,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 7.50 },
+        { "label": "Pint", "price": 9.00 },
+        { "label": "Pitcher", "price": 28.50 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 110
+    },
+    {
+      "id": "totally-radler-prairie-01",
+      "name": "Totally Radler",
+      "style": "",
+      "abv": 3.0,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 7.50 },
+        { "label": "Pint", "price": 9.00 },
+        { "label": "Pitcher", "price": 28.50 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 120
+    },
+    {
+      "id": "raspberry-wheat-ale-pileobones-01",
+      "name": "Raspberry Wheat Ale",
+      "style": "",
+      "abv": 5.0,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 8.25 },
+        { "label": "Pint", "price": 9.75 },
+        { "label": "Pitcher", "price": 31.00 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 130
+    },
+    {
+      "id": "lovertime-ipa-prairie-01",
+      "name": "Lovertime IPA",
+      "style": "",
+      "abv": 6.0,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 7.50 },
+        { "label": "Pint", "price": 9.00 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 140
+    },
+    {
+      "id": "white-ipa-pileobones-01",
+      "name": "White IPA",
+      "style": "",
+      "abv": 5.0,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 8.25 },
+        { "label": "Pint", "price": 9.75 },
+        { "label": "Pitcher", "price": 31.00 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 150
+    },
+    {
+      "id": "hazy-ipa-saskatoon-01",
+      "name": "Hazy IPA",
+      "style": "",
+      "abv": 5.5,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 8.25 },
+        { "label": "Pint", "price": 9.75 },
+        { "label": "Pitcher", "price": 31.00 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 160
+    },
+    {
+      "id": "west-coast-ipa-saskatoon-01",
+      "name": "West Coast IPA",
+      "style": "",
+      "abv": 6.0,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 8.25 },
+        { "label": "Pint", "price": 9.75 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 170
+    },
+    {
+      "id": "juicy-ipa-armoury-01",
+      "name": "Juicy IPA",
+      "style": "",
+      "abv": 6.1,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 8.25 },
+        { "label": "Pint", "price": 9.75 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 180
+    },
+    {
+      "id": "crisp-flatlander-01",
+      "name": "Crisp",
+      "style": "",
+      "abv": 5.0,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 9.00 },
+        { "label": "Pint", "price": 10.75 },
+        { "label": "Pitcher", "price": 34.00 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 190
+    },
+    {
+      "id": "rotating-flatlander-01",
+      "name": "Rotating",
+      "style": "",
+      "abv": 5.0,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 9.00 },
+        { "label": "Pint", "price": 10.75 },
+        { "label": "Pitcher", "price": 34.00 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 200
+    },
+    {
+      "id": "raspberry-mango-sour-highkey-01",
+      "name": "Raspberry Mango Sour",
+      "style": "",
+      "abv": 5.0,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 8.25 },
+        { "label": "Pint", "price": 9.75 },
+        { "label": "Pitcher", "price": 31.00 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 210
+    },
+    {
+      "id": "straight-cut-sour-9mile-01",
+      "name": "Straight Cut Sour",
+      "style": "",
+      "abv": 4.7,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 9.00 },
+        { "label": "Pint", "price": 9.75 },
+        { "label": "Pitcher", "price": 31.00 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 220
+    },
+    {
+      "id": "berry-tea-luckybastard-01",
+      "name": "Berry Tea",
+      "style": "",
+      "abv": 5.0,
+      "ibu": null,
+      "sizes": [
+        { "label": "Tulip", "price": 8.50 }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 230
     }
   ]
 }
