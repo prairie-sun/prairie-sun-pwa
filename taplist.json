@@ -8,7 +8,7 @@
     {
       "id": "cerveza-rebelion-01",
       "name": "Cerveza",
-      "producer": "Rebelion Brewing",
+      "producer": "Rebellion Brewing",
       "location": "Regina, SK",
       "style": "Lager",
       "abv": 4.2,
@@ -127,7 +127,7 @@
     {
       "id": "cats-got-the-cream-rebelion-01",
       "name": "Cats got the Cream",
-      "producer": "Rebelion Brewing",
+      "producer": "Rebellion Brewing",
       "location": "Regina, SK",
       "style": "Amber / Red Ale",
       "abv": 5.5,
@@ -187,7 +187,7 @@
     {
       "id": "oatmeal-stout-rebelion-01",
       "name": "Oatmeal Stout",
-      "producer": "Rebelion Brewing",
+      "producer": "Rebellion Brewing",
       "location": "Regina, SK",
       "style": "Stout",
       "abv": 5.5,
