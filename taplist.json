@@ -8,6 +8,8 @@
     {
       "id": "cerveza-rebelion-01",
       "name": "Cerveza",
+      "producer": "Rebelion Brewing",
+      "location": "Regina, SK",
       "style": "",
       "abv": 4.2,
       "ibu": null,
@@ -26,6 +28,8 @@
     {
       "id": "ryed-or-die-paddockwood-01",
       "name": "Rye'd or Die",
+      "producer": "Paddock Wood Brewing",
+      "location": "Saskatoon, SK",
       "style": "",
       "abv": 4.8,
       "ibu": null,
@@ -44,6 +48,8 @@
     {
       "id": "the-ticket-9mile-01",
       "name": "The Ticket",
+      "producer": "9Mile Brewery",
+      "location": "Saskatoon, SK",
       "style": "",
       "abv": 4.7,
       "ibu": null,
@@ -62,6 +68,8 @@
     {
       "id": "prairie-sun-pale-ale-01",
       "name": "Prairie Sun Pale Ale",
+      "producer": "Prairie Sun Brewery",
+      "location": "Saskatoon, SK",
       "style": "",
       "abv": 4.2,
       "ibu": null,
@@ -80,6 +88,8 @@
     {
       "id": "hopped-honey-amber-paddockwood-01",
       "name": "Hopped Honey Amber",
+      "producer": "Paddock Wood Brewing",
+      "location": "Saskatoon, SK",
       "style": "",
       "abv": 5.8,
       "ibu": null,
@@ -97,6 +107,8 @@
     {
       "id": "brown-ale-nokomis-01",
       "name": "Brown Ale",
+      "producer": "Nokomis Brewing",
+      "location": "Nokomis, SK",
       "style": "",
       "abv": 5.5,
       "ibu": null,
@@ -115,6 +127,8 @@
     {
       "id": "cats-got-the-cream-rebelion-01",
       "name": "Cats got the Cream",
+      "producer": "Rebelion Brewing",
+      "location": "Regina, SK",
       "style": "",
       "abv": 5.5,
       "ibu": null,
@@ -133,6 +147,8 @@
     {
       "id": "oktoberfest-9mile-01",
       "name": "Oktoberfest",
+      "producer": "9Mile Brewery",
+      "location": "Saskatoon, SK",
       "style": "",
       "abv": 5.5,
       "ibu": null,
@@ -151,6 +167,8 @@
     {
       "id": "berry-dark-ale-saskatoon-01",
       "name": "Berry Dark Ale",
+      "producer": "Saskatoon Brewing",
+      "location": "Saskatoon, SK",
       "style": "",
       "abv": 5.0,
       "ibu": null,
@@ -169,6 +187,8 @@
     {
       "id": "oatmeal-stout-rebelion-01",
       "name": "Oatmeal Stout",
+      "producer": "Rebelion Brewing",
+      "location": "Regina, SK",
       "style": "",
       "abv": 5.5,
       "ibu": null,
@@ -187,6 +207,8 @@
     {
       "id": "belgian-witbier-prairie-01",
       "name": "Belgian Witbier",
+      "producer": "Prairie Sun Brewery",
+      "location": "Saskatoon, SK",
       "style": "",
       "abv": 4.9,
       "ibu": null,
@@ -205,6 +227,8 @@
     {
       "id": "totally-radler-prairie-01",
       "name": "Totally Radler",
+      "producer": "Prairie Sun Brewery",
+      "location": "Saskatoon, SK",
       "style": "",
       "abv": 3.0,
       "ibu": null,
@@ -223,6 +247,8 @@
     {
       "id": "raspberry-wheat-ale-pileobones-01",
       "name": "Raspberry Wheat Ale",
+      "producer": "Pile O' Bones Brewing",
+      "location": "Regina, SK",
       "style": "",
       "abv": 5.0,
       "ibu": null,
@@ -241,6 +267,8 @@
     {
       "id": "lovertime-ipa-prairie-01",
       "name": "Lovertime IPA",
+      "producer": "Prairie Sun Brewery",
+      "location": "Saskatoon, SK",
       "style": "",
       "abv": 6.0,
       "ibu": null,
@@ -258,6 +286,8 @@
     {
       "id": "white-ipa-pileobones-01",
       "name": "White IPA",
+      "producer": "Pile O' Bones Brewing",
+      "location": "Regina, SK",
       "style": "",
       "abv": 5.0,
       "ibu": null,
@@ -276,6 +306,8 @@
     {
       "id": "hazy-ipa-saskatoon-01",
       "name": "Hazy IPA",
+      "producer": "Saskatoon Brewing",
+      "location": "Saskatoon, SK",
       "style": "",
       "abv": 5.5,
       "ibu": null,
@@ -294,6 +326,8 @@
     {
       "id": "west-coast-ipa-saskatoon-01",
       "name": "West Coast IPA",
+      "producer": "Saskatoon Brewing",
+      "location": "Saskatoon, SK",
       "style": "",
       "abv": 6.0,
       "ibu": null,
@@ -311,6 +345,8 @@
     {
       "id": "juicy-ipa-armoury-01",
       "name": "Juicy IPA",
+      "producer": "Armoury Brewing",
+      "location": "North Battleford, SK",
       "style": "",
       "abv": 6.1,
       "ibu": null,
@@ -328,6 +364,8 @@
     {
       "id": "crisp-flatlander-01",
       "name": "Crisp",
+      "producer": "Flatlander Cidery",
+      "location": "Saskatoon, SK",
       "style": "",
       "abv": 5.0,
       "ibu": null,
@@ -346,6 +384,8 @@
     {
       "id": "rotating-flatlander-01",
       "name": "Rotating",
+      "producer": "Flatlander Cidery",
+      "location": "Saskatoon, SK",
       "style": "",
       "abv": 5.0,
       "ibu": null,
@@ -364,6 +404,8 @@
     {
       "id": "raspberry-mango-sour-highkey-01",
       "name": "Raspberry Mango Sour",
+      "producer": "High Key Brewing",
+      "location": "Saskatoon, SK",
       "style": "",
       "abv": 5.0,
       "ibu": null,
@@ -375,13 +417,15 @@
       "price_note": "",
       "description": "",
       "tags": [],
-      "on_tap": true,
+      "on_tap": false,
       "image": "",
       "sort_order": 210
     },
     {
       "id": "straight-cut-sour-9mile-01",
       "name": "Straight Cut Sour",
+      "producer": "9Mile Brewery",
+      "location": "Saskatoon, SK",
       "style": "",
       "abv": 4.7,
       "ibu": null,
@@ -400,6 +444,8 @@
     {
       "id": "berry-tea-luckybastard-01",
       "name": "Berry Tea",
+      "producer": "Lucky Bastard",
+      "location": "Saskatoon, SK",
       "style": "",
       "abv": 5.0,
       "ibu": null,
