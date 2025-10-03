@@ -104,28 +104,35 @@
   }
 
   function renderTaplist(data) {
-    if (!data) return;
-    venueNameEl.textContent = data.meta?.venue ?? 'Prairie Sun Brewery';
-    lastUpdatedEl.textContent = 'Updated: ' + (data.meta?.last_updated ?? '—');
-    const beers = (data.beers || []).slice().sort((a,b)=> (a.sort_order||999)-(b.sort_order||999));
-    beerGrid.innerHTML = '';
-    for (const beer of beers) {
-      const card = document.createElement('article');
-      card.className = 'card';
-      card.innerHTML = `
-        <h3>${escapeHtml(beer.name)} <span style="font-weight:400; font-size:0.86rem; color:var(--muted)">— ${escapeHtml(beer.style || '')}</span></h3>
-        <div class="meta-row">
-          <div class="pill">ABV: ${beer.abv ?? '—'}%</div>
-          ${beer.ibu ? `<div class="pill">IBU: ${beer.ibu}</div>` : ''}
-          ${beer.on_tap ? `<div class="on-tap">On tap</div>` : `<div class="pill">Not on</div>`}
-        </div>
-        <p style="margin-top:8px; color:var(--muted); font-size:0.95rem">${escapeHtml(beer.description || '')}</p>
-        <div class="sizes">${(beer.sizes || []).map(s=>`<div class="size">${escapeHtml(s.label)} — $${Number(s.price).toFixed(2)}</div>`).join('')}</div>
-        <div class="tags">${(beer.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
-      `;
-      beerGrid.appendChild(card);
-    }
+  if (!data) return;
+  venueNameEl.textContent = data.meta?.venue ?? 'Prairie Sun Brewery';
+  lastUpdatedEl.textContent = 'Updated: ' + (data.meta?.last_updated ?? '—');
+  const beers = (data.beers || []).slice().sort((a,b)=> (a.sort_order||999)-(b.sort_order||999));
+  beerGrid.innerHTML = '';
+  for (const beer of beers) {
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.innerHTML = `
+      <h3>${escapeHtml(beer.name)} <span style="font-weight:400; font-size:0.86rem; color:var(--muted)">— ${escapeHtml(beer.style || '')}</span></h3>
+
+      <!-- Added producer and location here -->
+      <div style="font-size:0.85rem; color:var(--muted); margin-top:2px">
+        ${escapeHtml(beer.producer || '')}${beer.location ? ', ' + escapeHtml(beer.location) : ''}
+      </div>
+
+      <div class="meta-row">
+        <div class="pill">ABV: ${beer.abv ?? '—'}%</div>
+        ${beer.ibu ? `<div class="pill">IBU: ${beer.ibu}</div>` : ''}
+        ${beer.on_tap ? `<div class="on-tap">On tap</div>` : `<div class="pill">Not on</div>`}
+      </div>
+      <p style="margin-top:8px; color:var(--muted); font-size:0.95rem">${escapeHtml(beer.description || '')}</p>
+      <div class="sizes">${(beer.sizes || []).map(s=>`<div class="size">${escapeHtml(s.label)} — $${Number(s.price).toFixed(2)}</div>`).join('')}</div>
+      <div class="tags">${(beer.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+    `;
+    beerGrid.appendChild(card);
   }
+}
+
 
   document.getElementById('refresh').addEventListener('click', fetchTaplist);
   searchEl.addEventListener('input', (e)=> filterGrid(e.target.value));
