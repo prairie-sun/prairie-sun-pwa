@@ -106,7 +106,6 @@ footer{padding:12px; color:var(--muted); text-align:center; font-size:0.9rem}
 document.addEventListener('DOMContentLoaded', () => {
   const API_URL = 'taplist.json';
   const UPDATE_URL = '/update-beer-status';
-
   const beerGrid = document.getElementById('beerGrid');
   const lastUpdatedEl = document.getElementById('lastUpdated');
   const venueNameEl = document.getElementById('venueName');
@@ -117,19 +116,15 @@ document.addEventListener('DOMContentLoaded', () => {
   let taplist = null;
   let isAdmin = sessionStorage.getItem('isAdmin') === 'true';
 
-  // ---- Helpers ----
+  // --- Helpers ---
   function escapeHtml(s) {
-    return (s === undefined || s === null) ? '' : String(s).replace(/[&<>"']/g, c => ({
-      '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
-    }[c]));
+    return (s === undefined || s === null) ? '' : String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
   }
 
   async function sha256(message) {
     const msgBuffer = new TextEncoder().encode(message);
     const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-    return Array.from(new Uint8Array(hashBuffer))
-      .map(b => b.toString(16).padStart(2,'0'))
-      .join('');
+    return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,'0')).join('');
   }
 
   async function toggleBeer(beerId,onTap){
@@ -142,122 +137,56 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch(err){ console.error(err); alert('Failed to update beer status'); }
   }
 
-  // ---- Render taplist ----
+  // --- Update or create single beer card ---
+  function upsertBeerCard(beer){
+    let card = document.getElementById(`beer-${beer.id}`);
+    const toggleHTML = isAdmin ? `
+      <div style="margin-top:8px; display:flex; align-items:center; gap:8px">
+        <label class="toggle">
+          <input type="checkbox" ${beer.on_tap?'checked':''} onchange="toggleBeer('${beer.id}', this.checked)" />
+          <span class="slider"></span>
+        </label>
+        <span class="toggle-label">${beer.on_tap?'On tap':'Not on'}</span>
+      </div>` :
+      (beer.on_tap ? `<div class="on-tap">On tap</div>` : `<div class="pill">Not on</div>`);
+
+    const innerHTML = `
+      <h3>${escapeHtml(beer.name)}${beer.style?`<span style="font-weight:400; font-size:0.86rem; color:var(--muted)">— ${escapeHtml(beer.style)}</span>`:''}</h3>
+      <div style="font-size:0.85rem; color:var(--muted); margin-top:2px">
+        ${escapeHtml(beer.producer||'')}${beer.location?', '+escapeHtml(beer.location):''}
+      </div>
+      <div class="meta-row">
+        <div class="pill">ABV: ${beer.abv??'—'}%</div>
+        ${beer.ibu?`<div class="pill">IBU: ${beer.ibu}</div>`:''}
+        ${toggleHTML}
+      </div>
+      <p style="margin-top:8px; color:var(--muted); font-size:0.95rem">${escapeHtml(beer.description||'')}</p>
+      <div class="sizes">${(beer.sizes||[]).map(s=>`<div class="size">${escapeHtml(s.label)} — $${Number(s.price).toFixed(2)}</div>`).join('')}</div>
+      <div class="tags">${(beer.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+    `;
+
+    if(card){
+      card.innerHTML = innerHTML;
+    } else {
+      card = document.createElement('article');
+      card.id = `beer-${beer.id}`;
+      card.className = 'card';
+      card.innerHTML = innerHTML;
+      beerGrid.appendChild(card);
+    }
+  }
+
+  // --- Render taplist ---
   function renderTaplist(data){
     if(!data) return;
     taplist = data;
     venueNameEl.textContent = data.meta?.venue ?? 'Prairie Sun Brewery';
     lastUpdatedEl.textContent = 'Updated: ' + (data.meta?.last_updated ?? '—');
 
-    const beers = (data.beers||[]).slice().sort((a,b)=> (a.sort_order||999)-(b.sort_order||999));
-    beerGrid.innerHTML = '';
-
-    for(const beer of beers){
-      const card = document.createElement('article');
-      card.className = 'card';
-
-      // Title and style
-      const h3 = document.createElement('h3');
-      h3.innerHTML = escapeHtml(beer.name) + (beer.style ? `<span style="font-weight:400; font-size:0.86rem; color:var(--muted)"> — ${escapeHtml(beer.style)}</span>` : '');
-      card.appendChild(h3);
-
-      // Producer / location
-      const producerDiv = document.createElement('div');
-      producerDiv.style = "font-size:0.85rem; color:var(--muted); margin-top:2px";
-      producerDiv.textContent = escapeHtml(beer.producer || '') + (beer.location ? ', ' + escapeHtml(beer.location) : '');
-      card.appendChild(producerDiv);
-
-      // Meta row
-      const metaRow = document.createElement('div');
-      metaRow.className = 'meta-row';
-
-      const abv = document.createElement('div');
-      abv.className = 'pill';
-      abv.textContent = `ABV: ${beer.abv ?? '—'}%`;
-      metaRow.appendChild(abv);
-
-      if(beer.ibu){
-        const ibu = document.createElement('div');
-        ibu.className = 'pill';
-        ibu.textContent = `IBU: ${beer.ibu}`;
-        metaRow.appendChild(ibu);
-      }
-
-      if(isAdmin){
-        const toggleDiv = document.createElement('div');
-        toggleDiv.style = 'display:flex; align-items:center; gap:8px';
-
-        const label = document.createElement('label');
-        label.className = 'toggle';
-
-        const input = document.createElement('input');
-        input.type = 'checkbox';
-        input.checked = beer.on_tap;
-        input.addEventListener('change', () => {
-          toggleBeer(beer.id, input.checked);
-          toggleLabel.textContent = input.checked ? 'On tap' : 'Not on';
-        });
-
-        const slider = document.createElement('span');
-        slider.className = 'slider';
-
-        const toggleLabel = document.createElement('span');
-        toggleLabel.className = 'toggle-label';
-        toggleLabel.textContent = beer.on_tap ? 'On tap' : 'Not on';
-
-        label.appendChild(input);
-        label.appendChild(slider);
-        toggleDiv.appendChild(label);
-        toggleDiv.appendChild(toggleLabel);
-        metaRow.appendChild(toggleDiv);
-      } else {
-        const pill = document.createElement('div');
-        pill.className = beer.on_tap ? 'on-tap' : 'pill';
-        pill.textContent = beer.on_tap ? 'On tap' : 'Not on';
-        metaRow.appendChild(pill);
-      }
-
-      card.appendChild(metaRow);
-
-      // Description
-      if(beer.description){
-        const desc = document.createElement('p');
-        desc.style = 'margin-top:8px; color:var(--muted); font-size:0.95rem';
-        desc.textContent = beer.description;
-        card.appendChild(desc);
-      }
-
-      // Sizes
-      if(beer.sizes && beer.sizes.length){
-        const sizesDiv = document.createElement('div');
-        sizesDiv.className = 'sizes';
-        beer.sizes.forEach(s => {
-          const sizeEl = document.createElement('div');
-          sizeEl.className = 'size';
-          sizeEl.textContent = `${s.label} — $${Number(s.price).toFixed(2)}`;
-          sizesDiv.appendChild(sizeEl);
-        });
-        card.appendChild(sizesDiv);
-      }
-
-      // Tags
-      if(beer.tags && beer.tags.length){
-        const tagsDiv = document.createElement('div');
-        tagsDiv.className = 'tags';
-        beer.tags.forEach(t => {
-          const tagEl = document.createElement('span');
-          tagEl.className = 'tag';
-          tagEl.textContent = t;
-          tagsDiv.appendChild(tagEl);
-        });
-        card.appendChild(tagsDiv);
-      }
-
-      beerGrid.appendChild(card);
-    }
+    (data.beers||[]).forEach(beer => upsertBeerCard(beer));
   }
 
-  // ---- Search (debounced) ----
+  // --- Search (debounced) ---
   let debounceTimer;
   searchEl.addEventListener('input', () => {
     clearTimeout(debounceTimer);
@@ -274,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },200);
   });
 
-  // ---- Refresh ----
+  // --- Refresh ---
   document.getElementById('refresh').addEventListener('click', () => {
     searchEl.value = '';
     fetch(API_URL)
@@ -283,51 +212,37 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error('Failed to fetch taplist.json', err));
   });
 
-  // ---- Admin login modal ----
-  adminBtn.addEventListener('click', () => {
-    adminModal.style.display = 'flex';
-  });
-
+  // --- Admin login modal ---
+  adminBtn.addEventListener('click', () => { adminModal.style.display='flex'; });
   document.getElementById('adminLoginBtn').onclick = async () => {
     const input = document.getElementById('adminPasswordInput').value;
     const inputHash = await sha256(input);
-    const ADMIN_PASSWORD_HASH = "fa9fdcce5d12f32fd2018b3ca1299fea52be175ed53930e04203a4eed7480158"; // hash of "beertastegood"
-
-    if(inputHash === ADMIN_PASSWORD_HASH){
-      isAdmin = true;
-      sessionStorage.setItem('isAdmin','true');
-      adminModal.style.display = 'none';
+    const ADMIN_PASSWORD_HASH = "fa9fdcce5d12f32fd2018b3ca1299fea52be175ed53930e04203a4eed7480158";
+    if(inputHash===ADMIN_PASSWORD_HASH){
+      isAdmin=true; sessionStorage.setItem('isAdmin','true'); adminModal.style.display='none'; adminBtn.style.display='none';
       renderTaplist(taplist);
-      adminBtn.style.display = 'none';
-    } else {
-      document.getElementById('adminLoginError').style.display = 'block';
-    }
+    } else document.getElementById('adminLoginError').style.display='block';
   };
 
-  // ---- Initial fetch + WebSocket ----
-  fetch(API_URL)
-    .then(r=>r.json())
-    .then(renderTaplist)
-    .catch(err => console.error('Failed to fetch taplist.json', err));
-
+  // --- Initial fetch + WebSocket ---
+  fetch(API_URL).then(r=>r.json()).then(renderTaplist).catch(err=>console.error(err));
   function connectSocket(){
-    const wsProto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsProto = location.protocol==='https:'?'wss:':'ws:';
     const socket = new WebSocket(`${wsProto}//${location.host}`);
     socket.onmessage = e => {
       const msg = JSON.parse(e.data);
       if(msg.type==='taplist-update') renderTaplist(msg.taplist);
     };
-    socket.onclose = () => setTimeout(connectSocket,3000);
+    socket.onclose = ()=>setTimeout(connectSocket,3000);
   }
   connectSocket();
 
-  // ---- PWA service worker ----
+  // --- PWA service worker ---
   if('serviceWorker' in navigator){
-    window.addEventListener('load',()=>{
-      navigator.serviceWorker.register('./service-worker.js')
-        .then(reg=>console.log('Service worker registered:',reg.scope))
-        .catch(err=>console.error('Service worker registration failed:',err));
-    });
+    window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js')
+      .then(reg=>console.log('Service worker registered:',reg.scope))
+      .catch(err=>console.error('Service worker registration failed:',err))
+    );
   }
 });
 </script>
