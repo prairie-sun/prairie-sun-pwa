@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-04T05:16:13.632Z"
+    "last_updated": "2025-10-04T05:31:10.919Z"
   },
   "beers": [
     {
@@ -171,7 +171,7 @@
       "price_note": "",
       "description": "",
       "tags": [],
-      "on_tap": false,
+      "on_tap": true,
       "image": "",
       "sort_order": 60
     },
