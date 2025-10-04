@@ -1,0 +1,26 @@
+{
+  "name": "prairie-sun-pwa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prairie-sun/prairie-sun-pwa.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prairie-sun/prairie-sun-pwa/issues"
+  },
+  "homepage": "https://github.com/prairie-sun/prairie-sun-pwa#readme",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "express": "^5.1.0",
+    "ws": "^8.18.3"
+  }
+}
