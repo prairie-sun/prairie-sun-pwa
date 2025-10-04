@@ -46,18 +46,27 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Network-first for style.css
+  if (url.pathname.endsWith('/style.css')) {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, response.clone()));
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
   // Cache-first for everything else
   event.respondWith(
     caches.match(event.request).then(cached => cached || fetch(event.request).then(resp => {
-      return caches.open(CACHE_NAME).then(cache => {
-        cache.put(event.request, resp.clone());
-        return resp;
-      });
-    })).catch(() => {
-      return new Response('Offline', {
-        status: 503,
-        headers: { 'Content-Type':'text/plain' }
-      });
-    })
+      caches.open(CACHE_NAME).then(cache => cache.put(event.request, resp.clone()));
+      return resp;
+    })).catch(() => new Response('Offline', {
+      status: 503,
+      headers: { 'Content-Type':'text/plain' }
+    }))
   );
 });
