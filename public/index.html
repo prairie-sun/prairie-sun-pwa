@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- Toggle handler for admin ---
-  function handleToggle(beerId, onTap) {
+  window.handleToggle = function(beerId, onTap) {
     pendingUpdates[beerId] = onTap;
     const label = document.querySelector(`#beer-${beerId} .toggle-label`);
     if (label) label.textContent = onTap ? 'On tap' : 'Not on';
@@ -222,11 +222,16 @@ document.addEventListener('DOMContentLoaded', () => {
     } else document.getElementById('adminLoginError').style.display='block';
   };
 
-  // --- Add Save Changes button for admins ---
+  // --- Add Save Changes button for admins (top-right next to Admin button) ---
   function addSaveButton(){
     const saveBtn = document.createElement('button');
+    saveBtn.id = 'saveChangesBtn';
     saveBtn.textContent = 'Save Changes';
-    saveBtn.style = 'margin-top:12px; padding:6px 12px; border-radius:6px; border:none; background:var(--accent); color:white; cursor:pointer;';
+    saveBtn.style = 'padding:6px 12px; border-radius:6px; border:none; background:var(--accent); color:white; cursor:pointer; margin-left:8px;';
+    
+    // Insert next to adminBtn
+    adminBtn.parentNode.insertBefore(saveBtn, adminBtn.nextSibling);
+
     saveBtn.onclick = async () => {
       if(Object.keys(pendingUpdates).length === 0) return alert('No changes to save.');
       try {
@@ -247,7 +252,6 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('Error saving changes.');
       }
     };
-    adminModal.parentNode.insertBefore(saveBtn, adminModal.nextSibling);
   }
 
   // --- Initial fetch + WebSocket ---
