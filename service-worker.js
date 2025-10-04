@@ -1,5 +1,5 @@
 // Bump cache version so browsers don’t use old files
-const CACHE_NAME = 'psb-static-v2';
+const CACHE_NAME = 'psb-static-v3';
 
 const ASSETS_TO_CACHE = [
   '/',
