@@ -162,15 +162,19 @@ async function toggleBeer(beerId, onTap) {
   } catch(err) { console.error(err); alert('Failed to update beer status'); }
 }
 
-// ---- Search functionality ----
+// ---- Search functionality (case + accent insensitive) ----
 searchEl.addEventListener('input', () => {
   if (!taplist) return;
-  const term = searchEl.value.toLowerCase();
-  const filteredBeers = (taplist.beers||[]).filter(beer =>
-    beer.name.toLowerCase().includes(term) ||
-    (beer.style && beer.style.toLowerCase().includes(term)) ||
-    (beer.tags && beer.tags.some(tag=>tag.toLowerCase().includes(term)))
-  );
+  const term = searchEl.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  
+  const filteredBeers = (taplist.beers || []).filter(beer => {
+    const name = (beer.name || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const style = (beer.style || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const tags = (beer.tags || []).map(tag => tag.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+    
+    return name.includes(term) || style.includes(term) || tags.some(tag => tag.includes(term));
+  });
+  
   renderTaplist({...taplist, beers: filteredBeers});
 });
 
