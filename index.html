@@ -184,8 +184,13 @@ searchEl.addEventListener('input', () => {
 
 // ---- Refresh button clears search and reloads taplist ----
 document.getElementById('refresh').addEventListener('click', () => {
-  searchEl.value = '';
-  fetch(API_URL).then(r => r.json()).then(renderTaplist);
+  searchEl.value = '';        // Step 1: clear search
+  fetch(API_URL)
+    .then(r => r.json())
+    .then(data => {
+      taplist = data;         // Update the global taplist
+      renderTaplist(taplist); // Step 3: render without filtering
+    });
 });
 
 // ---- Helpers ----
