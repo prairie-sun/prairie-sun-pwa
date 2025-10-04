@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-02T12:00:00-06:00"
+    "last_updated": "2025-10-04T05:16:12.791Z"
   },
   "beers": [
     {
@@ -14,9 +14,18 @@
       "abv": 4.2,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 8.25 },
-        { "label": "Pint", "price": 9.75 },
-        { "label": "Pitcher", "price": 31.00 }
+        {
+          "label": "Tulip",
+          "price": 8.25
+        },
+        {
+          "label": "Pint",
+          "price": 9.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
+        }
       ],
       "price_note": "",
       "description": "",
@@ -34,9 +43,18 @@
       "abv": 4.8,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 8.25 },
-        { "label": "Pint", "price": 9.75 },
-        { "label": "Pitcher", "price": 31.00 }
+        {
+          "label": "Tulip",
+          "price": 8.25
+        },
+        {
+          "label": "Pint",
+          "price": 9.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
+        }
       ],
       "price_note": "",
       "description": "",
@@ -54,9 +72,18 @@
       "abv": 4.7,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 9.00 },
-        { "label": "Pint", "price": 9.75 },
-        { "label": "Pitcher", "price": 31.00 }
+        {
+          "label": "Tulip",
+          "price": 9
+        },
+        {
+          "label": "Pint",
+          "price": 9.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
+        }
       ],
       "price_note": "",
       "description": "",
@@ -74,9 +101,18 @@
       "abv": 4.2,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 7.50 },
-        { "label": "Pint", "price": 9.00 },
-        { "label": "Pitcher", "price": 28.50 }
+        {
+          "label": "Tulip",
+          "price": 7.5
+        },
+        {
+          "label": "Pint",
+          "price": 9
+        },
+        {
+          "label": "Pitcher",
+          "price": 28.5
+        }
       ],
       "price_note": "",
       "description": "",
@@ -94,8 +130,14 @@
       "abv": 5.8,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 8.25 },
-        { "label": "Pint", "price": 9.75 }
+        {
+          "label": "Tulip",
+          "price": 8.25
+        },
+        {
+          "label": "Pint",
+          "price": 9.75
+        }
       ],
       "price_note": "",
       "description": "",
@@ -113,14 +155,23 @@
       "abv": 5.5,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 8.25 },
-        { "label": "Pint", "price": 9.75 },
-        { "label": "Pitcher", "price": 31.00 }
+        {
+          "label": "Tulip",
+          "price": 8.25
+        },
+        {
+          "label": "Pint",
+          "price": 9.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
+        }
       ],
       "price_note": "",
       "description": "",
       "tags": [],
-      "on_tap": true,
+      "on_tap": false,
       "image": "",
       "sort_order": 60
     },
@@ -133,9 +184,18 @@
       "abv": 5.5,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 8.25 },
-        { "label": "Pint", "price": 9.75 },
-        { "label": "Pitcher", "price": 31.00 }
+        {
+          "label": "Tulip",
+          "price": 8.25
+        },
+        {
+          "label": "Pint",
+          "price": 9.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
+        }
       ],
       "price_note": "",
       "description": "",
@@ -153,9 +213,18 @@
       "abv": 5.5,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 8.25 },
-        { "label": "Pint", "price": 9.75 },
-        { "label": "Pitcher", "price": 31.00 }
+        {
+          "label": "Tulip",
+          "price": 8.25
+        },
+        {
+          "label": "Pint",
+          "price": 9.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
+        }
       ],
       "price_note": "",
       "description": "",
@@ -170,12 +239,21 @@
       "producer": "Saskatoon Brewing",
       "location": "Saskatoon, SK",
       "style": "Ale",
-      "abv": 5.0,
+      "abv": 5,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 8.25 },
-        { "label": "Pint", "price": 9.75 },
-        { "label": "Pitcher", "price": 31.00 }
+        {
+          "label": "Tulip",
+          "price": 8.25
+        },
+        {
+          "label": "Pint",
+          "price": 9.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
+        }
       ],
       "price_note": "",
       "description": "",
@@ -193,9 +271,18 @@
       "abv": 5.5,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 8.25 },
-        { "label": "Pint", "price": 9.75 },
-        { "label": "Pitcher", "price": 31.00 }
+        {
+          "label": "Tulip",
+          "price": 8.25
+        },
+        {
+          "label": "Pint",
+          "price": 9.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
+        }
       ],
       "price_note": "",
       "description": "",
@@ -213,9 +300,18 @@
       "abv": 4.9,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 7.50 },
-        { "label": "Pint", "price": 9.00 },
-        { "label": "Pitcher", "price": 28.50 }
+        {
+          "label": "Tulip",
+          "price": 7.5
+        },
+        {
+          "label": "Pint",
+          "price": 9
+        },
+        {
+          "label": "Pitcher",
+          "price": 28.5
+        }
       ],
       "price_note": "",
       "description": "",
@@ -230,12 +326,21 @@
       "producer": "Prairie Sun Brewery",
       "location": "Saskatoon, SK",
       "style": "Radler",
-      "abv": 3.0,
+      "abv": 3,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 7.50 },
-        { "label": "Pint", "price": 9.00 },
-        { "label": "Pitcher", "price": 28.50 }
+        {
+          "label": "Tulip",
+          "price": 7.5
+        },
+        {
+          "label": "Pint",
+          "price": 9
+        },
+        {
+          "label": "Pitcher",
+          "price": 28.5
+        }
       ],
       "price_note": "",
       "description": "",
@@ -250,12 +355,21 @@
       "producer": "Pile O' Bones Brewing",
       "location": "Regina, SK",
       "style": "Wheat",
-      "abv": 5.0,
+      "abv": 5,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 8.25 },
-        { "label": "Pint", "price": 9.75 },
-        { "label": "Pitcher", "price": 31.00 }
+        {
+          "label": "Tulip",
+          "price": 8.25
+        },
+        {
+          "label": "Pint",
+          "price": 9.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
+        }
       ],
       "price_note": "",
       "description": "",
@@ -270,11 +384,17 @@
       "producer": "Prairie Sun Brewery",
       "location": "Saskatoon, SK",
       "style": "IPA",
-      "abv": 6.0,
+      "abv": 6,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 7.50 },
-        { "label": "Pint", "price": 9.00 }
+        {
+          "label": "Tulip",
+          "price": 7.5
+        },
+        {
+          "label": "Pint",
+          "price": 9
+        }
       ],
       "price_note": "",
       "description": "",
@@ -289,12 +409,21 @@
       "producer": "Pile O' Bones Brewing",
       "location": "Regina, SK",
       "style": "IPA",
-      "abv": 5.0,
+      "abv": 5,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 8.25 },
-        { "label": "Pint", "price": 9.75 },
-        { "label": "Pitcher", "price": 31.00 }
+        {
+          "label": "Tulip",
+          "price": 8.25
+        },
+        {
+          "label": "Pint",
+          "price": 9.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
+        }
       ],
       "price_note": "",
       "description": "",
@@ -312,9 +441,18 @@
       "abv": 5.5,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 8.25 },
-        { "label": "Pint", "price": 9.75 },
-        { "label": "Pitcher", "price": 31.00 }
+        {
+          "label": "Tulip",
+          "price": 8.25
+        },
+        {
+          "label": "Pint",
+          "price": 9.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
+        }
       ],
       "price_note": "",
       "description": "",
@@ -329,11 +467,17 @@
       "producer": "Saskatoon Brewing",
       "location": "Saskatoon, SK",
       "style": "IPA",
-      "abv": 6.0,
+      "abv": 6,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 8.25 },
-        { "label": "Pint", "price": 9.75 }
+        {
+          "label": "Tulip",
+          "price": 8.25
+        },
+        {
+          "label": "Pint",
+          "price": 9.75
+        }
       ],
       "price_note": "",
       "description": "",
@@ -351,8 +495,14 @@
       "abv": 6.1,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 8.25 },
-        { "label": "Pint", "price": 9.75 }
+        {
+          "label": "Tulip",
+          "price": 8.25
+        },
+        {
+          "label": "Pint",
+          "price": 9.75
+        }
       ],
       "price_note": "",
       "description": "",
@@ -367,12 +517,21 @@
       "producer": "Flatlander Cidery",
       "location": "Saskatoon, SK",
       "style": "Cider",
-      "abv": 5.0,
+      "abv": 5,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 9.00 },
-        { "label": "Pint", "price": 10.75 },
-        { "label": "Pitcher", "price": 34.00 }
+        {
+          "label": "Tulip",
+          "price": 9
+        },
+        {
+          "label": "Pint",
+          "price": 10.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 34
+        }
       ],
       "price_note": "",
       "description": "",
@@ -387,12 +546,21 @@
       "producer": "Flatlander Cidery",
       "location": "Saskatoon, SK",
       "style": "Cider",
-      "abv": 5.0,
+      "abv": 5,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 9.00 },
-        { "label": "Pint", "price": 10.75 },
-        { "label": "Pitcher", "price": 34.00 }
+        {
+          "label": "Tulip",
+          "price": 9
+        },
+        {
+          "label": "Pint",
+          "price": 10.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 34
+        }
       ],
       "price_note": "",
       "description": "",
@@ -407,12 +575,21 @@
       "producer": "High Key Brewing",
       "location": "Saskatoon, SK",
       "style": "Sour",
-      "abv": 5.0,
+      "abv": 5,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 8.25 },
-        { "label": "Pint", "price": 9.75 },
-        { "label": "Pitcher", "price": 31.00 }
+        {
+          "label": "Tulip",
+          "price": 8.25
+        },
+        {
+          "label": "Pint",
+          "price": 9.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
+        }
       ],
       "price_note": "",
       "description": "",
@@ -430,9 +607,18 @@
       "abv": 4.7,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 9.00 },
-        { "label": "Pint", "price": 9.75 },
-        { "label": "Pitcher", "price": 31.00 }
+        {
+          "label": "Tulip",
+          "price": 9
+        },
+        {
+          "label": "Pint",
+          "price": 9.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
+        }
       ],
       "price_note": "",
       "description": "",
@@ -447,10 +633,13 @@
       "producer": "Lucky Bastard",
       "location": "Saskatoon, SK",
       "style": "Seltzer",
-      "abv": 5.0,
+      "abv": 5,
       "ibu": null,
       "sizes": [
-        { "label": "Tulip", "price": 8.50 }
+        {
+          "label": "Tulip",
+          "price": 8.5
+        }
       ],
       "price_note": "",
       "description": "",
