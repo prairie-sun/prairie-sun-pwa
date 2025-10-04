@@ -115,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let taplist = null;
   let isAdmin = sessionStorage.getItem('isAdmin') === 'true';
+  let pendingUpdates = {}; // store { beerId: onTap } changes
 
   // --- Helpers ---
   function escapeHtml(s) {
@@ -127,23 +128,20 @@ document.addEventListener('DOMContentLoaded', () => {
     return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,'0')).join('');
   }
 
-  async function toggleBeer(beerId,onTap){
-    try {
-      await fetch(UPDATE_URL,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({beerId,onTap})
-      });
-    } catch(err){ console.error(err); alert('Failed to update beer status'); }
+  // --- Toggle handler for admin ---
+  function handleToggle(beerId, onTap) {
+    pendingUpdates[beerId] = onTap;
+    const label = document.querySelector(`#beer-${beerId} .toggle-label`);
+    if (label) label.textContent = onTap ? 'On tap' : 'Not on';
   }
 
   // --- Update or create single beer card ---
-  function upsertBeerCard(beer){
+  function upsertBeerCard(beer) {
     let card = document.getElementById(`beer-${beer.id}`);
     const toggleHTML = isAdmin ? `
       <div style="margin-top:8px; display:flex; align-items:center; gap:8px">
         <label class="toggle">
-          <input type="checkbox" ${beer.on_tap?'checked':''} onchange="toggleBeer('${beer.id}', this.checked)" />
+          <input type="checkbox" ${beer.on_tap?'checked':''} onchange="handleToggle('${beer.id}', this.checked)" />
           <span class="slider"></span>
         </label>
         <span class="toggle-label">${beer.on_tap?'On tap':'Not on'}</span>
@@ -177,12 +175,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- Render taplist ---
-  function renderTaplist(data){
+  function renderTaplist(data) {
     if(!data) return;
     taplist = data;
     venueNameEl.textContent = data.meta?.venue ?? 'Prairie Sun Brewery';
     lastUpdatedEl.textContent = 'Updated: ' + (data.meta?.last_updated ?? '—');
-
     (data.beers||[]).forEach(beer => upsertBeerCard(beer));
   }
 
@@ -206,10 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Refresh ---
   document.getElementById('refresh').addEventListener('click', () => {
     searchEl.value = '';
-    fetch(API_URL)
-      .then(r => r.json())
-      .then(data => renderTaplist(data))
-      .catch(err => console.error('Failed to fetch taplist.json', err));
+    fetch(API_URL).then(r=>r.json()).then(renderTaplist).catch(err=>console.error('Failed to fetch taplist.json', err));
   });
 
   // --- Admin login modal ---
@@ -219,10 +213,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputHash = await sha256(input);
     const ADMIN_PASSWORD_HASH = "fa9fdcce5d12f32fd2018b3ca1299fea52be175ed53930e04203a4eed7480158";
     if(inputHash===ADMIN_PASSWORD_HASH){
-      isAdmin=true; sessionStorage.setItem('isAdmin','true'); adminModal.style.display='none'; adminBtn.style.display='none';
+      isAdmin = true;
+      sessionStorage.setItem('isAdmin','true');
+      adminModal.style.display='none';
+      adminBtn.style.display='none';
       renderTaplist(taplist);
+      addSaveButton(); // add Save Changes button dynamically
     } else document.getElementById('adminLoginError').style.display='block';
   };
+
+  // --- Add Save Changes button for admins ---
+  function addSaveButton(){
+    const saveBtn = document.createElement('button');
+    saveBtn.textContent = 'Save Changes';
+    saveBtn.style = 'margin-top:12px; padding:6px 12px; border-radius:6px; border:none; background:var(--accent); color:white; cursor:pointer;';
+    saveBtn.onclick = async () => {
+      if(Object.keys(pendingUpdates).length === 0) return alert('No changes to save.');
+      try {
+        const res = await fetch('/save-taplist', {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json' },
+          body: JSON.stringify({ updates: pendingUpdates })
+        });
+        const data = await res.json();
+        if(data.success){
+          alert('Changes saved!');
+          pendingUpdates = {}; // clear pending updates
+        } else {
+          alert('Failed to save changes.');
+        }
+      } catch(err){
+        console.error(err);
+        alert('Error saving changes.');
+      }
+    };
+    adminModal.parentNode.insertBefore(saveBtn, adminModal.nextSibling);
+  }
 
   // --- Initial fetch + WebSocket ---
   fetch(API_URL).then(r=>r.json()).then(renderTaplist).catch(err=>console.error(err));

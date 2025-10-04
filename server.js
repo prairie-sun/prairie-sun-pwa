@@ -53,31 +53,6 @@ async function updateTaplistOnGitHub(content) {
   }
 }
 
-// --- Update beer status endpoint ---
-app.post('/update-beer-status', async (req, res) => {
-  const { beerId, onTap } = req.body;
-  const beer = taplist.beers.find(b => b.id === beerId);
-  if (!beer) return res.status(404).json({ success: false, message: 'Beer not found' });
-
-  beer.on_tap = onTap;
-  taplist.meta.last_updated = new Date().toISOString();
-
-  // Save locally
-  fs.writeFileSync(path.join(__dirname, 'public', 'taplist.json'), JSON.stringify(taplist, null, 2));
-
-  // Broadcast to all connected WebSocket clients
-  wss.clients.forEach(client => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify({ type: 'taplist-update', taplist }));
-    }
-  });
-
-  // Save to GitHub
-  await updateTaplistOnGitHub(taplist);
-
-  res.json({ success: true });
-});
-
 // --- Start server ---
 const server = app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
@@ -92,3 +67,51 @@ wss.on('connection', (ws) => {
 
   ws.on('close', () => console.log('Client disconnected'));
 });
+
+
+// --- Update beer status endpoint ---
+app.post('/update-beer-status', async (req, res) => {
+  const { beerId, onTap } = req.body;
+  const beer = taplist.beers.find(b => b.id === beerId);
+  if (!beer) return res.status(404).json({ success: false, message: 'Beer not found' });
+
+  beer.on_tap = onTap;
+  taplist.meta.last_updated = new Date().toISOString();
+
+  fs.writeFileSync(path.join(__dirname, 'public', 'taplist.json'), JSON.stringify(taplist, null, 2));
+
+  wss.clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify({ type: 'taplist-update', taplist }));
+    }
+  });
+
+  await updateTaplistOnGitHub(taplist);
+
+  res.json({ success: true });
+});
+
+// --- Save multiple beer updates endpoint ---
+app.post('/save-taplist', async (req, res) => {
+  const { updates } = req.body;
+  if(!updates || typeof updates !== 'object') return res.status(400).json({ success:false, message:'Invalid request' });
+
+  Object.entries(updates).forEach(([beerId, onTap]) => {
+    const beer = taplist.beers.find(b => b.id === beerId);
+    if(beer) beer.on_tap = onTap;
+  });
+  taplist.meta.last_updated = new Date().toISOString();
+
+  fs.writeFileSync(path.join(__dirname, 'public', 'taplist.json'), JSON.stringify(taplist, null, 2));
+
+  wss.clients.forEach(client => {
+    if(client.readyState === WebSocket.OPEN){
+      client.send(JSON.stringify({ type:'taplist-update', taplist }));
+    }
+  });
+
+  await updateTaplistOnGitHub(taplist);
+
+  res.json({ success:true });
+});
+
