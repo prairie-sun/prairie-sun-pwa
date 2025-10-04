@@ -111,9 +111,6 @@ const searchEl = document.getElementById('search');
 let taplist = null;
 let isAdmin = sessionStorage.getItem('isAdmin') === 'true';
 
-// ---- Admin password hash (SHA-256 of your chosen password) ----
-const ADMIN_PASSWORD_HASH = "34819d7beeabb9260a5c854bc85b3e44"; // replace with your actual hash
-
 // ---- Helpers ----
 function escapeHtml(s){ return (s===undefined||s===null)?'':String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
 async function sha256(message) {
@@ -122,7 +119,7 @@ async function sha256(message) {
   return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,'0')).join('');
 }
 
-// ---- Render taplist with optional toggles ----
+// ---- Render taplist ----
 function renderTaplist(data){
   if(!data) return;
   taplist = data;
@@ -162,7 +159,6 @@ function renderTaplist(data){
       <div class="sizes">${(beer.sizes||[]).map(s=>`<div class="size">${escapeHtml(s.label)} — $${Number(s.price).toFixed(2)}</div>`).join('')}</div>
       <div class="tags">${(beer.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
     `;
-
     beerGrid.appendChild(card);
   }
 }
@@ -179,7 +175,7 @@ async function toggleBeer(beerId,onTap){
   } catch(err){ console.error(err); alert('Failed to update beer status'); }
 }
 
-// ---- Search functionality (debounced) ----
+// ---- Search (debounced) ----
 let debounceTimer;
 searchEl.addEventListener('input', () => {
   clearTimeout(debounceTimer);
@@ -196,31 +192,29 @@ searchEl.addEventListener('input', () => {
   },200);
 });
 
-// ---- Refresh button ----
+// ---- Refresh ----
 document.getElementById('refresh').addEventListener('click', () => {
   searchEl.value = '';
   fetch(API_URL).then(r=>r.json()).then(data => { taplist = data; renderTaplist(taplist); });
 });
 
 // ---- Admin login modal ----
-const adminModal = document.getElementById('adminLoginModal');
-const loginBtn = document.getElementById('adminLoginBtn');
-loginBtn.onclick = async () => {
-  const input = document.getElementById('adminPasswordInput').value;
-  const inputHash = await sha256(input);
-  if(inputHash === ADMIN_PASSWORD_HASH){
-    isAdmin = true;
-    sessionStorage.setItem('isAdmin','true');
-    adminModal.style.display = 'none';
-    renderTaplist(taplist);
-  } else {
-    document.getElementById('adminLoginError').style.display = 'block';
-  }
-};
-
-// Show modal if not admin
 if(!isAdmin){
+  const adminModal = document.getElementById('adminLoginModal');
   adminModal.style.display = 'flex';
+  document.getElementById('adminLoginBtn').onclick = async () => {
+    const input = document.getElementById('adminPasswordInput').value;
+    const inputHash = await sha256(input);
+    const ADMIN_PASSWORD_HASH = "6d20601f5a76a5cebd4c35679b7a2074f9c2e517b4646f530e3e1e72de840c1a"; // hash of "beertastegood"
+    if(inputHash === ADMIN_PASSWORD_HASH){
+      isAdmin = true;
+      sessionStorage.setItem('isAdmin','true');
+      adminModal.style.display = 'none';
+      renderTaplist(taplist);
+    } else {
+      document.getElementById('adminLoginError').style.display = 'block';
+    }
+  };
 }
 
 // ---- Initial fetch + WebSocket ----
