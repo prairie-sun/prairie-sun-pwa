@@ -1,21 +1,18 @@
 const express = require('express');
 const fs = require('fs');
-const path = require('path');
 const WebSocket = require('ws');
 const bodyParser = require('body-parser');
-const { Octokit } = require('@octokit/rest');
+const path = require('path');
+const { Octokit } = require("@octokit/rest");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// GitHub setup
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const REPO_OWNER = 'prairie-sun';
-const REPO_NAME = 'prairie-sun-pwa';
-const BRANCH = 'main';
-const FILE_PATH = 'public/taplist.json';
-
-const octokit = new Octokit({ auth: GITHUB_TOKEN });
+// GitHub integration
+const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+const owner = "prairie-sun";      // GitHub username/org
+const repo = "prairie-sun-pwa";   // Repo name
+const branch = "main";             // Branch to update
 
 // Middleware
 app.use(bodyParser.json());
@@ -30,6 +27,32 @@ try {
   taplist = { meta: { venue: "Prairie Sun Brewery", last_updated: new Date().toISOString() }, beers: [] };
 }
 
+// --- Function to update taplist.json on GitHub ---
+async function updateTaplistOnGitHub(content) {
+  try {
+    const { data: fileData } = await octokit.repos.getContent({
+      owner,
+      repo,
+      path: "public/taplist.json",
+      ref: branch
+    });
+
+    await octokit.repos.createOrUpdateFileContents({
+      owner,
+      repo,
+      path: "public/taplist.json",
+      message: `Update taplist — ${new Date().toISOString()}`,
+      content: Buffer.from(JSON.stringify(content, null, 2)).toString("base64"),
+      sha: fileData.sha,
+      branch
+    });
+
+    console.log("taplist.json updated on GitHub");
+  } catch (err) {
+    console.error("Failed to update taplist.json on GitHub:", err);
+  }
+}
+
 // --- Update beer status endpoint ---
 app.post('/update-beer-status', async (req, res) => {
   const { beerId, onTap } = req.body;
@@ -40,39 +63,17 @@ app.post('/update-beer-status', async (req, res) => {
   taplist.meta.last_updated = new Date().toISOString();
 
   // Save locally
-  const taplistString = JSON.stringify(taplist, null, 2);
-  fs.writeFileSync(path.join(__dirname, FILE_PATH), taplistString);
+  fs.writeFileSync(path.join(__dirname, 'public', 'taplist.json'), JSON.stringify(taplist, null, 2));
 
-  // Broadcast to WebSocket clients
+  // Broadcast to all connected WebSocket clients
   wss.clients.forEach(client => {
     if (client.readyState === WebSocket.OPEN) {
       client.send(JSON.stringify({ type: 'taplist-update', taplist }));
     }
   });
 
-  // Commit to GitHub
-  try {
-    // Get current file SHA
-    const { data: fileData } = await octokit.repos.getContent({
-      owner: REPO_OWNER,
-      repo: REPO_NAME,
-      path: FILE_PATH,
-      ref: BRANCH,
-    });
-
-    await octokit.repos.createOrUpdateFileContents({
-      owner: REPO_OWNER,
-      repo: REPO_NAME,
-      path: FILE_PATH,
-      message: `Update taplist — ${beer.name} ${onTap ? 'on tap' : 'off tap'}`,
-      content: Buffer.from(taplistString).toString('base64'),
-      sha: fileData.sha,
-      branch: BRANCH,
-    });
-    console.log('GitHub updated successfully');
-  } catch (err) {
-    console.error('Failed to commit to GitHub:', err);
-  }
+  // Save to GitHub
+  await updateTaplistOnGitHub(taplist);
 
   res.json({ success: true });
 });
@@ -88,5 +89,6 @@ const wss = new WebSocket.Server({ server });
 wss.on('connection', (ws) => {
   console.log('New client connected');
   ws.send(JSON.stringify({ type: 'taplist-update', taplist }));
+
   ws.on('close', () => console.log('Client disconnected'));
 });
