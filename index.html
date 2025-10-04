@@ -116,11 +116,10 @@
       const toggleHTML = isStaff ? `
         <div style="margin-top:8px; display:flex; align-items:center; gap:8px">
 	  <label class="toggle">
-	    <input type="checkbox" ${beer.on_tap ? 'checked':''} 
-	      onchange="toggleBeer('${beer.id}', this.checked)" />
-	    <span class="slider"></span>
-	  </label>
-	  <span class="toggle-label">${beer.on_tap ? 'On tap' : 'Not on'}</span>
+  <input type="checkbox" ${beer.on_tap ? 'checked':''} onchange="toggleBeer('${beer.id}', this.checked)" />
+  <span class="slider"></span>
+</label>
+<span class="toggle-label">${beer.on_tap ? 'On tap' : 'Not on'}</span>
 	</div>` : 
         (beer.on_tap ? `<div class="on-tap">On tap</div>` : `<div class="pill">Not on</div>`);
 
@@ -173,6 +172,16 @@
   // Initial fetch and socket connect
   fetch(API_URL).then(r=>r.json()).then(renderTaplist);
   connectSocket();
+  
+  // PWA service worker registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then(reg => console.log('Service worker registered:', reg.scope))
+      .catch(err => console.error('Service worker registration failed:', err));
+  });
+}
+
 </script>
 
 </body>

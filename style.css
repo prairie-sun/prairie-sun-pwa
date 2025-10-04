@@ -13,7 +13,7 @@ body {
   background-color: #fff;
 }
 
-/* --- Toggle Switch (iPhone style) --- */
+/* iPhone-style toggle */
 .toggle {
   position: relative;
   display: inline-block;
@@ -30,10 +30,9 @@ body {
 .slider {
   position: absolute;
   cursor: pointer;
-  top: 0; left: 0;
-  right: 0; bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background-color: #ccc;
-  transition: .4s;
+  transition: 0.4s;
   border-radius: 28px;
 }
 
@@ -45,23 +44,23 @@ body {
   left: 3px;
   bottom: 3px;
   background-color: white;
-  transition: .4s;
+  transition: 0.4s;
   border-radius: 50%;
 }
 
-/* Checked (on state) */
+/* Checked state */
 .toggle input:checked + .slider {
-  background-color: #4caf50; /* green */
+  background-color: #4caf50; /* green when on */
 }
 
 .toggle input:checked + .slider:before {
   transform: translateX(22px);
 }
 
-/* Optional: label text beside switch */
+/* Optional: small label spacing */
 .toggle-label {
-  font-size: 0.9rem;
-  margin-left: 8px;
-  vertical-align: middle;
+  margin-left: 6px;
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 
