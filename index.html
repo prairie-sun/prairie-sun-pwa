@@ -205,7 +205,7 @@ if(!isAdmin){
   document.getElementById('adminLoginBtn').onclick = async () => {
     const input = document.getElementById('adminPasswordInput').value;
     const inputHash = await sha256(input);
-    const ADMIN_PASSWORD_HASH = "6d20601f5a76a5cebd4c35679b7a2074f9c2e517b4646f530e3e1e72de840c1a"; // hash of "beertastegood"
+    const ADMIN_PASSWORD_HASH = "d3f2ec33d682918e4bbefb96d332a1f86f69b6a1e2aab6f6b7c8d22c6c764e92"; // hash of "beertastegood"
     if(inputHash === ADMIN_PASSWORD_HASH){
       isAdmin = true;
       sessionStorage.setItem('isAdmin','true');
