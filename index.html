@@ -1,87 +1,8 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="theme-color" content="#6b3e1b" />
-<title>Prairie Sun Brewery — Live Taplist</title>
-<link rel="manifest" href="manifest.json" />
-<link rel="icon" href="icons/icon-192.png" sizes="192x192" />
-<style>
-:root {
-  --bg:#fbfbfb; --card:#fff; --accent:#6b3e1b; --muted:#666; --gap:12px;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-}
-html,body{height:100%; margin:0; background:var(--bg); color:#111}
-header{background:linear-gradient(90deg,var(--accent),#8b5a32); color:white; padding:18px 14px;}
-header h1{margin:0; font-size:1.15rem; letter-spacing:0.6px}
-header p{margin:6px 0 0 0; font-size:0.9rem; opacity:0.95}
-.container{padding:14px; max-width:900px; margin:0 auto}
-.meta{display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px; flex-wrap:wrap}
-.meta .updated{color:var(--muted); font-size:0.9rem}
-input[type=search]{padding:8px 12px; border-radius:8px; border:1px solid #ddd; width:100%; max-width:340px}
-.grid{display:grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap:var(--gap)}
-.card{background:var(--card); border-radius:12px; padding:12px; box-shadow:0 1px 6px rgba(0,0,0,0.06)}
-.card h3{margin:0; font-size:1.02rem}
-.meta-row{display:flex; gap:8px; align-items:center; margin-top:6px}
-.pill{background:#eee; padding:4px 8px; border-radius:999px; font-size:0.85rem}
-.on-tap{background:#dff5e1; color:#196619; font-weight:600; padding:4px 8px; border-radius:8px}
-.tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px}
-.tag{font-size:0.78rem; color:var(--muted); background:#f6f6f6; padding:4px 8px; border-radius:999px}
-.sizes{margin-top:10px; display:flex; gap:8px; flex-wrap:wrap}
-.size{font-weight:700}
-footer{padding:12px; color:var(--muted); text-align:center; font-size:0.9rem}
-.tv-note{display:none}
-@media (min-width:900px){ header h1{font-size:1.35rem} .tv-note{display:block; font-size:0.9rem; color:#fff; opacity:0.9} }
-
-/* iPhone-style toggle */
-.toggle { position: relative; display: inline-block; width: 50px; height: 28px; }
-.toggle input { opacity: 0; width: 0; height: 0; }
-.slider { position: absolute; cursor: pointer; top: 0; left:0; right:0; bottom:0; background-color: #ccc; transition:0.4s; border-radius:28px; }
-.slider:before { position:absolute; content:""; height:22px; width:22px; left:3px; bottom:3px; background:white; transition:0.4s; border-radius:50%; }
-.toggle input:checked + .slider { background-color: #4caf50; }
-.toggle input:checked + .slider:before { transform: translateX(22px); }
-.toggle-label { margin-left:6px; font-size:0.85rem; color:var(--muted); }
-</style>
-</head>
-<body>
-
-<header>
-  <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; max-width:900px; margin:0 auto;">
-    <div style="display:flex; align-items:center; gap:12px;">
-      <img src="icons/icon-192.png" alt="Prairie Sun Brewery Logo" style="height:50px; width:auto; border-radius:6px;" />
-      <div>
-        <h1>Prairie Sun Brewery — Live Taplist</h1>
-        <p class="tv-note">Open the menu on a phone — staff can update taps in seconds.</p>
-      </div>
-    </div>
-  </div>
-</header>
-
-<div class="container">
-  <div class="meta">
-    <div>
-      <div class="venue" id="venueName">Prairie Sun Brewery</div>
-      <div class="updated" id="lastUpdated">Updated: —</div>
-    </div>
-    <div style="display:flex; gap:8px; align-items:center;">
-      <input id="search" type="search" placeholder="Search beers, styles or tags" />
-      <button id="refresh">Refresh</button>
-    </div>
-  </div>
-
-  <div id="beerGrid" class="grid" aria-live="polite"></div>
-
-  <footer>
-    <div id="status">Loading menu…</div>
-    <div style="margin-top:6px; font-size:0.85rem">Scan QR around the taproom for this live menu.</div>
-  </footer>
-</div>
-
 <script>
 const API_URL = 'taplist.json';
 const UPDATE_URL = '/update-beer-status';
 const isStaff = true;
+
 const beerGrid = document.getElementById('beerGrid');
 const status = document.getElementById('status');
 const lastUpdatedEl = document.getElementById('lastUpdated');
@@ -96,7 +17,10 @@ function connectSocket() {
   socket = new WebSocket(`ws://${location.host}`);
   socket.onmessage = event => {
     const msg = JSON.parse(event.data);
-    if (msg.type === 'taplist-update') renderTaplist(msg.taplist);
+    if (msg.type === 'taplist-update') {
+      taplist = msg.taplist;          // update global taplist
+      renderTaplist(taplist);         // render full taplist
+    }
   };
   socket.onclose = () => setTimeout(connectSocket, 3000);
 }
@@ -104,11 +28,11 @@ function connectSocket() {
 // ---- Render taplist with toggles ----
 function renderTaplist(data) {
   if (!data) return;
-  taplist = data;
+
   venueNameEl.textContent = data.meta?.venue ?? 'Prairie Sun Brewery';
   lastUpdatedEl.textContent = 'Updated: ' + (data.meta?.last_updated ?? '—');
 
-  const beers = (data.beers || []).slice().sort((a,b) => (a.sort_order||999)-(b.sort_order||999));
+  const beers = (data.beers || []).slice().sort((a,b) => (a.sort_order||999) - (b.sort_order||999));
   beerGrid.innerHTML = '';
 
   for (const beer of beers) {
@@ -154,50 +78,59 @@ async function toggleBeer(beerId, onTap) {
       headers: { 'Content-Type':'application/json' },
       body: JSON.stringify({ beerId, onTap })
     });
+
     const input = document.querySelector(`input[type="checkbox"][onchange*="'${beerId}'"]`);
     if(input) {
       const label = input.closest('div').querySelector('.toggle-label');
       if(label) label.textContent = onTap?'On tap':'Not on';
     }
-  } catch(err) { console.error(err); alert('Failed to update beer status'); }
+  } catch(err) {
+    console.error(err);
+    alert('Failed to update beer status');
+  }
 }
 
-// ---- Search functionality (debounced, case + accent insensitive) ----
+// ---- Filter beers (case + accent insensitive) ----
+function filterBeers(term) {
+  if (!taplist) return;
+
+  const normalizedTerm = term.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const filteredBeers = (taplist.beers || []).filter(beer => {
+    const name = (beer.name || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const style = (beer.style || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const tags = (beer.tags || []).map(tag => tag.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+    return name.includes(normalizedTerm) || style.includes(normalizedTerm) || tags.some(tag => tag.includes(normalizedTerm));
+  });
+
+  renderTaplist({...taplist, beers: filteredBeers});
+}
+
+// ---- Debounced search input ----
 let debounceTimer;
 searchEl.addEventListener('input', () => {
   clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(() => {
-    if (!taplist) return;
-    const term = searchEl.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    
-    const filteredBeers = (taplist.beers || []).filter(beer => {
-      const name = (beer.name || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      const style = (beer.style || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      const tags = (beer.tags || []).map(tag => tag.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
-      
-      return name.includes(term) || style.includes(term) || tags.some(tag => tag.includes(term));
-    });
-
-    renderTaplist({...taplist, beers: filteredBeers});
-  }, 200); // 200ms debounce delay
+  debounceTimer = setTimeout(() => filterBeers(searchEl.value), 200);
 });
 
-// ---- Refresh button clears search and reloads taplist ----
+// ---- Refresh button ----
 document.getElementById('refresh').addEventListener('click', () => {
-  searchEl.value = '';        // Step 1: clear search
+  searchEl.value = '';        // clear search
   fetch(API_URL)
     .then(r => r.json())
     .then(data => {
-      taplist = data;         // Update the global taplist
-      renderTaplist(taplist); // Step 3: render without filtering
+      taplist = data;         // update global taplist
+      renderTaplist(taplist); // render full taplist
     });
 });
 
 // ---- Helpers ----
-function escapeHtml(s){ return (s===undefined||s===null)?'':String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
+function escapeHtml(s){
+  return (s===undefined||s===null)?'':
+    String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+}
 
-// ---- Initial fetch + socket connect ----
-fetch(API_URL).then(r=>r.json()).then(renderTaplist);
+// ---- Initial fetch + connect WebSocket ----
+fetch(API_URL).then(r=>r.json()).then(data => { taplist = data; renderTaplist(data); });
 connectSocket();
 
 // ---- PWA service worker registration ----
@@ -209,5 +142,3 @@ if('serviceWorker' in navigator){
   });
 }
 </script>
-</body>
-</html>
