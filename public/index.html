@@ -169,6 +169,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const venueNameEl = document.getElementById('venueName');
   const searchEl = document.getElementById('search');
   const adminBtn = document.getElementById('adminBtn');
+  adminBtn.style.zIndex = "1000"; // ensure button stays above overlays
+  adminBtn.style.position = "relative";
+  adminBtn.style.cursor = "pointer";
+  adminBtn.style.pointerEvents = "auto";
   const adminModal = document.getElementById('adminLoginModal');
   const adminPanel = document.getElementById('adminPage');
 
@@ -198,7 +202,7 @@ function upsertBeerCard(beer) {
   let card = document.getElementById(`beer-${beer.id}`);
 
   const toggleHTML = isAdmin ? `
-    <div style="margin-top:8px; display:flex; align-items:center; gap:8px">
+    <div class="toggle-container">
       <label class="toggle">
         <input type="checkbox" ${beer.on_tap ? 'checked' : ''} onchange="handleToggle('${beer.id}', this.checked)" />
         <span class="slider"></span>
@@ -215,8 +219,10 @@ function upsertBeerCard(beer) {
     <div class="meta-row">
       <div class="pill">ABV: ${beer.abv ?? '—'}%</div>
       ${beer.ibu ? `<div class="pill">IBU: ${beer.ibu}</div>` : ''}
-      ${toggleHTML}
     </div>
+
+    ${toggleHTML}
+
     <p style="margin-top:8px; color:var(--muted); font-size:0.95rem">${escapeHtml(beer.description || '')}</p>
     <div class="sizes">${(beer.sizes || []).map(s => `<div class="size">${escapeHtml(s.label)} — $${Number(s.price).toFixed(2)}</div>`).join('')}</div>
     <div class="tags">${(beer.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
@@ -237,13 +243,11 @@ function upsertBeerCard(beer) {
     card.style.position = 'relative';
     card.style.overflow = 'hidden';
 
-    // Remove previous overlay/logo if exists
     let overlay = card.querySelector('.ps-overlay');
     if (overlay) overlay.remove();
 
     overlay = document.createElement('div');
     overlay.className = 'ps-overlay';
-
     overlay.style.cssText = `
       position: absolute;
       top: 50%;
@@ -256,14 +260,11 @@ function upsertBeerCard(beer) {
       opacity: 0.15;
       pointer-events: none;
       z-index: 0;
-
       width: 25%;
       max-width: 120px;
       height: auto;
-
       animation: pulseWatermark 4s infinite ease-in-out;
     `;
-
     card.appendChild(overlay);
 
     // Ensure text/content stays above overlay
@@ -275,6 +276,7 @@ function upsertBeerCard(beer) {
     card.style.overflow = '';
   }
 }
+
 
 
   function renderTaplist(data, filterTerm='') {
