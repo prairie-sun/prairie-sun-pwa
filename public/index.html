@@ -22,52 +22,40 @@
 
 <style>
 :root {
-  --bg:#fbfbfb; --card:#fff; --accent:#6b3e1b; --muted:#666; --gap:12px;
+  --bg:#fbfbfb; 
+  --card:#fff; 
+  --accent:#6b3e1b; 
+  --muted:#666; 
+  --gap:12px;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-/* Full viewport + safe-area adjustments for iOS PWA */
+/* Base layout for all devices (desktop & mobile) */
 html, body {
   height: 100%;
   margin: 0;
   background: var(--bg);
   color: #111;
-  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   box-sizing: border-box;
 }
 
-/* Make body a flex column */
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-/* Sticky header */
+/* Header and container */
 header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
   background: linear-gradient(90deg,var(--accent),#8b5a32);
   color: white;
-  padding: calc(18px + env(safe-area-inset-top)) 14px 18px 14px;
-  flex-shrink: 0;
+  padding: 18px 14px;
 }
 
-/* Header text */
 header h1 { margin: 0; font-size: 1.15rem; letter-spacing: 0.6px; }
 header p { margin: 6px 0 0 0; font-size: 0.9rem; opacity: 0.95; }
 
-/* Scrollable main content */
-.container {
-  flex: 1 1 auto;
-  overflow-y: auto;
-  padding: 14px;
-  max-width: 900px;
-  margin: 0 auto;
+.container { 
+  padding: 14px; 
+  max-width: 900px; 
+  margin: 0 auto; 
 }
 
-/* Grid / cards / meta / footer etc. remain the same */
+/* Meta, grid, cards */
 .meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
 .meta .updated { color: var(--muted); font-size: 0.9rem; }
 input[type=search] { padding: 8px 12px; border-radius: 8px; border: 1px solid #ddd; width: 100%; max-width: 340px; }
@@ -110,8 +98,29 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
   display: flex; flex-direction: column; gap: 12px;
 }
 #adminLoginError { color: red; display: none; font-size: 0.9rem; }
-</style>
 
+/* iOS PWA / notch / safe-area adjustments */
+@supports (padding: max(env(safe-area-inset-top))) {
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  header {
+    padding: calc(18px + env(safe-area-inset-top)) 14px 18px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .container {
+    flex: 1 1 auto;
+    overflow-y: auto;
+  }
+}
+</style>
 
 
 </head>
