@@ -130,5 +130,15 @@ setTimeout(() => {
   });
 
   app.set('wss', wss);
+  
+  // --- Self-ping to keep Render awake ---
+  const SELF_URL = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
+
+  setInterval(() => {
+    fetch(`${SELF_URL}/health`)
+      .then(res => console.log(`🌞 Self-ping OK: ${res.status}`))
+      .catch(err => console.error("⚠️ Self-ping failed:", err.message));
+  }, 12 * 60 * 1000); // every 12 minutes
+
 
 }, 500);

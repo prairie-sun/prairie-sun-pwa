@@ -1,7 +1,7 @@
 {
   "id": "prairie-sun-taplist",
   "name": "Prairie Sun Brewery Taplist",
-  "short_name": "Prairie Taplist",
+  "short_name": "Prairie Sun",
   "description": "Real-time beer menu for Prairie Sun Brewery",
   "start_url": "./index.html",
   "display": "standalone",
