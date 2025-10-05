@@ -134,56 +134,37 @@ input[type=search] {
 /* =========================
    PILLS (ABV, IBU, ON TAP, NOT ON)
    ========================= */
-.pill,
-.pill-on-tap,
-.pill-not-on {
-  display: inline-block;
-  padding: var(--pill-padding);
-  border-radius: var(--pill-radius);
-  font-size: var(--pill-font-size);
-  text-align: left;
-  max-width: var(--pill-max-width);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.pill, .on-tap, .not-on {
+  display: inline-block;        /* width tight around text */
+  padding: 4px 8px;             /* internal spacing */
+  border-radius: 12px;          /* pill shape */
+  font-size: 0.85rem;           
+  text-align: left;             
+  max-width: 80px;              
+  white-space: nowrap;          /* prevent wrapping */
+  overflow: hidden;             
+  text-overflow: ellipsis;      
 }
 
-/* Standard pills (ABV, IBU, etc.) */
+/* ABV pill */
 .pill {
   background: #eee;
   color: #3e2c1b;
   font-weight: 600;
 }
 
-/* Guest view pills inside beer cards */
-.pill-on-tap {
-  background: #dff5e1;      /* green background */
-  color: #196619;           /* dark green text */
+/* On Tap pill */
+.on-tap {
+  background: #dff5e1;          /* green background */
+  color: #196619;               /* dark green text */
   font-weight: 600;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  padding: 4px 8px;
-  max-width: 80px;
-  text-align: left;
-  display: inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.pill-not-on {
-  background: #eee;          /* grey background same as ABV pill */
-  color: #3e2c1b;           /* dark text */
+/* Not On pill */
+.not-on {
+  background: #eee;             /* same as ABV */
+  color: #3e2c1b;
   font-weight: 600;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  padding: 4px 8px;
-  max-width: 80px;
-  text-align: left;
-  display: inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* =========================
