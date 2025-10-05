@@ -77,7 +77,6 @@ footer { padding: 12px; color: #666; text-align: center; font-size: 0.9rem; }
       min-height: 100vh;
       padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
       box-sizing: border-box;
-      overflow: hidden;
     }
     .container {
       flex: 1 1 auto;
@@ -171,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchEl = document.getElementById('search');
   const adminBtn = document.getElementById('adminBtn');
   const adminModal = document.getElementById('adminLoginModal');
-  const adminPanel = document.getElementById('adminPanel');
+  const adminPanel = document.getElementById('adminPage');
 
   let taplist = null;
   let isAdmin = sessionStorage.getItem('isAdmin') === 'true';

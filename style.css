@@ -3,6 +3,7 @@ body {
   background-color: #fff8f0;
   color: #3e2c1b;
   padding: 20px;
+  margin: 0;
 }
 
 /* Beer cards */
@@ -13,6 +14,7 @@ body {
   margin: 10px 0;
   background-color: #fff;
   position: relative; /* needed for logo overlay */
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
 }
 
 /* Prairie Sun logo overlay */
@@ -83,13 +85,28 @@ body {
   color: var(--muted);
 }
 
-/* Sticky top-right buttons in Admin Page */
+/* Admin Page styling */
+#adminPage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fbfbfb;
+  overflow-y: auto; /* ensures scrollable if content exceeds viewport */
+  z-index: 200;
+  padding: 0 14px 14px 14px;
+  box-sizing: border-box;
+  display: none; /* hidden by default */
+}
+
+/* Sticky top header inside Admin page */
 #adminPage > div:first-child {
   position: sticky;
   top: 0;
   background: #fbfbfb;
   padding: 14px 0;
-  z-index: 200; /* higher than panel and content */
+  z-index: 201; /* above content */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -104,14 +121,7 @@ body {
   cursor: pointer;
 }
 
-/* Scrollable admin page */
-#adminPage {
-  overflow-y: auto;
-  position: relative;
-  z-index: 100; /* ensures page content under header */
-}
-
-/* Admin panel at bottom */
+/* Admin Panel inside page */
 #adminPanel {
   display: block;
   margin-top: 20px;
@@ -124,10 +134,10 @@ body {
   margin-bottom: 12px;
 }
 
-/* Scrollable beer list inside panel */
+/* Scrollable beer list inside Admin panel */
 #beerList {
-  max-height: 60vh;
-  overflow-y: auto;
+  max-height: 60vh; /* limits height to 60% of viewport */
+  overflow-y: auto; /* enables scroll if too many beers */
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -142,11 +152,11 @@ body {
 /* Ensure Admin button is clickable above everything */
 #adminBtn {
   position: relative;
-  z-index: 201;
+  z-index: 202;
   cursor: pointer;
 }
 
-/* Make sure overlays do not block clicks */
+/* Prevent logo overlays from blocking interactions */
 .ps-overlay {
   pointer-events: none;
 }
