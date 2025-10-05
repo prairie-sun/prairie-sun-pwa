@@ -175,26 +175,28 @@ function upsertBeerCard(beer) {
     card.style.border = '2px solid var(--accent)';
     card.style.position = 'relative';
     card.style.overflow = 'hidden';
-    card.style.backgroundImage = 'url("images/prairie-sun-light-logo.PNG")';
-    card.style.backgroundSize = 'contain';
-    card.style.backgroundRepeat = 'no-repeat';
-    card.style.backgroundPosition = 'center';
 
-    // Remove previous overlay if exists
+    // Remove previous overlay/logo if exists
     let overlay = card.querySelector('.ps-overlay');
     if (overlay) overlay.remove();
 
-    // Add faded overlay behind text
+    // Add faded logo near right middle
     overlay = document.createElement('div');
     overlay.className = 'ps-overlay';
     overlay.style.position = 'absolute';
-    overlay.style.top = '0';
-    overlay.style.left = '0';
-    overlay.style.width = '100%';
-    overlay.style.height = '100%';
-    overlay.style.backgroundColor = 'rgba(255,255,255,0.4)';
+    overlay.style.width = '25%';        // smaller logo
+    overlay.style.height = 'auto';
+    overlay.style.top = '50%';          // vertical center
+    overlay.style.right = '10%';        // distance from right edge
+    overlay.style.transform = 'translateY(-50%)'; // center vertically
+    overlay.style.backgroundImage = 'url("images/prairie-sun-light-logo.PNG")';
+    overlay.style.backgroundSize = 'contain';
+    overlay.style.backgroundRepeat = 'no-repeat';
+    overlay.style.backgroundPosition = 'center';
+    overlay.style.opacity = '0.15';     // faint watermark
+    overlay.style.pointerEvents = 'none'; // don't block clicks
     overlay.style.zIndex = '0';
-    card.insertBefore(overlay, card.firstChild);
+    card.appendChild(overlay);
 
     // Ensure text is above overlay
     card.querySelectorAll(':scope > *:not(.ps-overlay)').forEach(el => el.style.position = 'relative');
@@ -203,12 +205,9 @@ function upsertBeerCard(beer) {
     card.style.border = '';
     card.style.position = '';
     card.style.overflow = '';
-    card.style.backgroundImage = '';
-    card.style.backgroundSize = '';
-    card.style.backgroundRepeat = '';
-    card.style.backgroundPosition = '';
   }
 }
+
 
   function renderTaplist(data, filterTerm='') {
     if(!data) return;
