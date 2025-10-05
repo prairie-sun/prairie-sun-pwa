@@ -136,80 +136,79 @@ document.addEventListener('DOMContentLoaded', () => {
 function upsertBeerCard(beer) {
   let card = document.getElementById(`beer-${beer.id}`);
 
-  // Check if this is a Prairie Sun beer
-  const isPrairieSun = (beer.producer === "Prairie Sun Brewery");
-
   const toggleHTML = isAdmin ? `
     <div style="margin-top:8px; display:flex; align-items:center; gap:8px">
       <label class="toggle">
-        <input type="checkbox" ${beer.on_tap?'checked':''} onchange="handleToggle('${beer.id}', this.checked)" />
+        <input type="checkbox" ${beer.on_tap ? 'checked' : ''} onchange="handleToggle('${beer.id}', this.checked)" />
         <span class="slider"></span>
       </label>
-      <span class="toggle-label">${beer.on_tap?'On tap':'Not on'}</span>
+      <span class="toggle-label">${beer.on_tap ? 'On tap' : 'Not on'}</span>
     </div>` :
     (beer.on_tap ? `<div class="on-tap">On tap</div>` : `<div class="pill">Not on</div>`);
 
   const innerHTML = `
-    <h3>${escapeHtml(beer.name)}${beer.style?`<span style="font-weight:400; font-size:0.86rem; color:var(--muted)">— ${escapeHtml(beer.style)}</span>`:''}</h3>
+    <h3>${escapeHtml(beer.name)}${beer.style ? `<span style="font-weight:400; font-size:0.86rem; color:var(--muted)">— ${escapeHtml(beer.style)}</span>` : ''}</h3>
     <div style="font-size:0.85rem; color:var(--muted); margin-top:2px">
-      ${escapeHtml(beer.producer||'')}${beer.location?', '+escapeHtml(beer.location):''}
+      ${escapeHtml(beer.producer || '')}${beer.location ? ', ' + escapeHtml(beer.location) : ''}
     </div>
     <div class="meta-row">
-      <div class="pill">ABV: ${beer.abv??'—'}%</div>
-      ${beer.ibu?`<div class="pill">IBU: ${beer.ibu}</div>`:''}
+      <div class="pill">ABV: ${beer.abv ?? '—'}%</div>
+      ${beer.ibu ? `<div class="pill">IBU: ${beer.ibu}</div>` : ''}
       ${toggleHTML}
     </div>
-    <p style="margin-top:8px; color:var(--muted); font-size:0.95rem">${escapeHtml(beer.description||'')}</p>
-    <div class="sizes">${(beer.sizes||[]).map(s=>`<div class="size">${escapeHtml(s.label)} — $${Number(s.price).toFixed(2)}</div>`).join('')}</div>
-    <div class="tags">${(beer.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+    <p style="margin-top:8px; color:var(--muted); font-size:0.95rem">${escapeHtml(beer.description || '')}</p>
+    <div class="sizes">${(beer.sizes || []).map(s => `<div class="size">${escapeHtml(s.label)} — $${Number(s.price).toFixed(2)}</div>`).join('')}</div>
+    <div class="tags">${(beer.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
   `;
 
-  if(card){
-    card.innerHTML = innerHTML;
-  } else {
+  if (!card) {
     card = document.createElement('article');
     card.id = `beer-${beer.id}`;
     card.className = 'card';
-    card.innerHTML = innerHTML;
     beerGrid.appendChild(card);
   }
 
-  // --- Apply Prairie Sun styling if applicable ---
-  if(isPrairieSun){
+  card.innerHTML = innerHTML;
+
+  // --- Prairie Sun special styling ---
+  if (beer.producer === "Prairie Sun Brewery") {
     card.style.border = '2px solid var(--accent)';
     card.style.position = 'relative';
     card.style.overflow = 'hidden';
-    card.style.backgroundImage = 'url("images/prairie-sun-light-logo.jpg")';
-    card.style.backgroundSize = 'cover';
+    card.style.backgroundImage = 'url("images/prairie-sun-light-logo.png")';
+    card.style.backgroundSize = 'contain';
     card.style.backgroundRepeat = 'no-repeat';
     card.style.backgroundPosition = 'center';
-    card.style.opacity = '1';
-    
-    // Overlay to fade the background so text remains readable
+
+    // Remove previous overlay if exists
     let overlay = card.querySelector('.ps-overlay');
-    if(!overlay){
-      overlay = document.createElement('div');
-      overlay.className = 'ps-overlay';
-      overlay.style.position = 'absolute';
-      overlay.style.top = '0';
-      overlay.style.left = '0';
-      overlay.style.width = '100%';
-      overlay.style.height = '100%';
-      overlay.style.backgroundColor = 'rgba(255,255,255,0.85)'; // adjust opacity for fade
-      overlay.style.pointerEvents = 'none';
-      card.appendChild(overlay);
-    }
-    card.style.zIndex = '0';
+    if (overlay) overlay.remove();
+
+    // Add faded overlay behind text
+    overlay = document.createElement('div');
+    overlay.className = 'ps-overlay';
+    overlay.style.position = 'absolute';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(255,255,255,0.6)';
+    overlay.style.zIndex = '0';
+    card.insertBefore(overlay, card.firstChild);
+
+    // Ensure text is above overlay
     card.querySelectorAll(':scope > *:not(.ps-overlay)').forEach(el => el.style.position = 'relative');
   } else {
-    // Reset if not Prairie Sun
+    // Reset any previous Prairie Sun styling
     card.style.border = '';
+    card.style.position = '';
+    card.style.overflow = '';
     card.style.backgroundImage = '';
-    const overlay = card.querySelector('.ps-overlay');
-    if(overlay) overlay.remove();
+    card.style.backgroundSize = '';
+    card.style.backgroundRepeat = '';
+    card.style.backgroundPosition = '';
   }
 }
-
 
   function renderTaplist(data, filterTerm='') {
     if(!data) return;
