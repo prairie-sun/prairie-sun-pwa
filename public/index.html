@@ -181,22 +181,23 @@ function upsertBeerCard(beer) {
     if (overlay) overlay.remove();
 
     // Add faded logo near right middle
-    overlay = document.createElement('div');
-    overlay.className = 'ps-overlay';
-    overlay.style.position = 'absolute';
-    overlay.style.width = '25%';        // smaller logo
-    overlay.style.height = 'auto';
-    overlay.style.top = '50%';          // vertical center
-    overlay.style.right = '10%';        // distance from right edge
-    overlay.style.transform = 'translateY(-50%)'; // center vertically
-    overlay.style.backgroundImage = 'url("images/prairie-sun-light-logo.PNG")';
-    overlay.style.backgroundSize = 'contain';
-    overlay.style.backgroundRepeat = 'no-repeat';
-    overlay.style.backgroundPosition = 'center';
-    overlay.style.opacity = '0.15';     // faint watermark
-    overlay.style.pointerEvents = 'none'; // don't block clicks
-    overlay.style.zIndex = '0';
-    card.appendChild(overlay);
+	overlay = document.createElement('div');
+	overlay.className = 'ps-overlay';
+	overlay.style.position = 'absolute';
+	overlay.style.width = '25%';        // smaller logo
+	overlay.style.height = '50%';       // fixed height so it displays
+	overlay.style.top = '50%';          // vertical center
+	overlay.style.right = '10%';        // distance from right edge
+	overlay.style.transform = 'translateY(-50%)'; // center vertically
+	overlay.style.backgroundImage = 'url("images/prairie-sun-light-logo.PNG")';
+	overlay.style.backgroundSize = 'contain';
+	overlay.style.backgroundRepeat = 'no-repeat';
+	overlay.style.backgroundPosition = 'center';
+	overlay.style.opacity = '0.15';     // faint watermark
+	overlay.style.pointerEvents = 'none'; // don't block clicks
+	overlay.style.zIndex = '0';
+	card.appendChild(overlay);
+
 
     // Ensure text is above overlay
     card.querySelectorAll(':scope > *:not(.ps-overlay)').forEach(el => el.style.position = 'relative');
