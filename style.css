@@ -17,7 +17,7 @@ body {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  position: relative; /* safe scroll area */
+  position: relative;
   z-index: 1;
 }
 
@@ -28,15 +28,13 @@ header {
   padding: 18px 14px;
   position: sticky;
   top: 0;
-  z-index: 1000; /* ensure header + Admin button stay clickable */
+  z-index: 1000;
 }
 header h1 { margin: 0; font-size: 1.15rem; letter-spacing: 0.6px; }
 header p { margin: 6px 0 0 0; font-size: 0.9rem; opacity: 0.95; }
 
 /* Beer grid & cards */
-.grid-container {
-  position: relative;
-}
+.grid-container { position: relative; }
 
 .grid {
   display: grid;
@@ -49,8 +47,8 @@ header p { margin: 6px 0 0 0; font-size: 0.9rem; opacity: 0.95; }
   border-radius: 12px;
   padding: 12px;
   box-shadow: 0 1px 6px rgba(0,0,0,0.06);
-  position: relative;   /* ensures z-index works */
-  z-index: 2;           /* stays above watermark */
+  position: relative;
+  z-index: 2;
 }
 
 /* Prairie Sun overlay */
@@ -65,7 +63,7 @@ header p { margin: 6px 0 0 0; font-size: 0.9rem; opacity: 0.95; }
   background-position: center;
   opacity: 0.15;
   pointer-events: none;
-  z-index: 0; /* behind all content */
+  z-index: 0;
   width: 25%;
   max-width: 120px;
   height: auto;
@@ -91,8 +89,35 @@ input[type=search] {
 }
 
 /* Pills, tags, sizes */
-.pill { background: #eee; padding: 4px 8px; border-radius: 999px; font-size: 0.85rem; }
-.on-tap { background: #dff5e1; color: #196619; font-weight: 600; padding: 4px 8px; border-radius: 8px; }
+.pill { background: #eee; padding: 4px 8px; border-radius: 999px; font-size: 0.85rem; text-align: center; max-width: 80px; }
+.on-tap { background: #dff5e1; color: #196619; font-weight: 600; border-radius: 12px; font-size: 0.85rem; max-width: 80px; }
+
+/* Toggle pill container (On Tap / toggle) */
+.toggle-container {
+  display: flex;
+  justify-content: space-between; /* label left, toggle right */
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background: #dff5e1;
+  font-size: 0.85rem;
+  max-width: 80px; /* match ABV pill */
+  box-sizing: border-box;
+}
+
+.toggle-container span.toggle-label {
+  text-align: left;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.toggle-container .toggle {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* Tags & sizes */
 .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
 .tag { font-size: 0.78rem; color: var(--muted); background: #f6f6f6; padding: 4px 8px; border-radius: 999px; }
 .sizes { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
@@ -114,7 +139,7 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
   width: 100%; height: 100%;
   background: #fbfbfb;
   overflow-y: auto;
-  z-index: 2000; /* above main content */
+  z-index: 2000;
   padding: 14px;
   box-sizing: border-box;
 }
@@ -144,7 +169,7 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
   top:0; left:0; width:100%; height:100%;
   background: rgba(0,0,0,0.6);
   justify-content: center; align-items: center;
-  z-index: 3000; /* above adminPage */
+  z-index: 3000;
 }
 #adminLoginModalContent {
   background: #fff;
@@ -165,13 +190,18 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
 .slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px; background-color: white; transition: 0.4s; border-radius: 50%; }
 .toggle input:checked + .slider { background-color: #4caf50; }
 .toggle input:checked + .slider:before { transform: translateX(22px); }
-.toggle-label { margin-left: 6px; font-size: 0.85rem; color: var(--muted); }
 
 /* Admin button */
 #adminBtn {
   position: relative;
-  z-index: 9999; /* ensure top click priority */
+  z-index: 9999;
   cursor: pointer;
+  background-color: var(--accent); /* dark brown background */
+  color: white;                    /* text color */
+  padding: 6px 12px;               /* add some padding */
+  border-radius: 6px;              /* rounded corners */
+  border: none;                     /* remove default border */
+  font-size: 0.9rem;
 }
 
 /* Pulse animation */
@@ -182,31 +212,23 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
 
 /* Mobile tweaks */
 @media (max-width: 500px) {
-  .card {
-    padding: 8px;
-  }
-  .tags, .sizes {
-    gap: 4px;
-  }
+  .card { padding: 8px; }
+  .tags, .sizes { gap: 4px; }
 }
 
-/* Admin toggle alignment */
-.toggle-container {
-  display: flex;
-  justify-content: flex-end; /* aligns toggle to right */
+/* Admin Controls Bar */
+#adminControls {
+  display: none;
+  gap: 10px;
+  margin: 10px 0;
   align-items: center;
-  gap: 8px;
-  margin-top: 8px;
 }
-
-.admin-btn {
+#adminControls .admin-btn {
+  font-size: 0.9rem;
   padding: 6px 12px;
   border-radius: 6px;
   border: none;
   background: var(--accent);
   color: white;
   cursor: pointer;
-  font-size: 0.9rem;
 }
-
-
