@@ -90,4 +90,24 @@ body {
   overflow-y: auto;
 }
 
+#adminPanel {
+  display: block;          /* Show always at bottom */
+  margin-top: 20px;        /* Give space after toggles */
+  border-top: 1px solid #ccc;
+  padding-top: 12px;
+}
+
+#adminPanel h3 {
+  margin-bottom: 12px;
+}
+
+/* Make the admin beer cards scrollable only inside the panel if needed */
+#beerList {
+  max-height: 60vh; /* allow scrolling if too many beers */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 
