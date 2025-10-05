@@ -89,8 +89,39 @@ input[type=search] {
 }
 
 /* Pills, tags, sizes */
-.pill { background: #eee; padding: 4px 8px; border-radius: 999px; font-size: 0.85rem; text-align: center; max-width: 80px; }
-.on-tap { background: #dff5e1; color: #196619; font-weight: 600; border-radius: 12px; font-size: 0.85rem; max-width: 80px; }
+.pill { 
+  background: #eee; 
+  padding: 4px 8px; 
+  border-radius: 999px; 
+  font-size: 0.85rem; 
+  text-align: center; 
+  max-width: 80px; 
+}
+
+.on-tap { 
+  background: #dff5e1; 
+  color: #196619; 
+  font-weight: 600; 
+  border-radius: 12px; 
+  font-size: 0.85rem; 
+  max-width: 80px; 
+  text-align: left;           /* left-align text */
+  padding: 4px 8px;
+  margin-top: 4px;
+}
+
+.not-on {
+  background: #eee;           /* same style as ABV pill */
+  color: #3e2c1b;             /* text color */
+  font-weight: 600;
+  border-radius: 12px;        /* same as ABV pill */
+  font-size: 0.85rem;         /* same as ABV pill */
+  max-width: 80px;            /* same width as ABV pill */
+  text-align: left;           /* left-align text */
+  padding: 4px 8px;
+  margin-top: 4px;
+}
+
 
 /* Toggle pill container (On Tap / toggle) */
 .toggle-container {
