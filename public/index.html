@@ -207,36 +207,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }).catch(err=>console.error('Failed to fetch taplist.json', err));
   });
 
-  adminBtn.addEventListener('click', () => { 
+  adminBtn.addEventListener('click', () => {
     adminModal.style.display='flex';
-    document.getElementById('adminPasswordInput').value = '';
-    document.getElementById('adminLoginError').style.display = 'none';
-    addModalExitButton(); // ensure exit in modal
+    addAdminExitButton();
   });
 
-  document.getElementById('adminPasswordInput').addEventListener('keyup', (e)=>{
-    if(e.key === 'Enter') tryAdminLogin();
+  document.getElementById('adminPasswordInput').addEventListener('keydown', async (e) => {
+    if(e.key === 'Enter'){
+      document.getElementById('adminLoginBtn').click();
+    }
   });
 
-  document.getElementById('adminLoginBtn').onclick = tryAdminLogin;
-
-  function tryAdminLogin() {
+  document.getElementById('adminLoginBtn').onclick = async () => {
     const input = document.getElementById('adminPasswordInput').value;
-    sha256(input).then(inputHash=>{
-      const ADMIN_PASSWORD_HASH = "fa9fdcce5d12f32fd2018b3ca1299fea52be175ed53930e04203a4eed7480158";
-      if(inputHash === ADMIN_PASSWORD_HASH){
-        isAdmin = true;
-        sessionStorage.setItem('isAdmin','true');
-        adminModal.style.display = 'none';
-        adminBtn.style.display = 'none';
-        renderTaplist(taplist, searchEl.value);
-        addSaveButton();
-        addAdminExitButton();
-      } else {
-        document.getElementById('adminLoginError').style.display = 'block';
-      }
-    });
-  }
+    const inputHash = await sha256(input);
+    const ADMIN_PASSWORD_HASH = "fa9fdcce5d12f32fd2018b3ca1299fea52be175ed53930e04203a4eed7480158";
+    if(inputHash===ADMIN_PASSWORD_HASH){
+      isAdmin = true;
+      sessionStorage.setItem('isAdmin','true');
+      adminModal.style.display='none';
+      adminBtn.style.display='none';
+      renderTaplist(taplist);
+      addSaveButton();
+      addAdminModeExitButton();
+    } else {
+      document.getElementById('adminLoginError').style.display='block';
+    }
+  };
 
   function addSaveButton(){
     let saveBtn = document.getElementById('saveBtn');
@@ -244,7 +241,15 @@ document.addEventListener('DOMContentLoaded', () => {
       saveBtn = document.createElement('button');
       saveBtn.id = 'saveBtn';
       saveBtn.textContent = 'Save Changes';
-      saveBtn.style.cssText = adminBtn.style.cssText + '; margin-left: 8px;';
+      saveBtn.style.cssText = `
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: none;
+        background: var(--accent);
+        color: white;
+        cursor: pointer;
+        margin-left: 8px;
+      `;
       adminBtn.parentNode.insertBefore(saveBtn, adminBtn.nextSibling);
 
       saveBtn.onclick = async () => {
@@ -257,9 +262,9 @@ document.addEventListener('DOMContentLoaded', () => {
           });
           const data = await res.json();
           if(data.success){
+            alert('Changes saved!');
             pendingUpdates = {};
             renderTaplist(taplist, searchEl.value);
-            alert('Changes saved!');
           } else {
             alert('Failed to save changes.');
           }
@@ -273,20 +278,54 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function addAdminExitButton() {
+    let modalExit = document.getElementById('modalExitBtn');
+    if (!modalExit) {
+      modalExit = document.createElement('button');
+      modalExit.id = 'modalExitBtn';
+      modalExit.textContent = 'Exit';
+      modalExit.style.cssText = `
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: none;
+        background: var(--accent);
+        color: white;
+        cursor: pointer;
+        margin-top: 8px;
+        display: block;
+      `;
+      const modalContent = document.getElementById('adminLoginModalContent');
+      modalContent.appendChild(modalExit);
+
+      modalExit.onclick = () => {
+        adminModal.style.display = 'none';
+        document.getElementById('adminPasswordInput').value = '';
+        document.getElementById('adminLoginError').style.display = 'none';
+      };
+    }
+    modalExit.style.display = 'inline-block';
+  }
+
+  function addAdminModeExitButton() {
     let exitBtn = document.getElementById('exitBtn');
-    if(!exitBtn){
+    if (!exitBtn) {
       exitBtn = document.createElement('button');
       exitBtn.id = 'exitBtn';
-      exitBtn.textContent = 'Exit';
-      exitBtn.style.cssText = adminBtn.style.cssText + '; margin-left: 8px;';
-      adminBtn.parentNode.insertBefore(exitBtn, adminBtn.nextSibling);
-
+      exitBtn.textContent = 'Exit Admin';
+      exitBtn.style.cssText = `
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: none;
+        background: var(--accent);
+        color: white;
+        cursor: pointer;
+        margin-left: 8px;
+      `;
+      adminBtn.parentNode.insertBefore(exitBtn, document.getElementById('saveBtn').nextSibling);
       exitBtn.onclick = () => {
         isAdmin = false;
-        sessionStorage.setItem('isAdmin','false');
-        const saveBtn = document.getElementById('saveBtn');
-        if(saveBtn) saveBtn.style.display='none';
+        sessionStorage.removeItem('isAdmin');
         exitBtn.style.display = 'none';
+        document.getElementById('saveBtn').style.display = 'none';
         adminBtn.style.display = 'inline-block';
         renderTaplist(taplist, searchEl.value);
       };
@@ -294,24 +333,11 @@ document.addEventListener('DOMContentLoaded', () => {
     exitBtn.style.display = 'inline-block';
   }
 
-  function addModalExitButton(){
-    let modalExit = document.getElementById('modalExitBtn');
-    if(!modalExit){
-      modalExit = document.createElement('button');
-      modalExit.id = 'modalExitBtn';
-      modalExit.textContent = 'Exit';
-      modalExit.style.cssText = adminBtn.style.cssText + '; position:absolute; top:10px; right:10px;';
-      adminModal.appendChild(modalExit);
-      modalExit.onclick = () => adminModal.style.display='none';
-    }
-    modalExit.style.display='inline-block';
-  }
-
   fetch(API_URL).then(r=>r.json()).then(data=>{
     renderTaplist(data);
-    if(isAdmin) {
+    if(isAdmin){
       addSaveButton();
-      addAdminExitButton();
+      addAdminModeExitButton();
     }
   }).catch(err=>console.error(err));
 
@@ -334,6 +360,5 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
-
 </body>
 </html>
