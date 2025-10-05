@@ -5,15 +5,36 @@ body {
   padding: 20px;
 }
 
+/* Beer cards */
 .beer-card {
   border: 2px solid #6b3e1b;
   border-radius: 10px;
   padding: 15px;
   margin: 10px 0;
   background-color: #fff;
+  position: relative; /* needed for logo overlay */
 }
 
-/* iPhone-style toggle */
+/* Prairie Sun logo overlay */
+.ps-overlay {
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%);
+  background-image: url("images/prairie-sun-light-logo.PNG");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+  width: 25%;
+  max-width: 120px;
+  height: auto;
+  animation: pulseWatermark 4s infinite ease-in-out;
+}
+
+/* Toggle switch */
 .toggle {
   position: relative;
   display: inline-block;
@@ -48,16 +69,14 @@ body {
   border-radius: 50%;
 }
 
-/* Checked state */
 .toggle input:checked + .slider {
-  background-color: #4caf50; /* green when on */
+  background-color: #4caf50;
 }
 
 .toggle input:checked + .slider:before {
   transform: translateX(22px);
 }
 
-/* Optional: small label spacing */
 .toggle-label {
   margin-left: 6px;
   font-size: 0.85rem;
@@ -70,14 +89,14 @@ body {
   top: 0;
   background: #fbfbfb;
   padding: 14px 0;
-  z-index: 100;
+  z-index: 200; /* higher than panel and content */
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
 }
 
-/* Optional: make the Save/Exit buttons slightly bigger for touch */
+/* Save/Exit buttons */
 #adminPage button.pill {
   padding: 6px 12px;
   font-size: 0.9rem;
@@ -88,26 +107,46 @@ body {
 /* Scrollable admin page */
 #adminPage {
   overflow-y: auto;
+  position: relative;
+  z-index: 100; /* ensures page content under header */
 }
 
+/* Admin panel at bottom */
 #adminPanel {
-  display: block;          /* Show always at bottom */
-  margin-top: 20px;        /* Give space after toggles */
+  display: block;
+  margin-top: 20px;
   border-top: 1px solid #ccc;
   padding-top: 12px;
 }
 
+/* Panel header */
 #adminPanel h3 {
   margin-bottom: 12px;
 }
 
-/* Make the admin beer cards scrollable only inside the panel if needed */
+/* Scrollable beer list inside panel */
 #beerList {
-  max-height: 60vh; /* allow scrolling if too many beers */
+  max-height: 60vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
+/* Prairie Sun logo pulse animation */
+@keyframes pulseWatermark {
+  0%, 100% { opacity: 0.12; }
+  50% { opacity: 0.18; }
+}
 
+/* Ensure Admin button is clickable above everything */
+#adminBtn {
+  position: relative;
+  z-index: 201;
+  cursor: pointer;
+}
+
+/* Make sure overlays do not block clicks */
+.ps-overlay {
+  pointer-events: none;
+}

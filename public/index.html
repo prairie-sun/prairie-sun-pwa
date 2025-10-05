@@ -20,57 +20,47 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
+<!-- External CSS -->
+<link rel="stylesheet" href="style.css">
+
+<!-- Inline CSS for minimal page-specific adjustments -->
 <style>
 :root {
-  --bg:#fbfbfb; 
-  --card:#fff; 
-  --accent:#6b3e1b; 
-  --muted:#666; 
-  --gap:12px;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --gap: 12px;
 }
 
-/* Default / Desktop styles */
-html, body {
-  height: 100%;
-  margin: 0;
-  background: var(--bg);
-  color: #111;
-}
-.container {
-  padding: 14px;
-  max-width: 900px;
-  margin: 0 auto; /* centers container */
-  overflow: visible; /* let grid expand */
-  flex: none; /* disable mobile flex adjustments */
-}
-
-/* Header */
+/* Header styling */
 header {
-  background: linear-gradient(90deg,var(--accent),#8b5a32);
+  background: linear-gradient(90deg, #6b3e1b, #8b5a32);
   color: white;
   padding: 18px 14px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 header h1 { margin: 0; font-size: 1.15rem; letter-spacing: 0.6px; }
 header p { margin: 6px 0 0 0; font-size: 0.9rem; opacity: 0.95; }
 
 /* Meta / Search */
 .meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
-.meta .updated { color: var(--muted); font-size: 0.9rem; }
+.meta .updated { color: #666; font-size: 0.9rem; }
 input[type=search] { padding: 8px 12px; border-radius: 8px; border: 1px solid #ddd; width: 100%; max-width: 340px; }
 
 /* Grid & Cards */
 .grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: var(--gap); }
-.card { background: var(--card); border-radius: 12px; padding: 12px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+.card { background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); position: relative; }
 .card h3 { margin: 0; font-size: 1.02rem; }
 .meta-row { display: flex; gap: 8px; align-items: center; margin-top: 6px; }
 .pill { background: #eee; padding: 4px 8px; border-radius: 999px; font-size: 0.85rem; }
 .on-tap { background: #dff5e1; color: #196619; font-weight: 600; padding: 4px 8px; border-radius: 8px; }
 .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
-.tag { font-size: 0.78rem; color: var(--muted); background: #f6f6f6; padding: 4px 8px; border-radius: 999px; }
+.tag { font-size: 0.78rem; color: #666; background: #f6f6f6; padding: 4px 8px; border-radius: 999px; }
 .sizes { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
 .size { font-weight: 700; }
-footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9rem; }
+
+/* Footer */
+footer { padding: 12px; color: #666; text-align: center; font-size: 0.9rem; }
 .tv-note { display: none; }
 
 @media (min-width:900px){
@@ -89,12 +79,6 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
       box-sizing: border-box;
       overflow: hidden;
     }
-    header {
-      padding: calc(18px + env(safe-area-inset-top)) 14px 18px 14px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
     .container {
       flex: 1 1 auto;
       overflow-y: auto;
@@ -104,16 +88,7 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
   }
 }
 
-/* iPhone-style toggle */
-.toggle { position: relative; display: inline-block; width: 50px; height: 28px; }
-.toggle input { opacity: 0; width: 0; height: 0; }
-.slider { position: absolute; cursor: pointer; top: 0; left:0; right:0; bottom:0; background-color: #ccc; transition: 0.4s; border-radius: 28px; }
-.slider:before { position: absolute; content:""; height:22px; width:22px; left:3px; bottom:3px; background:white; transition:0.4s; border-radius:50%; }
-.toggle input:checked + .slider { background-color: #4caf50; }
-.toggle input:checked + .slider:before { transform: translateX(22px); }
-.toggle-label { margin-left: 6px; font-size: 0.85rem; color: var(--muted); }
-
-/* Admin Login Modal */
+/* Admin Login Modal (no duplication) */
 #adminLoginModal {
   display: none;
   position: fixed; top:0; left:0; width:100%; height:100%;
@@ -126,8 +101,6 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
 }
 #adminLoginError { color: red; display: none; font-size: 0.9rem; }
 </style>
-
-
 </head>
 <body>
 
