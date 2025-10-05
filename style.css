@@ -155,20 +155,35 @@ input[type=search] {
   font-weight: 600;
 }
 
-/* Guest view: On Tap pill */
+/* Guest view pills inside beer cards */
 .pill-on-tap {
-  background: #dff5e1;
-  color: #196619;
+  background: #dff5e1;      /* green background */
+  color: #196619;           /* dark green text */
   font-weight: 600;
-  margin-top: 4px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  padding: 4px 8px;
+  max-width: 80px;
+  text-align: left;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Guest view: Not On pill */
 .pill-not-on {
-  background: #eee;
-  color: #3e2c1b;
+  background: #eee;          /* grey background same as ABV pill */
+  color: #3e2c1b;           /* dark text */
   font-weight: 600;
-  margin-top: 4px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  padding: 4px 8px;
+  max-width: 80px;
+  text-align: left;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* =========================
