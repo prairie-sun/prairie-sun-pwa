@@ -225,15 +225,17 @@ function upsertBeerCard(beer) {
   let card = document.getElementById(`beer-${beer.id}`);
 
   // Decide how "On Tap" / "Not On" appears
-  const toggleHTML = isAdmin ? `
-    <div class="toggle-container">
-      <label class="toggle">
-        <input type="checkbox" ${beer.on_tap ? 'checked' : ''} onchange="handleToggle('${beer.id}', this.checked)" />
-        <span class="slider"></span>
-      </label>
-      <span class="toggle-label">${beer.on_tap ? 'On tap' : 'Not on'}</span>
-    </div>` :
-    (beer.on_tap ? `<div class="pill-on-tap">On tap</div>` : `<div class="pill-not-on">Not on</div>`);
+const toggleHTML = isAdmin ? `
+  <div class="toggle-container">
+    <label class="toggle">
+      <input type="checkbox" ${beer.on_tap ? 'checked' : ''} onchange="handleToggle('${beer.id}', this.checked)" />
+      <span class="slider"></span>
+    </label>
+    <span class="toggle-label">${beer.on_tap ? 'On tap' : 'Not on'}</span>
+  </div>` :
+  `<div class="${beer.on_tap ? 'pill on-tap' : 'pill not-on'}">
+     ${beer.on_tap ? 'On tap' : 'Not on'}
+   </div>`;
 
   const innerHTML = `
     <h3>${escapeHtml(beer.name)}${beer.style ? `<span style="font-weight:400; font-size:0.86rem; color:var(--muted)"> — ${escapeHtml(beer.style)}</span>` : ''}</h3>
@@ -350,58 +352,63 @@ function upsertBeerCard(beer) {
     }
   };
 
-  // --- Render Admin Cards ---
-  function renderAdminCards() {
-    const container = document.getElementById('beerList');
-    container.innerHTML = '';
+// --- Render Admin Cards ---
+function renderAdminCards() {
+  const container = document.getElementById('beerList');
+  container.innerHTML = '';
 
-    (taplist.beers || []).forEach((beer,index)=>{
-      const card = document.createElement('div');
-      card.className='card';
-      card.style.display='flex';
-      card.style.flexDirection='column';
-      card.style.gap='6px';
+  // Loop through beers
+  (taplist.beers || []).forEach((beer,index) => {
+    const card = document.createElement('div');
+    card.className='card';
+    card.style.display='flex';
+    card.style.flexDirection='column';
+    card.style.gap='6px';
 
-      card.innerHTML = `
-        <input type="text" placeholder="Name" value="${beer.name||''}" data-index="${index}" data-field="name" />
-        <input type="text" placeholder="Style" value="${beer.style||''}" data-index="${index}" data-field="style" />
-        <input type="text" placeholder="Producer" value="${beer.producer||''}" data-index="${index}" data-field="producer" />
-        <input type="text" placeholder="Location" value="${beer.location||''}" data-index="${index}" data-field="location" />
-        <input type="text" placeholder="ABV" value="${beer.abv||''}" data-index="${index}" data-field="abv" />
-        <input type="text" placeholder="IBU" value="${beer.ibu||''}" data-index="${index}" data-field="ibu" />
-        <input type="text" placeholder="Tags (comma-separated)" value="${(beer.tags||[]).join(', ')}" data-index="${index}" data-field="tags" />
-        <label style="display:flex; align-items:center; gap:6px;">
-          On Tap:
-          <input type="checkbox" ${beer.on_tap ? 'checked':''} data-index="${index}" data-field="on_tap" />
-        </label>
-        <div style="display:flex; gap:6px;">
-          <button class="admin-btn" data-index="${index}" data-action="delete">Delete</button>
-        </div>
-      `;
-      container.appendChild(card);
-    });
+    card.innerHTML = `
+      <input type="text" placeholder="Name" value="${beer.name||''}" data-index="${index}" data-field="name" />
+      <input type="text" placeholder="Style" value="${beer.style||''}" data-index="${index}" data-field="style" />
+      <input type="text" placeholder="Producer" value="${beer.producer||''}" data-index="${index}" data-field="producer" />
+      <input type="text" placeholder="Location" value="${beer.location||''}" data-index="${index}" data-field="location" />
+      <input type="text" placeholder="ABV" value="${beer.abv||''}" data-index="${index}" data-field="abv" />
+      <input type="text" placeholder="IBU" value="${beer.ibu||''}" data-index="${index}" data-field="ibu" />
+      <input type="text" placeholder="Tags (comma-separated)" value="${(beer.tags||[]).join(', ')}" data-index="${index}" data-field="tags" />
+      <label style="display:flex; align-items:center; gap:6px;">
+        On Tap:
+        <input type="checkbox" ${beer.on_tap ? 'checked':''} data-index="${index}" data-field="on_tap" />
+      </label>
+      <div style="display:flex; gap:6px;">
+        <button class="admin-btn" data-index="${index}" data-action="delete">Delete</button>
+      </div>
+    `;
 
-    // Input listeners
-    container.querySelectorAll('input').forEach(input=>{
-      input.addEventListener('input', handleBeerInputChange);
-      input.addEventListener('change', handleBeerInputChange);
-    });
-    container.querySelectorAll('button[data-action="delete"]').forEach(btn=>{
-      btn.addEventListener('click', handleDeleteBeer);
-    });
+    container.appendChild(card);
+  }); // <- closes: (taplist.beers || []).forEach((beer,index) => {
 
-    // --- + Add Beer button ---
-    const addBtn = document.getElementById('addBeerBtn');
-    if(addBtn){
-      addBtn.classList.add('admin-btn');
-      addBtn.onclick = () => {
-        taplist.beers.push({
-          name:'', style:'', producer:'', location:'', abv:'', ibu:'', tags:[], on_tap:false
-        });
-        renderAdminCards();
-      }
-    }
-  }
+  // Input listeners
+  container.querySelectorAll('input').forEach(input => {
+    input.addEventListener('input', handleBeerInputChange);
+    input.addEventListener('change', handleBeerInputChange);
+  }); // <- closes: container.querySelectorAll('input').forEach
+
+  container.querySelectorAll('button[data-action="delete"]').forEach(btn => {
+    btn.addEventListener('click', handleDeleteBeer);
+  });
+
+  // --- + Add Beer button ---
+  const addBtn = document.getElementById('addBeerBtn');
+  if(addBtn){
+    addBtn.classList.add('admin-btn');
+    addBtn.onclick = () => {
+      taplist.beers.push({
+        name:'', style:'', producer:'', location:'', abv:'', ibu:'', tags:[], on_tap:false
+      });
+      renderAdminCards();
+    }; // <- closes: addBtn.onclick
+  } // <- closes: if(addBtn)
+
+} // <- closes: function renderAdminCards()
+
 
   // --- Handle changes ---
   function handleBeerInputChange(e){
@@ -476,8 +483,7 @@ function upsertBeerCard(beer) {
       .catch(err=>console.error('Service worker registration failed:',err))
     );
   }
-  
-});
+
 
 </script>
 </body>
