@@ -151,7 +151,7 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
       <div class="updated" id="lastUpdated">Updated: —</div>
     </div>
     <div style="display:flex; gap:8px; align-items:center;">
-      <input id="search" type="search" placeholder="Search beers, styles or tags" />
+      <input id="search" type="search" placeholder="Search beers, styles, tags, or producer" />
       <button id="refresh">Refresh</button>
     </div>
   </div>
@@ -295,7 +295,9 @@ function upsertBeerCard(beer) {
         const name = (beer.name||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
         const style = (beer.style||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
         const tags = (beer.tags||[]).map(t=>t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""));
-        return name.includes(term) || style.includes(term) || tags.some(tag=>tag.includes(term));
+	 const producer = (beer.producer||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+        return name.includes(term) || style.includes(term) || tags.some(tag=>tag.includes(term))||
+           producer.includes(term);
       });
     }
 
