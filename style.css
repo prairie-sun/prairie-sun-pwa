@@ -199,3 +199,14 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
   margin-top: 8px;
 }
 
+.admin-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+
