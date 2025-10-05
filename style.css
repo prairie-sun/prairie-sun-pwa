@@ -1,13 +1,22 @@
+/* =========================
+   ROOT VARIABLES
+   ========================= */
 :root {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   --gap: 12px;
   --accent: #6b3e1b; /* dark brown accent for buttons/PS cards */
   --muted: #666;
+  --pill-font-size: 0.85rem;
+  --pill-padding: 4px 8px;
+  --pill-radius: 12px;
+  --pill-max-width: 80px;
 }
 
-/* Body & container */
+/* =========================
+   BODY & CONTAINER
+   ========================= */
 body {
-  font-family: sans-serif;
+  font-family: var(--font-family, sans-serif);
   background-color: #fff8f0;
   color: #3e2c1b;
   padding: 20px;
@@ -21,7 +30,9 @@ body {
   z-index: 1;
 }
 
-/* Header */
+/* =========================
+   HEADER
+   ========================= */
 header {
   background: linear-gradient(90deg, #6b3e1b, #8b5a32);
   color: white;
@@ -30,15 +41,29 @@ header {
   top: 0;
   z-index: 1000;
 }
-header h1 { margin: 0; font-size: 1.15rem; letter-spacing: 0.6px; }
-header p { margin: 6px 0 0 0; font-size: 0.9rem; opacity: 0.95; }
 
-/* Beer grid & cards */
-.grid-container { position: relative; }
+header h1 {
+  margin: 0;
+  font-size: 1.15rem;
+  letter-spacing: 0.6px;
+}
+
+header p {
+  margin: 6px 0 0 0;
+  font-size: 0.9rem;
+  opacity: 0.95;
+}
+
+/* =========================
+   BEER GRID & CARDS
+   ========================= */
+.grid-container {
+  position: relative;
+}
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill,minmax(240px,1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: var(--gap);
 }
 
@@ -46,7 +71,7 @@ header p { margin: 6px 0 0 0; font-size: 0.9rem; opacity: 0.95; }
   background: #fff;
   border-radius: 12px;
   padding: 12px;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
   position: relative;
   z-index: 2;
 }
@@ -70,7 +95,9 @@ header p { margin: 6px 0 0 0; font-size: 0.9rem; opacity: 0.95; }
   animation: pulseWatermark 4s infinite ease-in-out;
 }
 
-/* Meta / search */
+/* =========================
+   META / SEARCH
+   ========================= */
 .meta {
   display: flex;
   justify-content: space-between;
@@ -79,7 +106,12 @@ header p { margin: 6px 0 0 0; font-size: 0.9rem; opacity: 0.95; }
   margin-bottom: 10px;
   flex-wrap: wrap;
 }
-.meta .updated { color: var(--muted); font-size: 0.9rem; }
+
+.meta .updated {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 input[type=search] {
   padding: 8px 12px;
   border-radius: 8px;
@@ -88,51 +120,69 @@ input[type=search] {
   max-width: 340px;
 }
 
-/* Pills, tags, sizes */
-.pill { 
-  background: #eee; 
-  padding: 4px 8px; 
-  border-radius: 999px; 
-  font-size: 0.85rem; 
-  text-align: center; 
-  max-width: 80px; 
-}
-
-.on-tap { 
-  background: #dff5e1; 
-  color: #196619; 
-  font-weight: 600; 
-  border-radius: 12px; 
-  font-size: 0.85rem; 
-  max-width: 80px; 
-  text-align: left;           /* left-align text */
-  padding: 4px 8px;
+/* =========================
+   META ROW (ABV / IBU)
+   ========================= */
+.meta-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
   margin-top: 4px;
 }
 
-.not-on {
-  background: #eee;           /* same style as ABV pill */
-  color: #3e2c1b;             /* text color */
+/* =========================
+   PILLS (ABV, IBU, ON TAP, NOT ON)
+   ========================= */
+.pill,
+.pill-on-tap,
+.pill-not-on {
+  display: inline-block;
+  padding: var(--pill-padding);
+  border-radius: var(--pill-radius);
+  font-size: var(--pill-font-size);
+  text-align: left;
+  max-width: var(--pill-max-width);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Standard pills (ABV, IBU, etc.) */
+.pill {
+  background: #eee;
+  color: #3e2c1b;
   font-weight: 600;
-  border-radius: 12px;        /* same as ABV pill */
-  font-size: 0.85rem;         /* same as ABV pill */
-  max-width: 80px;            /* same width as ABV pill */
-  text-align: left;           /* left-align text */
-  padding: 4px 8px;
+}
+
+/* Guest view: On Tap pill */
+.pill-on-tap {
+  background: #dff5e1;
+  color: #196619;
+  font-weight: 600;
   margin-top: 4px;
 }
 
+/* Guest view: Not On pill */
+.pill-not-on {
+  background: #eee;
+  color: #3e2c1b;
+  font-weight: 600;
+  margin-top: 4px;
+}
 
-/* Toggle pill container (On Tap / toggle) */
+/* =========================
+   TOGGLE SWITCHES (Admin)
+   ========================= */
 .toggle-container {
   display: flex;
-  justify-content: space-between; /* label left, toggle right */
+  justify-content: space-between;
   align-items: center;
-  padding: 4px 8px;
-  border-radius: 12px;
+  padding: var(--pill-padding);
+  border-radius: var(--pill-radius);
   background: #dff5e1;
-  font-size: 0.85rem;
-  max-width: 80px; /* match ABV pill */
+  font-size: var(--pill-font-size);
+  max-width: var(--pill-max-width);
   box-sizing: border-box;
 }
 
@@ -148,21 +198,102 @@ input[type=search] {
   flex-shrink: 0;
 }
 
-/* Tags & sizes */
-.tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
-.tag { font-size: 0.78rem; color: var(--muted); background: #f6f6f6; padding: 4px 8px; border-radius: 999px; }
-.sizes { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
-.size { font-weight: 700; }
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+}
 
-/* Footer */
-footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9rem; }
-.tv-note { display: none; }
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 28px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.toggle input:checked + .slider {
+  background-color: #4caf50; /* iPhone-style green */
+}
+
+.toggle input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* =========================
+   TAGS & SIZES
+   ========================= */
+.tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.tag {
+  font-size: 0.78rem;
+  color: var(--muted);
+  background: #f6f6f6;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.sizes {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.size {
+  font-weight: 700;
+}
+
+/* =========================
+   FOOTER
+   ========================= */
+footer {
+  padding: 12px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.tv-note {
+  display: none;
+}
+
 @media (min-width:900px){
   header h1 { font-size: 1.35rem; }
   .tv-note { display: block; font-size: 0.9rem; color: #fff; opacity: 0.9; }
 }
 
-/* Admin page */
+/* =========================
+   ADMIN PAGE
+   ========================= */
 #adminPage {
   display: none;
   position: fixed;
@@ -174,6 +305,7 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
   padding: 14px;
   box-sizing: border-box;
 }
+
 #adminPage > div:first-child {
   position: sticky;
   top: 0;
@@ -185,6 +317,7 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
   align-items: center;
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
 }
+
 #beerList {
   max-height: 60vh;
   overflow-y: auto;
@@ -193,7 +326,9 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
   gap: 10px;
 }
 
-/* Admin login modal */
+/* =========================
+   ADMIN LOGIN MODAL
+   ========================= */
 #adminLoginModal {
   display: none;
   position: fixed;
@@ -202,6 +337,7 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
   justify-content: center; align-items: center;
   z-index: 3000;
 }
+
 #adminLoginModalContent {
   background: #fff;
   padding: 20px;
@@ -212,48 +348,35 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
   flex-direction: column;
   gap: 12px;
 }
-#adminLoginError { color: red; display: none; font-size: 0.9rem; }
 
-/* Toggle switches */
-.toggle { position: relative; display: inline-block; width: 50px; height: 28px; }
-.toggle input { opacity: 0; width: 0; height: 0; }
-.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: 0.4s; border-radius: 28px; }
-.slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px; background-color: white; transition: 0.4s; border-radius: 50%; }
-.toggle input:checked + .slider { background-color: #4caf50; }
-.toggle input:checked + .slider:before { transform: translateX(22px); }
+#adminLoginError {
+  color: red;
+  display: none;
+  font-size: 0.9rem;
+}
 
-/* Admin button */
+/* =========================
+   ADMIN BUTTONS
+   ========================= */
 #adminBtn {
   position: relative;
   z-index: 9999;
   cursor: pointer;
-  background-color: var(--accent); /* dark brown background */
-  color: white;                    /* text color */
-  padding: 6px 12px;               /* add some padding */
-  border-radius: 6px;              /* rounded corners */
-  border: none;                     /* remove default border */
+  background-color: var(--accent);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
   font-size: 0.9rem;
 }
 
-/* Pulse animation */
-@keyframes pulseWatermark {
-  0%, 100% { opacity: 0.12; }
-  50% { opacity: 0.18; }
-}
-
-/* Mobile tweaks */
-@media (max-width: 500px) {
-  .card { padding: 8px; }
-  .tags, .sizes { gap: 4px; }
-}
-
-/* Admin Controls Bar */
 #adminControls {
   display: none;
   gap: 10px;
   margin: 10px 0;
   align-items: center;
 }
+
 #adminControls .admin-btn {
   font-size: 0.9rem;
   padding: 6px 12px;
@@ -262,4 +385,20 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
   background: var(--accent);
   color: white;
   cursor: pointer;
+}
+
+/* =========================
+   ANIMATIONS
+   ========================= */
+@keyframes pulseWatermark {
+  0%, 100% { opacity: 0.12; }
+  50% { opacity: 0.18; }
+}
+
+/* =========================
+   MOBILE TWEAKS
+   ========================= */
+@media (max-width: 500px) {
+  .card { padding: 8px; }
+  .tags, .sizes { gap: 4px; }
 }

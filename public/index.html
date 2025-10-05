@@ -224,51 +224,55 @@ document.addEventListener('DOMContentLoaded', () => {
 function upsertBeerCard(beer) {
   let card = document.getElementById(`beer-${beer.id}`);
 
-  // --- Toggle / pill display ---
-  let toggleHTML;
-  if (isAdmin) {
-    // Admin sees the green iPhone-style toggle
-    toggleHTML = `
-      <div class="toggle-container">
-        <label class="toggle">
-          <input type="checkbox" ${beer.on_tap ? 'checked' : ''} onchange="handleToggle('${beer.id}', this.checked)" />
-          <span class="slider"></span>
-        </label>
-        <span class="toggle-label">On tap</span>
-      </div>`;
-  } else {
-    // Regular users see left-aligned pills
-    toggleHTML = beer.on_tap
-      ? `<div class="on-tap">On tap</div>`
-      : `<div class="not-on">Not on</div>`;
-  }
+  // Decide how "On Tap" / "Not On" appears
+  const toggleHTML = isAdmin ? `
+    <div class="toggle-container">
+      <label class="toggle">
+        <input type="checkbox" ${beer.on_tap ? 'checked' : ''} onchange="handleToggle('${beer.id}', this.checked)" />
+        <span class="slider"></span>
+      </label>
+      <span class="toggle-label">${beer.on_tap ? 'On tap' : 'Not on'}</span>
+    </div>` :
+    (beer.on_tap ? `<div class="pill-on-tap">On tap</div>` : `<div class="pill-not-on">Not on</div>`);
 
-  // --- Card inner HTML ---
   const innerHTML = `
-    <h3>${escapeHtml(beer.name)}${beer.style ? `<span style="font-weight:400; font-size:0.86rem; color:var(--muted)">— ${escapeHtml(beer.style)}</span>` : ''}</h3>
+    <h3>${escapeHtml(beer.name)}${beer.style ? `<span style="font-weight:400; font-size:0.86rem; color:var(--muted)"> — ${escapeHtml(beer.style)}</span>` : ''}</h3>
+
     <div style="font-size:0.85rem; color:var(--muted); margin-top:2px">
       ${escapeHtml(beer.producer || '')}${beer.location ? ', ' + escapeHtml(beer.location) : ''}
     </div>
+
     <div class="meta-row">
       <div class="pill">ABV: ${beer.abv ?? '—'}%</div>
       ${beer.ibu ? `<div class="pill">IBU: ${beer.ibu}</div>` : ''}
     </div>
+
     ${toggleHTML}
-    <p style="margin-top:8px; color:var(--muted); font-size:0.95rem">${escapeHtml(beer.description || '')}</p>
-    <div class="sizes">${(beer.sizes || []).map(s => `<div class="size">${escapeHtml(s.label)} — $${Number(s.price).toFixed(2)}</div>`).join('')}</div>
-    <div class="tags">${(beer.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+
+    <p style="margin-top:8px; color:var(--muted); font-size:0.95rem">
+      ${escapeHtml(beer.description || '')}
+    </p>
+
+    <div class="sizes">
+      ${(beer.sizes || []).map(s => `<div class="size">${escapeHtml(s.label)} — $${Number(s.price).toFixed(2)}</div>`).join('')}
+    </div>
+
+    <div class="tags">
+      ${(beer.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
+    </div>
   `;
 
-  // --- Create or update card ---
+  // Create card if it doesn’t exist
   if (!card) {
     card = document.createElement('article');
     card.id = `beer-${beer.id}`;
     card.className = 'card';
     beerGrid.appendChild(card);
   }
+
   card.innerHTML = innerHTML;
 
-  // --- Prairie Sun special styling ---
+  // Prairie Sun special styling
   if (beer.producer === "Prairie Sun Brewery") {
     card.style.border = '2px solid var(--accent)';
     card.style.position = 'relative';
@@ -288,6 +292,7 @@ function upsertBeerCard(beer) {
     card.style.overflow = '';
   }
 }
+
 
   function renderTaplist(data, filterTerm='') {
     if(!data) return;
