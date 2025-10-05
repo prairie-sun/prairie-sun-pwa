@@ -1,3 +1,4 @@
+// --- Imports ---
 const express = require('express');
 const fs = require('fs');
 const WebSocket = require('ws');
@@ -5,20 +6,26 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const { Octokit } = require("@octokit/rest");
 
+// --- App setup ---
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// GitHub integration
+// --- GitHub integration ---
 const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 const owner = "prairie-sun";      // GitHub username/org
 const repo = "prairie-sun-pwa";   // Repo name
-const branch = "main";             // Branch to update
+const branch = "main";            // Branch to update
 
-// Middleware
+// --- Middleware ---
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Load taplist.json
+// --- Health check endpoint ---
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
+// --- Load taplist.json ---
 let taplist;
 try {
   taplist = JSON.parse(fs.readFileSync(path.join(__dirname, 'public', 'taplist.json')));
@@ -47,29 +54,13 @@ async function updateTaplistOnGitHub(content) {
       branch
     });
 
-    console.log("taplist.json updated on GitHub");
+    console.log("✅ taplist.json updated on GitHub");
   } catch (err) {
-    console.error("Failed to update taplist.json on GitHub:", err);
+    console.error("❌ Failed to update taplist.json on GitHub:", err);
   }
 }
 
-// --- Start server ---
-const server = app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
-
-// --- WebSocket setup ---
-const wss = new WebSocket.Server({ server });
-
-wss.on('connection', (ws) => {
-  console.log('New client connected');
-  ws.send(JSON.stringify({ type: 'taplist-update', taplist }));
-
-  ws.on('close', () => console.log('Client disconnected'));
-});
-
-
-// --- Update beer status endpoint ---
+// --- Express endpoints ---
 app.post('/update-beer-status', async (req, res) => {
   const { beerId, onTap } = req.body;
   const beer = taplist.beers.find(b => b.id === beerId);
@@ -80,38 +71,64 @@ app.post('/update-beer-status', async (req, res) => {
 
   fs.writeFileSync(path.join(__dirname, 'public', 'taplist.json'), JSON.stringify(taplist, null, 2));
 
-  wss.clients.forEach(client => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify({ type: 'taplist-update', taplist }));
-    }
-  });
+  // Broadcast update
+  const wss = app.get('wss');
+  if (wss) {
+    wss.clients.forEach(client => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'taplist-update', taplist }));
+      }
+    });
+  }
 
   await updateTaplistOnGitHub(taplist);
 
   res.json({ success: true });
 });
 
-// --- Save multiple beer updates endpoint ---
 app.post('/save-taplist', async (req, res) => {
   const { updates } = req.body;
-  if(!updates || typeof updates !== 'object') return res.status(400).json({ success:false, message:'Invalid request' });
+  if (!updates || typeof updates !== 'object')
+    return res.status(400).json({ success: false, message: 'Invalid request' });
 
   Object.entries(updates).forEach(([beerId, onTap]) => {
     const beer = taplist.beers.find(b => b.id === beerId);
-    if(beer) beer.on_tap = onTap;
+    if (beer) beer.on_tap = onTap;
   });
   taplist.meta.last_updated = new Date().toISOString();
 
   fs.writeFileSync(path.join(__dirname, 'public', 'taplist.json'), JSON.stringify(taplist, null, 2));
 
-  wss.clients.forEach(client => {
-    if(client.readyState === WebSocket.OPEN){
-      client.send(JSON.stringify({ type:'taplist-update', taplist }));
-    }
-  });
+  // Broadcast update
+  const wss = app.get('wss');
+  if (wss) {
+    wss.clients.forEach(client => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'taplist-update', taplist }));
+      }
+    });
+  }
 
   await updateTaplistOnGitHub(taplist);
 
-  res.json({ success:true });
+  res.json({ success: true });
 });
 
+// --- Start server (delayed startup for Render stability) ---
+setTimeout(() => {
+  const server = app.listen(PORT, () => {
+    console.log(`✅ Server fully initialized on port ${PORT}`);
+  });
+
+  const wss = new WebSocket.Server({ server });
+
+  wss.on('connection', (ws) => {
+    console.log('🔗 New client connected');
+    ws.send(JSON.stringify({ type: 'taplist-update', taplist }));
+
+    ws.on('close', () => console.log('❌ Client disconnected'));
+  });
+
+  app.set('wss', wss);
+
+}, 500);
