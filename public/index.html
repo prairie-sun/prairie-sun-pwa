@@ -190,6 +190,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
     return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,'0')).join('');
   }
+  
+    // --- Handle Admin button click ---
+  adminBtn.addEventListener('click', () => {
+    adminModal.style.display = 'flex';
+    document.getElementById('adminPasswordInput').value = '';
+    document.getElementById('adminLoginError').style.display = 'none';
+  });
+
+  document.getElementById('modalExitBtn').addEventListener('click', () => {
+    adminModal.style.display = 'none';
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') adminModal.style.display = 'none';
+  });
 
   // --- Beer card update ---
   window.handleToggle = (beerId, onTap) => {
