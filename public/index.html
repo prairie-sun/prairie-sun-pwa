@@ -164,7 +164,20 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
   </footer>
 </div>
 
-<!-- Admin login modal -->
+<!-- Full-page Admin Panel -->
+<div id="adminPage" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#fbfbfb; overflow-y:auto; z-index:200; padding:14px; box-sizing:border-box;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+    <h2>Manage Taplist</h2>
+    <div style="display:flex; gap:8px;">
+      <button id="saveTaplistBtn" class="pill" style="background: var(--accent); color:white;">Save Changes</button>
+      <button id="exitAdminBtn" class="pill" style="background:#aaa; color:white;">Exit Admin</button>
+    </div>
+  </div>
+  <button id="addBeerBtn" class="pill" style="margin-bottom:12px;">+ Add Beer</button>
+  <div id="beerList" style="display:flex; flex-direction:column; gap:10px;"></div>
+</div>
+
+<!-- Admin login modal (unchanged) -->
 <div id="adminLoginModal">
   <div id="adminLoginModalContent">
     <h3>Admin Login</h3>
@@ -172,17 +185,6 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
     <button id="adminLoginBtn">Login</button>
     <div id="adminLoginError">Incorrect password</div>
     <button id="modalExitBtn">Exit</button>
-  </div>
-</div>
-
-<!-- Admin Taplist Management Panel -->
-<div id="adminPanel" class="card" style="display:none; margin-top:14px;">
-  <h3 style="margin-bottom:12px;">Manage Taplist</h3>
-  <button id="addBeerBtn" class="pill">+ Add Beer</button>
-  <div id="beerList" style="margin-top:12px; display:flex; flex-direction:column; gap:10px;"></div>
-  <div style="display:flex; gap:8px; margin-top:14px;">
-    <button id="saveTaplistBtn" class="pill" style="background: var(--accent); color:white;">Save Changes</button>
-    <button id="exitAdminBtn" class="pill" style="background:#aaa; color:white;">Exit Admin</button>
   </div>
 </div>
 
@@ -340,123 +342,129 @@ function upsertBeerCard(beer) {
     fetch(API_URL).then(r=>r.json()).then(data=> renderTaplist(data)).catch(console.error);
   });
 
-  // --- Admin login ---
-  adminBtn.addEventListener('click', () => adminModal.style.display='flex');
+// --- Admin login ---
+adminBtn.addEventListener('click', () => adminModal.style.display='flex');
 
-  document.getElementById('adminPasswordInput').addEventListener('keydown', e => {
-    if(e.key === 'Enter') document.getElementById('adminLoginBtn').click();
-  });
+document.getElementById('adminPasswordInput').addEventListener('keydown', e => {
+  if(e.key === 'Enter') document.getElementById('adminLoginBtn').click();
+});
 
-  document.getElementById('adminLoginBtn').onclick = async () => {
-    const input = document.getElementById('adminPasswordInput').value;
-    const inputHash = await sha256(input);
-    const ADMIN_PASSWORD_HASH = "fa9fdcce5d12f32fd2018b3ca1299fea52be175ed53930e04203a4eed7480158";
+document.getElementById('adminLoginBtn').onclick = async () => {
+  const input = document.getElementById('adminPasswordInput').value;
+  const inputHash = await sha256(input);
+  const ADMIN_PASSWORD_HASH = "fa9fdcce5d12f32fd2018b3ca1299fea52be175ed53930e04203a4eed7480158";
 
-    if(inputHash===ADMIN_PASSWORD_HASH){
-      isAdmin = true;
-      sessionStorage.setItem('isAdmin','true');
-      adminModal.style.display='none';
-      adminBtn.style.display='none';
-      renderTaplist(taplist);
-      adminPanel.style.display='block';
-      renderAdminCards();
-    } else {
-      document.getElementById('adminLoginError').style.display='block';
-    }
-  };
+  if(inputHash===ADMIN_PASSWORD_HASH){
+    isAdmin = true;
+    sessionStorage.setItem('isAdmin','true');
+    adminModal.style.display='none';
+    adminBtn.style.display='none';
+    
+    // Hide guest taplist and show admin page
+    document.querySelector('.container').style.display='none';
+    document.getElementById('adminPage').style.display='block';
 
-  document.getElementById('modalExitBtn').onclick = () => {
-    adminModal.style.display = 'none';
-    document.getElementById('adminPasswordInput').value = '';
-    document.getElementById('adminLoginError').style.display = 'none';
-  };
-
-  // --- Admin panel ---
-  function renderAdminCards() {
-    const container = document.getElementById('beerList');
-    container.innerHTML = '';
-
-    (taplist.beers || []).forEach((beer,index)=>{
-      const card = document.createElement('div');
-      card.className='card';
-      card.style.display='flex';
-      card.style.flexDirection='column';
-      card.style.gap='6px';
-
-      card.innerHTML = `
-        <input type="text" placeholder="Name" value="${beer.name||''}" data-index="${index}" data-field="name" />
-        <input type="text" placeholder="Style" value="${beer.style||''}" data-index="${index}" data-field="style" />
-        <input type="text" placeholder="Producer" value="${beer.producer||''}" data-index="${index}" data-field="producer" />
-        <input type="text" placeholder="Tags (comma-separated)" value="${(beer.tags||[]).join(', ')}" data-index="${index}" data-field="tags" />
-        <label style="display:flex; align-items:center; gap:6px;">
-          On Tap:
-          <input type="checkbox" ${beer.on_tap ? 'checked':''} data-index="${index}" data-field="on_tap" />
-        </label>
-        <button class="pill" style="background:#ff6666; color:white;" data-index="${index}" data-action="delete">Delete</button>
-      `;
-
-      container.appendChild(card);
-    });
-
-    // Input listeners
-    container.querySelectorAll('input').forEach(input=>{
-      input.addEventListener('input', handleBeerInputChange);
-      input.addEventListener('change', handleBeerInputChange);
-    });
-    container.querySelectorAll('button[data-action="delete"]').forEach(btn=>{
-      btn.addEventListener('click', handleDeleteBeer);
-    });
-  }
-
-  function handleBeerInputChange(e){
-    const index = e.target.dataset.index;
-    const field = e.target.dataset.field;
-    if(field==='on_tap') taplist.beers[index][field] = e.target.checked;
-    else if(field==='tags') taplist.beers[index][field] = e.target.value.split(',').map(t=>t.trim());
-    else taplist.beers[index][field] = e.target.value;
-  }
-
-  function handleDeleteBeer(e){
-    const index = e.target.dataset.index;
-    if(confirm('Are you sure you want to delete this beer?')) {
-      taplist.beers.splice(index,1);
-      renderAdminCards();
-    }
-  }
-
-  document.getElementById('addBeerBtn').addEventListener('click', () => {
-    taplist.beers.push({name:'',style:'',producer:'',tags:[],on_tap:false});
     renderAdminCards();
+  } else {
+    document.getElementById('adminLoginError').style.display='block';
+  }
+};
+
+document.getElementById('modalExitBtn').onclick = () => {
+  adminModal.style.display = 'none';
+  document.getElementById('adminPasswordInput').value = '';
+  document.getElementById('adminLoginError').style.display = 'none';
+};
+
+// --- Admin panel rendering ---
+function renderAdminCards() {
+  const container = document.getElementById('beerList');
+  container.innerHTML = '';
+
+  (taplist.beers || []).forEach((beer,index)=>{
+    const card = document.createElement('div');
+    card.className='card';
+    card.style.display='flex';
+    card.style.flexDirection='column';
+    card.style.gap='6px';
+
+    card.innerHTML = `
+      <input type="text" placeholder="Name" value="${beer.name||''}" data-index="${index}" data-field="name" />
+      <input type="text" placeholder="Style" value="${beer.style||''}" data-index="${index}" data-field="style" />
+      <input type="text" placeholder="Producer" value="${beer.producer||''}" data-index="${index}" data-field="producer" />
+      <input type="text" placeholder="Location" value="${beer.location||''}" data-index="${index}" data-field="location" />
+      <input type="number" placeholder="ABV (%)" value="${beer.abv||''}" data-index="${index}" data-field="abv" />
+      <input type="number" placeholder="IBU" value="${beer.ibu||''}" data-index="${index}" data-field="ibu" />
+      <input type="text" placeholder="Tags (comma-separated)" value="${(beer.tags||[]).join(', ')}" data-index="${index}" data-field="tags" />
+      <label style="display:flex; align-items:center; gap:6px;">
+        On Tap:
+        <input type="checkbox" ${beer.on_tap ? 'checked':''} data-index="${index}" data-field="on_tap" />
+      </label>
+      <button class="pill" style="background:#ff6666; color:white;" data-index="${index}" data-action="delete">Delete</button>
+    `;
+
+    container.appendChild(card);
   });
 
-  document.getElementById('saveTaplistBtn').addEventListener('click', async () => {
-    try {
-      taplist.meta.last_updated = new Date().toISOString();
-      const res = await fetch('/updateTaplist', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify(taplist)
-      });
-      if(res.ok){
-        alert('Taplist saved successfully!');
-        pendingUpdates = {};
-        renderTaplist(taplist);
-      } else alert('Failed to save taplist.');
-    } catch(err) {
-      console.error(err);
-      alert('Error saving taplist.');
-    }
+  // Input listeners
+  container.querySelectorAll('input').forEach(input=>{
+    input.addEventListener('input', handleBeerInputChange);
+    input.addEventListener('change', handleBeerInputChange);
   });
+  container.querySelectorAll('button[data-action="delete"]').forEach(btn=>{
+    btn.addEventListener('click', handleDeleteBeer);
+  });
+}
 
-  // Exit admin
-  document.getElementById('exitAdminBtn').onclick = () => {
-    isAdmin = false;
-    sessionStorage.removeItem('isAdmin');
-    adminPanel.style.display = 'none';
-    adminBtn.style.display = 'inline-block';
-    pendingUpdates = {};
-    renderTaplist(taplist, searchEl.value);
-  };
+function handleBeerInputChange(e){
+  const index = e.target.dataset.index;
+  const field = e.target.dataset.field;
+  if(field==='on_tap') taplist.beers[index][field] = e.target.checked;
+  else if(field==='tags') taplist.beers[index][field] = e.target.value.split(',').map(t=>t.trim());
+  else if(field==='abv' || field==='ibu') taplist.beers[index][field] = Number(e.target.value);
+  else taplist.beers[index][field] = e.target.value;
+}
+
+function handleDeleteBeer(e){
+  const index = e.target.dataset.index;
+  if(confirm('Are you sure you want to delete this beer?')) {
+    taplist.beers.splice(index,1);
+    renderAdminCards();
+  }
+}
+
+document.getElementById('addBeerBtn').addEventListener('click', () => {
+  taplist.beers.push({name:'',style:'',producer:'',location:'',abv:'',ibu:'',tags:[],on_tap:false});
+  renderAdminCards();
+});
+
+document.getElementById('saveTaplistBtn').addEventListener('click', async () => {
+  try {
+    taplist.meta.last_updated = new Date().toISOString();
+    const res = await fetch('/updateTaplist', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(taplist)
+    });
+    if(res.ok){
+      alert('Taplist saved successfully!');
+      renderAdminCards();
+    } else alert('Failed to save taplist.');
+  } catch(err) {
+    console.error(err);
+    alert('Error saving taplist.');
+  }
+});
+
+// Exit admin
+document.getElementById('exitAdminBtn').onclick = () => {
+  isAdmin = false;
+  sessionStorage.removeItem('isAdmin');
+  document.getElementById('adminPage').style.display='none';
+  document.querySelector('.container').style.display='block';
+  adminBtn.style.display='inline-block';
+  renderTaplist(taplist, searchEl.value);
+};
 
   // --- Initial load ---
   fetch(API_URL).then(r=>r.json()).then(data=>renderTaplist(data)).catch(console.error);

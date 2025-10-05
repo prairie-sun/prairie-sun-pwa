@@ -64,3 +64,30 @@ body {
   color: var(--muted);
 }
 
+/* Sticky top-right buttons in Admin Page */
+#adminPage > div:first-child {
+  position: sticky;
+  top: 0;
+  background: #fbfbfb;
+  padding: 14px 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+/* Optional: make the Save/Exit buttons slightly bigger for touch */
+#adminPage button.pill {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Scrollable admin page */
+#adminPage {
+  overflow-y: auto;
+}
+
+
