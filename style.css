@@ -1,3 +1,11 @@
+:root {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --gap: 12px;
+  --accent: #6b3e1b; /* dark brown accent for buttons/PS cards */
+  --muted: #666;
+}
+
+/* Body & container */
 body {
   font-family: sans-serif;
   background-color: #fff8f0;
@@ -5,19 +13,40 @@ body {
   padding: 20px;
   margin: 0;
 }
-
-/* Beer cards */
-.beer-card {
-  border: 2px solid #6b3e1b;
-  border-radius: 10px;
-  padding: 15px;
-  margin: 10px 0;
-  background-color: #fff;
-  position: relative; /* needed for logo overlay */
-  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative; /* safe scroll area */
+  z-index: 1;
 }
 
-/* Prairie Sun logo overlay */
+/* Header */
+header {
+  background: linear-gradient(90deg, #6b3e1b, #8b5a32);
+  color: white;
+  padding: 18px 14px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+header h1 { margin: 0; font-size: 1.15rem; letter-spacing: 0.6px; }
+header p { margin: 6px 0 0 0; font-size: 0.9rem; opacity: 0.95; }
+
+/* Beer grid & cards */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(240px,1fr));
+  gap: var(--gap);
+}
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  /* position and overflow only for Prairie Sun cards in JS */
+}
+
+/* Prairie Sun overlay */
 .ps-overlay {
   position: absolute;
   top: 50%;
@@ -36,127 +65,109 @@ body {
   animation: pulseWatermark 4s infinite ease-in-out;
 }
 
-/* Toggle switch */
-.toggle {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 28px;
+/* Meta / search */
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
 }
-
-.toggle input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 28px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 22px;
-  width: 22px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
-}
-
-.toggle input:checked + .slider {
-  background-color: #4caf50;
-}
-
-.toggle input:checked + .slider:before {
-  transform: translateX(22px);
-}
-
-.toggle-label {
-  margin-left: 6px;
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-/* Admin Page styling */
-#adminPage {
-  position: fixed;
-  top: 0;
-  left: 0;
+.meta .updated { color: var(--muted); font-size: 0.9rem; }
+input[type=search] {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
   width: 100%;
-  height: 100%;
-  background: #fbfbfb;
-  overflow-y: auto; /* ensures scrollable if content exceeds viewport */
-  z-index: 200;
-  padding: 0 14px 14px 14px;
-  box-sizing: border-box;
-  display: none; /* hidden by default */
+  max-width: 340px;
 }
 
-/* Sticky top header inside Admin page */
+/* Pills, tags, sizes */
+.pill { background: #eee; padding: 4px 8px; border-radius: 999px; font-size: 0.85rem; }
+.on-tap { background: #dff5e1; color: #196619; font-weight: 600; padding: 4px 8px; border-radius: 8px; }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.tag { font-size: 0.78rem; color: var(--muted); background: #f6f6f6; padding: 4px 8px; border-radius: 999px; }
+.sizes { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+.size { font-weight: 700; }
+
+/* Footer */
+footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9rem; }
+.tv-note { display: none; }
+@media (min-width:900px){
+  header h1 { font-size: 1.35rem; }
+  .tv-note { display: block; font-size: 0.9rem; color: #fff; opacity: 0.9; }
+}
+
+/* Admin page */
+#adminPage {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: #fbfbfb;
+  overflow-y: auto;
+  z-index: 200;
+  padding: 14px;
+  box-sizing: border-box;
+}
 #adminPage > div:first-child {
   position: sticky;
   top: 0;
   background: #fbfbfb;
   padding: 14px 0;
-  z-index: 201; /* above content */
+  z-index: 201;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
 }
-
-/* Save/Exit buttons */
-#adminPage button.pill {
-  padding: 6px 12px;
-  font-size: 0.9rem;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-/* Admin Panel inside page */
-#adminPanel {
-  display: block;
-  margin-top: 20px;
-  border-top: 1px solid #ccc;
-  padding-top: 12px;
-}
-
-/* Panel header */
-#adminPanel h3 {
-  margin-bottom: 12px;
-}
-
-/* Scrollable beer list inside Admin panel */
 #beerList {
-  max-height: 60vh; /* limits height to 60% of viewport */
-  overflow-y: auto; /* enables scroll if too many beers */
+  max-height: 60vh;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-/* Prairie Sun logo pulse animation */
-@keyframes pulseWatermark {
-  0%, 100% { opacity: 0.12; }
-  50% { opacity: 0.18; }
+/* Admin login modal */
+#adminLoginModal {
+  display: none;
+  position: fixed;
+  top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center; align-items: center;
 }
+#adminLoginModalContent {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 300px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+#adminLoginError { color: red; display: none; font-size: 0.9rem; }
 
-/* Ensure Admin button is clickable above everything */
+/* Toggle switches */
+.toggle { position: relative; display: inline-block; width: 50px; height: 28px; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: 0.4s; border-radius: 28px; }
+.slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px; background-color: white; transition: 0.4s; border-radius: 50%; }
+.toggle input:checked + .slider { background-color: #4caf50; }
+.toggle input:checked + .slider:before { transform: translateX(22px); }
+.toggle-label { margin-left: 6px; font-size: 0.85rem; color: var(--muted); }
+
+/* Admin button */
 #adminBtn {
   position: relative;
-  z-index: 202;
+  z-index: 999; /* clickable above everything */
   cursor: pointer;
 }
 
-/* Prevent logo overlays from blocking interactions */
-.ps-overlay {
-  pointer-events: none;
+/* Pulse animation */
+@keyframes pulseWatermark {
+  0%, 100% { opacity: 0.12; }
+  50% { opacity: 0.18; }
 }
