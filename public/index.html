@@ -30,35 +30,36 @@
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-/* Base layout for all devices (desktop & mobile) */
+/* Default / Desktop styles */
 html, body {
   height: 100%;
   margin: 0;
   background: var(--bg);
   color: #111;
-  box-sizing: border-box;
+}
+.container {
+  padding: 14px;
+  max-width: 900px;
+  margin: 0 auto; /* centers container */
+  overflow: visible; /* let grid expand */
+  flex: none; /* disable mobile flex adjustments */
 }
 
-/* Header and container */
+/* Header */
 header {
   background: linear-gradient(90deg,var(--accent),#8b5a32);
   color: white;
   padding: 18px 14px;
 }
-
 header h1 { margin: 0; font-size: 1.15rem; letter-spacing: 0.6px; }
 header p { margin: 6px 0 0 0; font-size: 0.9rem; opacity: 0.95; }
 
-.container { 
-  padding: 14px; 
-  max-width: 900px; 
-  margin: 0 auto; 
-}
-
-/* Meta, grid, cards */
+/* Meta / Search */
 .meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
 .meta .updated { color: var(--muted); font-size: 0.9rem; }
 input[type=search] { padding: 8px 12px; border-radius: 8px; border: 1px solid #ddd; width: 100%; max-width: 340px; }
+
+/* Grid & Cards */
 .grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: var(--gap); }
 .card { background: var(--card); border-radius: 12px; padding: 12px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
 .card h3 { margin: 0; font-size: 1.02rem; }
@@ -75,6 +76,32 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
 @media (min-width:900px){
   header h1 { font-size: 1.35rem; }
   .tv-note { display: block; font-size: 0.9rem; color: #fff; opacity: 0.9; }
+}
+
+/* iPhone / PWA safe-area adjustments */
+@media (max-width: 900px) and (orientation: portrait) {
+  @supports (padding: max(env(safe-area-inset-top))) {
+    html, body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    header {
+      padding: calc(18px + env(safe-area-inset-top)) 14px 18px 14px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .container {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      max-width: 100%;
+      margin: 0;
+    }
+  }
 }
 
 /* iPhone-style toggle */
@@ -98,28 +125,6 @@ footer { padding: 12px; color: var(--muted); text-align: center; font-size: 0.9r
   display: flex; flex-direction: column; gap: 12px;
 }
 #adminLoginError { color: red; display: none; font-size: 0.9rem; }
-
-/* iOS PWA / notch / safe-area adjustments */
-@supports (padding: max(env(safe-area-inset-top))) {
-  body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-  }
-
-  header {
-    padding: calc(18px + env(safe-area-inset-top)) 14px 18px 14px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .container {
-    flex: 1 1 auto;
-    overflow-y: auto;
-  }
-}
 </style>
 
 
