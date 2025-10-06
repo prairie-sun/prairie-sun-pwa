@@ -18,7 +18,10 @@ const branch = "main";            // Branch to update
 
 // --- Middleware ---
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), {
+  maxAge: '0',
+  etag: false
+}));
 
 // --- Health check endpoint ---
 app.get('/health', (req, res) => {
