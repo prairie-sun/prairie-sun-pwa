@@ -105,7 +105,7 @@ header > div {
   top: 50%;
   right: 5%;
   transform: translateY(-50%);
-  background-image: url("images/prairie-sun-light-logo.PNG");
+  background-image: url("/images/prairie-sun-light-logo.PNG");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -113,8 +113,7 @@ header > div {
   pointer-events: none;
   z-index: 0;
   width: 25%;
-  max-width: 120px;
-  height: auto;
+  aspect-ratio: 1 / 1;
   animation: pulseWatermark 4s infinite ease-in-out;
 }
 
@@ -183,76 +182,54 @@ input[type=search] {
 }
 
 /* =========================
-   TOGGLE SWITCHES (Admin)
+   Admin Toggle container
    ========================= */
 .toggle-container {
   display: flex;
-  justify-content: space-between; /* label left, slider right */
+  justify-content: space-between; /* keep label left, slider right */
   align-items: center;
   padding: var(--pill-padding);
   border-radius: var(--pill-radius);
   background: #dff5e1;
   font-size: var(--pill-font-size);
-  width: 100%; /* take full width of the card */
+  width: 100%;
 }
 
-.toggle-container span.toggle-label {
-  text-align: left;
-  white-space: nowrap;
-  flex-shrink: 0;
-  margin: 0;
-}
-
+/* Move the slider to the far right */
 .toggle-container .toggle {
-  margin-left: auto;       /* push slider to right */
+  margin-left: auto;   /* ensures slider goes to far right */
   flex-shrink: 0;
 }
 
-/* slider itself */
+/* Optional: increase width of the toggle box if you want more spacing */
 .toggle {
+  width: 60px;  /* wider so knob sits more to the right */
+  height: 28px;
   position: relative;
   display: inline-block;
-  width: 50px;   /* wider for more rightward knob movement */
-  height: 28px;
 }
 
-.toggle input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 28px;
-}
-
+/* Slider knob */
 .slider:before {
-  position: absolute;
-  content: "";
-  height: 22px;   
+  left: 3px;  /* starting position */
+  bottom: 3px;
   width: 22px;
-  left: 3px;      
-  bottom: 2px;
-  background-color: white;
-  transition: 0.4s;
+  height: 22px;
   border-radius: 50%;
+  background: white;
+  transition: 0.4s;
 }
 
-.toggle input:checked + .slider {
-  background-color: #4caf50; /* iPhone-style green */
-}
-
+/* Move knob further right when checked */
 .toggle input:checked + .slider:before {
-  transform: translateX(22px); /* slide knob further right when on */
+  transform: translateX(32px); /* wider than before so it ends far right */
 }
+
+/* Keep green background on active */
+.toggle input:checked + .slider {
+  background-color: #4caf50;
+}
+
 
 /* Responsive tweak for mobile */
 @media (max-width: 500px) {
@@ -447,4 +424,10 @@ html, body {
   .card { padding: 8px; }
   .tags, .sizes { gap: 4px; }
 }
+@media (max-width: 500px) {
+  .pill {
+    max-width: 120px;   /* bigger pill on mobile so ABV fits */
+  }
+}
+
 
