@@ -344,24 +344,35 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTaplist();
   }
 
-  // --- Save taplist ---
-  saveTaplistBtn.onclick = async () => {
-    try {
-      taplist.meta.last_updated = new Date().toISOString();
-      const res = await fetch('/save-taplist', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify(taplist)
-      });
-      if(res.ok){
-        alert('Taplist saved successfully!');
-        renderTaplist();
-      } else alert('Failed to save taplist.');
-    } catch(err) {
-      console.error(err);
-      alert('Error saving taplist.');
+// --- Save taplist ---
+saveTaplistBtn.onclick = async () => {
+  try {
+    // Prepare updates object: { beerId: onTap, ... }
+    const updates = Object.fromEntries(
+      taplist.beers.map(b => [b.id, b.on_tap])
+    );
+
+    taplist.meta.last_updated = new Date().toISOString();
+
+    const res = await fetch('/save-taplist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ updates })
+    });
+
+    if (res.ok) {
+      alert('Taplist saved successfully!');
+      renderTaplist();  // re-render UI to reflect current taplist
+    } else {
+      const data = await res.json();
+      alert(`Failed to save taplist: ${data.message || res.statusText}`);
     }
+  } catch (err) {
+    console.error(err);
+    alert('Error saving taplist.');
   }
+};
+
 
   // --- Exit admin ---
   exitAdminBtn.onclick = () => {
