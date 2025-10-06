@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-06T20:54:44.411Z"
+    "last_updated": "2025-10-06T20:55:57.104Z"
   },
   "beers": [
     {
@@ -384,7 +384,7 @@
       "producer": "Prairie Sun Brewery",
       "location": "Saskatoon, SK",
       "style": "IPA",
-      "abv": "6.0",
+      "abv": 6,
       "ibu": null,
       "sizes": [
         {
@@ -409,7 +409,7 @@
       "producer": "Pile O' Bones Brewing",
       "location": "Regina, SK",
       "style": "IPA",
-      "abv": "5.0",
+      "abv": 5,
       "ibu": null,
       "sizes": [
         {
@@ -467,7 +467,7 @@
       "producer": "Saskatoon Brewing",
       "location": "Saskatoon, SK",
       "style": "IPA",
-      "abv": "6.0",
+      "abv": 6,
       "ibu": null,
       "sizes": [
         {
@@ -517,7 +517,7 @@
       "producer": "Flatlander Cidery",
       "location": "Saskatoon, SK",
       "style": "Cider",
-      "abv": "5.0",
+      "abv": 5,
       "ibu": null,
       "sizes": [
         {
@@ -546,7 +546,7 @@
       "producer": "Flatlander Cidery",
       "location": "Saskatoon, SK",
       "style": "Cider",
-      "abv": "5.0",
+      "abv": 5,
       "ibu": null,
       "sizes": [
         {
@@ -575,7 +575,7 @@
       "producer": "High Key Brewing",
       "location": "Saskatoon, SK",
       "style": "Sour",
-      "abv": "5.0",
+      "abv": 5,
       "ibu": null,
       "sizes": [
         {
@@ -633,7 +633,7 @@
       "producer": "Lucky Bastard",
       "location": "Saskatoon, SK",
       "style": "Seltzer",
-      "abv": "5.0",
+      "abv": 5,
       "ibu": null,
       "sizes": [
         {
