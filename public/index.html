@@ -142,7 +142,7 @@ footer { padding: 12px; color: #666; text-align: center; font-size: 0.9rem; }
     <h2>Manage Taplist</h2>
     <div style="display:flex; gap:8px;">
       <button id="saveTaplistBtn" class="pill" style="background: var(--accent); color:white;">Save Changes</button>
-      <button id="exitAdminBtn" class="pill" style="background:#aaa; color:white;">Exit Admin</button>
+      <button id="exitAdminBtn" class="pill" style="background: var(--accent); color:white;">Exit Admin</button>
     </div>
   </div>
   <button id="addBeerBtn" class="pill" style="margin-bottom:12px;">+ Add Beer</button>
@@ -354,60 +354,86 @@ const toggleHTML = isAdmin ? `
 
 // --- Render Admin Cards ---
 function renderAdminCards() {
-  const container = document.getElementById('beerList');
-  container.innerHTML = '';
+  // Get beer list container (where beer cards are shown)
+  const beerContainer = document.getElementById('beerList');
 
-  // Loop through beers
-  (taplist.beers || []).forEach((beer,index) => {
+  // If an admin panel already exists, remove it (to avoid duplicates)
+  const existingAdmin = document.getElementById('adminPanel');
+  if (existingAdmin) existingAdmin.remove();
+
+  // --- Create admin panel section ---
+  const adminSection = document.createElement('section');
+  adminSection.id = 'adminPanel';
+  adminSection.classList.add('admin-section');
+  adminSection.style.marginTop = '3rem';
+
+  const heading = document.createElement('h2');
+  heading.textContent = 'Manage Taplist';
+  heading.style.textAlign = 'center';
+  heading.style.marginBottom = '1rem';
+  adminSection.appendChild(heading);
+
+  // Container for admin beer cards
+  const adminContainer = document.createElement('div');
+  adminContainer.id = 'adminBeerList';
+  adminContainer.style.display = 'flex';
+  adminContainer.style.flexDirection = 'column';
+  adminContainer.style.gap = '1rem';
+  adminSection.appendChild(adminContainer);
+
+  // --- Loop through beers ---
+  (taplist.beers || []).forEach((beer, index) => {
     const card = document.createElement('div');
-    card.className='card';
-    card.style.display='flex';
-    card.style.flexDirection='column';
-    card.style.gap='6px';
+    card.className = 'card';
+    card.style.display = 'flex';
+    card.style.flexDirection = 'column';
+    card.style.gap = '6px';
 
     card.innerHTML = `
-      <input type="text" placeholder="Name" value="${beer.name||''}" data-index="${index}" data-field="name" />
-      <input type="text" placeholder="Style" value="${beer.style||''}" data-index="${index}" data-field="style" />
-      <input type="text" placeholder="Producer" value="${beer.producer||''}" data-index="${index}" data-field="producer" />
-      <input type="text" placeholder="Location" value="${beer.location||''}" data-index="${index}" data-field="location" />
-      <input type="text" placeholder="ABV" value="${beer.abv||''}" data-index="${index}" data-field="abv" />
-      <input type="text" placeholder="IBU" value="${beer.ibu||''}" data-index="${index}" data-field="ibu" />
-      <input type="text" placeholder="Tags (comma-separated)" value="${(beer.tags||[]).join(', ')}" data-index="${index}" data-field="tags" />
+      <input type="text" placeholder="Name" value="${beer.name || ''}" data-index="${index}" data-field="name" />
+      <input type="text" placeholder="Style" value="${beer.style || ''}" data-index="${index}" data-field="style" />
+      <input type="text" placeholder="Producer" value="${beer.producer || ''}" data-index="${index}" data-field="producer" />
+      <input type="text" placeholder="Location" value="${beer.location || ''}" data-index="${index}" data-field="location" />
+      <input type="text" placeholder="ABV" value="${beer.abv || ''}" data-index="${index}" data-field="abv" />
+      <input type="text" placeholder="IBU" value="${beer.ibu || ''}" data-index="${index}" data-field="ibu" />
+      <input type="text" placeholder="Tags (comma-separated)" value="${(beer.tags || []).join(', ')}" data-index="${index}" data-field="tags" />
       <label style="display:flex; align-items:center; gap:6px;">
         On Tap:
-        <input type="checkbox" ${beer.on_tap ? 'checked':''} data-index="${index}" data-field="on_tap" />
+        <input type="checkbox" ${beer.on_tap ? 'checked' : ''} data-index="${index}" data-field="on_tap" />
       </label>
       <div style="display:flex; gap:6px;">
         <button class="admin-btn" data-index="${index}" data-action="delete">Delete</button>
       </div>
     `;
 
-    container.appendChild(card);
-  }); // <- closes: (taplist.beers || []).forEach((beer,index) => {
+    adminContainer.appendChild(card);
+  });
 
-  // Input listeners
-  container.querySelectorAll('input').forEach(input => {
+  // --- Add listeners for inputs and delete buttons ---
+  adminContainer.querySelectorAll('input').forEach(input => {
     input.addEventListener('input', handleBeerInputChange);
     input.addEventListener('change', handleBeerInputChange);
-  }); // <- closes: container.querySelectorAll('input').forEach
+  });
 
-  container.querySelectorAll('button[data-action="delete"]').forEach(btn => {
+  adminContainer.querySelectorAll('button[data-action="delete"]').forEach(btn => {
     btn.addEventListener('click', handleDeleteBeer);
   });
 
-  // --- + Add Beer button ---
+  // --- Add Beer button ---
   const addBtn = document.getElementById('addBeerBtn');
-  if(addBtn){
+  if (addBtn) {
     addBtn.classList.add('admin-btn');
     addBtn.onclick = () => {
       taplist.beers.push({
-        name:'', style:'', producer:'', location:'', abv:'', ibu:'', tags:[], on_tap:false
+        name: '', style: '', producer: '', location: '', abv: '', ibu: '', tags: [], on_tap: false
       });
       renderAdminCards();
-    }; // <- closes: addBtn.onclick
-  } // <- closes: if(addBtn)
+    };
+  }
 
- } // <- closes: function renderAdminCards()
+  // --- Append admin panel after beer list ---
+  beerContainer.parentNode.appendChild(adminSection);
+}
 
 
   // --- Handle changes ---

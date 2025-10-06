@@ -383,6 +383,16 @@ footer {
   cursor: pointer;
 }
 
+#adminPanel {
+  background-color: #f9f7f6;
+  padding: 1rem;
+  border-top: 2px solid var(--accent);
+}
+
+#adminPanel h2 {
+  color: var(--accent);
+}
+
 /* =========================
    ANIMATIONS
    ========================= */
