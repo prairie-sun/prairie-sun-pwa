@@ -78,8 +78,10 @@ header > div {
 /* =========================
    BEER GRID & CARDS
    ========================= */
+/* Keep beer grid visible below Admin sections */
 .grid-container {
-  position: relative;
+  margin-top: 1rem;
+  z-index: 1;
 }
 
 .grid {
@@ -308,7 +310,12 @@ footer {
   padding: var(--gap);
   position: relative; /* flow layout */
   background: none;
-  z-index: auto;
+}
+
+#adminPanel {
+  background-color: #f9f7f6; 
+  padding: 1rem; 
+  border-top: 2px solid var(--accent); 
 }
 
 #adminPanelHeader {
@@ -402,22 +409,19 @@ footer {
   cursor: pointer;
 }
 
-#adminPanel {
-  background-color: #f9f7f6;
-  padding: 1rem;
-  border-top: 2px solid var(--accent);
-}
-
-#adminPanel h2 {
-  color: var(--accent);
-}
-
 /* =========================
    ANIMATIONS
    ========================= */
 @keyframes pulseWatermark {
   0%, 100% { opacity: 0.12; }
   50% { opacity: 0.18; }
+}
+
+html, body {
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* smooth iPhone scroll */
 }
 
 /* =========================
