@@ -303,24 +303,33 @@ footer {
    ADMIN PAGE
    ========================= */
 #adminPage {
-  display: none;
-  position: relative;
-  width: 100%;
-  background: #fbfbfb;
-  padding: 14px;
-  z-index: 10;
+  display: none; /* Hidden until Admin login */
+  margin-top: 2rem;
+  padding: var(--gap);
+  position: relative; /* flow layout */
+  background: none;
+  z-index: auto;
 }
 
-#adminPage > .admin-header {
+#adminPanelHeader {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-  border-bottom: 1px solid #e0e0e0;
-  position: relative;
-  z-index: 5;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: var(--gap);
 }
+
+#adminPanelHeader button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
 
 /* Beer list scrollable inside panel */
 #adminBeerList {

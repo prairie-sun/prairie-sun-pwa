@@ -128,13 +128,26 @@ footer { padding: 12px; color: #666; text-align: center; font-size: 0.9rem; }
     </div>
   </div>
 
+  <!-- BEER GRID (always present) -->
+  <div id="beerGrid" class="grid" aria-live="polite"></div>
+
+  <!-- ADMIN PANEL (only visible in admin mode) -->
+  <div id="adminPage">
+    <div id="adminPanelHeader">
+      <button id="saveTaplistBtn">Save Changes</button>
+      <button id="exitAdminBtn">Exit Admin</button>
+      <button id="addBeerBtn">+ Add Beer</button>
+    </div>
+    <div id="adminBeerList"></div>
+  </div>
+
   <footer>
     <div id="status">Loading menu…</div>
     <div style="margin-top:6px; font-size:0.85rem">Scan QR around the taproom for this live menu.</div>
   </footer>
 </div>
 
-<!-- Admin login modal (unchanged) -->
+<!-- ADMIN LOGIN MODAL -->
 <div id="adminLoginModal">
   <div id="adminLoginModalContent">
     <h3>Admin Login</h3>
@@ -143,19 +156,6 @@ footer { padding: 12px; color: #666; text-align: center; font-size: 0.9rem; }
     <div id="adminLoginError">Incorrect password</div>
     <button id="modalExitBtn">Exit</button>
   </div>
-</div>
-
-<div class="container">
-
-<div id="adminPage">
-  <div id="adminPanelHeader">
-    <button id="saveTaplistBtn">Save Changes</button>
-    <button id="exitAdminBtn">Exit Admin</button>
-    <button id="addBeerBtn">+ Add Beer</button>
-  </div>
-  <div id="adminBeerList"></div>
-</div>
-
 </div>
 
 <script>
