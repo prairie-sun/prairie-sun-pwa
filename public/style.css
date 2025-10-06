@@ -307,7 +307,7 @@ footer {
 }
 
 /* =========================
-   ADMIN LOGIN MODAL
+   AFTER ADMIN LOGIN MODAL
    ========================= */
    
 #saveTaplistBtn,
@@ -319,7 +319,10 @@ body.admin-mode #exitAdminBtn {
   display: inline-block; /* show in admin mode */
 }
 
-   
+body.admin-mode #adminBtn {
+  display: none;
+}
+
 /* =========================
    ADMIN PAGE
    ========================= */
@@ -453,6 +456,21 @@ html, body {
 @media (max-width: 500px) {
   .pill {
     max-width: 120px;   /* bigger pill on mobile so ABV fits */
+  }
+}
+
+/* New buttons container */
+.header-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap; /* allows wrapping on narrow screens */
+}
+
+/* Make buttons smaller on narrow screens */
+@media (max-width: 500px) {
+  .header-buttons button {
+    padding: 4px 8px;
+    font-size: 0.85rem;
   }
 }
 
