@@ -2,7 +2,7 @@
    ROOT VARIABLES
    ========================= */
 :root {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   --gap: 12px;
   --accent: #6b3e1b; /* dark brown accent for buttons/PS cards */
   --muted: #666;
@@ -13,20 +13,25 @@
 }
 
 /* =========================
-   BODY & CONTAINER
+   GLOBAL BOX-SIZING
    ========================= */
-body {
-  font-family: var(--font-family, sans-serif);
-  background-color: #fff8f0;
-  color: #3e2c1b;
-  margin: 0;
-  padding-top: env(safe-area-inset-top); /* ensures top is pushed below the notch */
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-  padding-bottom: env(safe-area-inset-bottom);
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
+/* =========================
+   BODY & CONTAINER
+   ========================= */
+body {
+  font-family: var(--font-family);
+  background-color: #fff8f0;
+  color: #3e2c1b;
+  margin: 0;
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+}
 
 .container {
   max-width: 1200px;
@@ -41,7 +46,7 @@ body {
 header {
   background: linear-gradient(90deg, #6b3e1b, #8b5a32);
   color: white;
-  padding: calc(18px + env(safe-area-inset-top)) 0 18px 0; /* top padding includes safe area */
+  padding: calc(18px + env(safe-area-inset-top)) 0 18px 0;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -61,13 +66,13 @@ header p {
 
 /* Header inner container */
 header > div {
-  max-width: 1200px;      /* same as main container */
-  margin: 0 auto;         /* centers content */
-  padding: 0 16px;        /* horizontal spacing from edges */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  gap: var(--gap);
 }
 
 /* =========================
@@ -151,36 +156,28 @@ input[type=search] {
    PILLS (ABV, IBU, ON TAP, NOT ON)
    ========================= */
 .pill, .on-tap, .not-on {
-  display: inline-block;        /* width tight around text */
-  padding: 4px 8px;             /* internal spacing */
-  border-radius: 12px;          /* pill shape */
-  font-size: 0.85rem;           
-  text-align: left;             
-  max-width: 80px;              
-  white-space: nowrap;          /* prevent wrapping */
-  overflow: hidden;             
-  text-overflow: ellipsis;      
+  display: inline-block;
+  padding: var(--pill-padding);
+  border-radius: var(--pill-radius);
+  font-size: var(--pill-font-size);
+  text-align: left;
+  max-width: var(--pill-max-width);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
 }
 
-/* ABV pill */
-.pill {
+/* ABV / Not-On pill */
+.pill, .not-on {
   background: #eee;
   color: #3e2c1b;
-  font-weight: 600;
 }
 
 /* On Tap pill */
 .on-tap {
   background: #dff5e1;          /* green background */
   color: #196619;               /* dark green text */
-  font-weight: 600;
-}
-
-/* Not On pill */
-.not-on {
-  background: #eee;             /* same as ABV */
-  color: #3e2c1b;
-  font-weight: 600;
 }
 
 /* =========================
@@ -195,7 +192,6 @@ input[type=search] {
   background: #dff5e1;
   font-size: var(--pill-font-size);
   max-width: var(--pill-max-width);
-  box-sizing: border-box;
 }
 
 .toggle-container span.toggle-label {
@@ -260,7 +256,7 @@ input[type=search] {
    ========================= */
 .tags {
   display: flex;
-  gap: 6px;
+  gap: var(--gap);
   flex-wrap: wrap;
   margin-top: 8px;
 }
@@ -276,7 +272,7 @@ input[type=search] {
 .sizes {
   margin-top: 10px;
   display: flex;
-  gap: 8px;
+  gap: var(--gap);
   flex-wrap: wrap;
 }
 
@@ -298,7 +294,7 @@ footer {
   display: none;
 }
 
-@media (min-width:900px){
+@media (min-width: 900px) {
   header h1 { font-size: 1.35rem; }
   .tv-note { display: block; font-size: 0.9rem; color: #fff; opacity: 0.9; }
 }
@@ -308,43 +304,41 @@ footer {
    ========================= */
 #adminPage {
   display: none;
-  position: relative; /* panel scrolls with page */
+  position: relative;
   width: 100%;
   background: #fbfbfb;
   padding: 14px;
-  box-sizing: border-box;
-  z-index: 10; /* below beer cards */
+  z-index: 10;
 }
 
-/* Manage Taplist Banner */
 #adminPage > .admin-header {
-  position: relative;       /* not sticky, so it doesn't overlay */
-  background: #fbfbfb;
-  padding: 14px 0;
-  z-index: 5;               /* below beer cards */
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 14px 0;
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
   border-bottom: 1px solid #e0e0e0;
+  position: relative;
+  z-index: 5;
 }
 
 /* Beer list scrollable inside panel */
-#beerList {
+#adminBeerList {
   max-height: 60vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding-top: 8px;  /* small gap from header */
+  padding-top: 8px;
 }
+
 /* =========================
    ADMIN LOGIN MODAL
    ========================= */
 #adminLoginModal {
   display: none;
   position: fixed;
-  top:0; left:0; width:100%; height:100%;
+  top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0,0,0,0.6);
   justify-content: center; align-items: center;
   z-index: 3000;
