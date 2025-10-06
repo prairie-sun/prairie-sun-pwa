@@ -114,7 +114,7 @@ header > div {
   z-index: 0;
   width: 25%;
   aspect-ratio: 1 / 1;
-  animation: pulseWatermark 4s infinite ease-in-out;
+  animation: pulseWatermark 2s infinite ease-in-out;
 }
 
 /* =========================
@@ -195,43 +195,58 @@ input[type=search] {
   width: 100%;
 }
 
-/* Move the slider to the far right */
 .toggle-container .toggle {
-  margin-left: auto;   /* ensures slider goes to far right */
+  margin-left: auto; /* push slider far right */
   flex-shrink: 0;
 }
 
-/* Optional: increase width of the toggle box if you want more spacing */
+/* Toggle box & slider */
 .toggle {
-  width: 60px;  /* wider so knob sits more to the right */
-  height: 28px;
   position: relative;
   display: inline-block;
+  width: 60px;  /* wider so knob can move fully */
+  height: 28px;
 }
 
-/* Slider knob */
-.slider:before {
-  left: 3px;  /* starting position */
-  bottom: 3px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: white;
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;  /* gray when off */
   transition: 0.4s;
+  border-radius: 28px;
 }
 
-/* Move knob further right when checked */
-.toggle input:checked + .slider:before {
-  transform: translateX(32px); /* wider than before so it ends far right */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
 }
 
-/* Keep green background on active */
 .toggle input:checked + .slider {
-  background-color: #4caf50;
+  background-color: #4caf50; /* green when ON */
 }
 
+.toggle input:checked + .slider:before {
+  transform: translateX(32px); /* knob moves right when ON */
+}
 
-/* Responsive tweak for mobile */
+/* Mobile / iPhone adjustments */
 @media (max-width: 500px) {
   .toggle {
     width: 50px;
@@ -244,8 +259,6 @@ input[type=search] {
     transform: translateX(26px);
   }
 }
-
-
 /* =========================
    TAGS & SIZES
    ========================= */
@@ -407,7 +420,7 @@ footer {
    ========================= */
 @keyframes pulseWatermark {
   0%, 100% { opacity: 0.12; }
-  50% { opacity: 0.18; }
+  50% { opacity: 0.50; }
 }
 
 html, body {
