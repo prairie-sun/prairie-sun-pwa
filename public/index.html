@@ -136,18 +136,33 @@ footer { padding: 12px; color: #666; text-align: center; font-size: 0.9rem; }
   </footer>
 </div>
 
-<!-- Full-page Admin Panel -->
-<div id="adminPage" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#fbfbfb; overflow-y:auto; z-index:200; padding:14px; box-sizing:border-box;">
+<!-- Admin Panel Section -->
+<div id="adminPage"
+  style="
+    display:none;
+    position:relative;
+    width:100%;
+    background:#f6f4f3; /* slightly darker off-white for contrast */
+    padding:20px;
+    box-sizing:border-box;
+    margin-top:40px;
+    border-top:3px solid var(--accent);
+    border-radius:12px 12px 0 0;
+  ">
+  
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-    <h2>Manage Taplist</h2>
+    <h2 style="margin:0; color:var(--accent);">Manage Taplist</h2>
     <div style="display:flex; gap:8px;">
       <button id="saveTaplistBtn" class="pill" style="background: var(--accent); color:white;">Save Changes</button>
       <button id="exitAdminBtn" class="pill" style="background: var(--accent); color:white;">Exit Admin</button>
     </div>
   </div>
+
   <button id="addBeerBtn" class="pill" style="margin-bottom:12px;">+ Add Beer</button>
   <div id="beerList" style="display:flex; flex-direction:column; gap:10px;"></div>
+
 </div>
+
 
 <!-- Admin login modal (unchanged) -->
 <div id="adminLoginModal">
