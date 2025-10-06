@@ -149,25 +149,16 @@ footer { padding: 12px; color: #666; text-align: center; font-size: 0.9rem; }
 
 <div class="container">
 
-  <!-- Admin Panel Header + Buttons (shown only in admin mode) -->
-  <div id="adminPanelHeader" style="display:none;">
-    <h2>Manage Taplist</h2>
-    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-      <button id="saveTaplistBtn" class="pill">Save Changes</button>
-      <button id="exitAdminBtn" class="pill">Exit Admin</button>
-    </div>
+<div id="beerGrid" class="grid"></div>
+
+<div id="adminPage">
+  <div id="adminPanelHeader">
+    <button id="saveTaplistBtn">Save Changes</button>
+    <button id="exitAdminBtn">Exit Admin</button>
+    <button id="addBeerBtn">+ Add Beer</button>
   </div>
-
-  <!-- Beer Grid -->
-  <div id="beerGrid" class="grid" aria-live="polite"></div>
-
-  <!-- Editable Beer Inputs -->
-  <div id="adminBeerList" style="display:none; flex-direction:column; gap:1rem;"></div>
-
-  <!-- + Add Beer Button -->
-  <div id="addBeerContainer" style="display:none; text-align:center; margin-top:1rem;">
-    <button id="addBeerBtn" class="pill">+ Add Beer</button>
-  </div>
+  <div id="adminBeerList"></div>
+</div>
 
 </div>
 
@@ -384,14 +375,29 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTaplist();
   }
 
-  // --- Enter admin mode ---
-  function enterAdminMode() {
-    isAdmin = true;
-    sessionStorage.setItem('isAdmin','true');
-    adminPanel.style.display = 'block';
-    renderTaplist();
-    renderAdminBeerInputs();
+function enterAdminMode() {
+  isAdmin = true;
+  sessionStorage.setItem('isAdmin','true');
+
+  // Show top-right buttons
+  document.getElementById('adminPanel').style.display = 'block';
+  document.getElementById('adminBtn').style.display = 'none';
+
+  // Render beer cards immediately
+  if(taplist){
+    renderTaplist(searchEl.value);        // beer cards with toggles
+    renderAdminBeerInputs();              // editable fields below
+  } else {
+    // If taplist not ready, wait until it is
+    const interval = setInterval(()=>{
+      if(taplist){
+        clearInterval(interval);
+        renderTaplist(searchEl.value);
+        renderAdminBeerInputs();
+      }
+    },50);
   }
+}
 
   // --- Admin login ---
   adminBtn.addEventListener('click', () => {
