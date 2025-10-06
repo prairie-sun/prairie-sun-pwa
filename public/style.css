@@ -192,7 +192,7 @@ input[type=search] {
   border-radius: var(--pill-radius);
   background: #dff5e1;
   font-size: var(--pill-font-size);
-  width: 100%;
+  width: 50%;
 }
 
 .toggle-container .toggle {
