@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-06T20:33:47.338Z"
+    "last_updated": "2025-10-06T20:54:02.203Z"
   },
   "beers": [
     {
@@ -355,7 +355,7 @@
       "producer": "Pile O' Bones Brewing",
       "location": "Regina, SK",
       "style": "Wheat",
-      "abv": 5,
+      "abv": "5.0",
       "ibu": null,
       "sizes": [
         {
