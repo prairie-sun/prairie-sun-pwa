@@ -348,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
   saveTaplistBtn.onclick = async () => {
     try {
       taplist.meta.last_updated = new Date().toISOString();
-      const res = await fetch('/updateTaplist', {
+      const res = await fetch('/save-taplist', {
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify(taplist)
