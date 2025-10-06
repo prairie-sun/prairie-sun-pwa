@@ -91,15 +91,27 @@ app.post('/save-taplist', async (req, res) => {
   if (!updates || typeof updates !== 'object')
     return res.status(400).json({ success: false, message: 'Invalid request' });
 
-  Object.entries(updates).forEach(([beerId, onTap]) => {
+  // Loop through each beer ID sent in the updates
+  Object.entries(updates).forEach(([beerId, changedFields]) => {
     const beer = taplist.beers.find(b => b.id === beerId);
-    if (beer) beer.on_tap = onTap;
+    if (beer && typeof changedFields === 'object') {
+      // Merge only the changed fields
+      Object.entries(changedFields).forEach(([field, value]) => {
+        beer[field] = value;
+      });
+    }
   });
+
+  // Update the last_updated timestamp
   taplist.meta.last_updated = new Date().toISOString();
 
-  fs.writeFileSync(path.join(__dirname, 'public', 'taplist.json'), JSON.stringify(taplist, null, 2));
+  // Write updated taplist.json
+  fs.writeFileSync(
+    path.join(__dirname, 'public', 'taplist.json'),
+    JSON.stringify(taplist, null, 2)
+  );
 
-  // Broadcast update
+  // Broadcast update via WebSocket
   const wss = app.get('wss');
   if (wss) {
     wss.clients.forEach(client => {
@@ -109,6 +121,7 @@ app.post('/save-taplist', async (req, res) => {
     });
   }
 
+  // Update GitHub
   await updateTaplistOnGitHub(taplist);
 
   res.json({ success: true });

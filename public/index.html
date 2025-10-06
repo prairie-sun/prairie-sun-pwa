@@ -343,15 +343,37 @@ document.addEventListener('DOMContentLoaded', () => {
     renderAdminBeerInputs();
     renderTaplist();
   }
-
+  
 // --- Save taplist ---
 saveTaplistBtn.onclick = async () => {
   try {
-    // Prepare updates object: { beerId: onTap, ... }
-    const updates = Object.fromEntries(
-      taplist.beers.map(b => [b.id, b.on_tap])
-    );
+    // Collect only beers that have changed
+    const updates = {};
+    (taplist.beers || []).forEach((beer, index) => {
+      const original = pendingUpdates[beer.id];
+      if (!original) return; // skip beers with no changes
 
+      // Compare each field to detect changes
+      const changedFields = {};
+      ['name','style','producer','location','abv','ibu','tags','on_tap'].forEach(field => {
+        const value = beer[field];
+        const origValue = original[field];
+        if (Array.isArray(value) && Array.isArray(origValue)) {
+          if (value.join(',') !== origValue.join(',')) changedFields[field] = value;
+        } else if (value !== origValue) {
+          changedFields[field] = value;
+        }
+      });
+
+      if (Object.keys(changedFields).length > 0) updates[beer.id] = changedFields;
+    });
+
+    if (Object.keys(updates).length === 0) {
+      alert('No changes to save!');
+      return;
+    }
+
+    // Update last_updated
     taplist.meta.last_updated = new Date().toISOString();
 
     const res = await fetch('/save-taplist', {
@@ -362,6 +384,8 @@ saveTaplistBtn.onclick = async () => {
 
     if (res.ok) {
       alert('Taplist saved successfully!');
+      // Reset pendingUpdates
+      pendingUpdates = {};
       renderTaplist();  // re-render UI to reflect current taplist
     } else {
       const data = await res.json();
@@ -372,7 +396,6 @@ saveTaplistBtn.onclick = async () => {
     alert('Error saving taplist.');
   }
 };
-
 
   // --- Exit admin ---
   exitAdminBtn.onclick = () => {
@@ -393,6 +416,12 @@ function enterAdminMode() {
 
   // ensure the main beer grid is visible
   beerGrid.style.display = 'grid';
+  
+  // Snapshot of current beers
+  pendingUpdates = {};
+  (taplist.beers || []).forEach(b => {
+    pendingUpdates[b.id] = { ...b };
+  });
 
   renderTaplist();
   renderAdminBeerInputs();
