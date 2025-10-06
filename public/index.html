@@ -147,6 +147,20 @@ footer { padding: 12px; color: #666; text-align: center; font-size: 0.9rem; }
   </div>
 </div>
 
+<!-- Admin Panel -->
+<div id="adminPage">
+  <div class="admin-header">
+    <h2>Manage Taplist</h2>
+    <div>
+      <button id="saveTaplistBtn" class="pill">Save Changes</button>
+      <button id="exitAdminBtn" class="pill">Exit Admin</button>
+    </div>
+  </div>
+
+  <div id="beerList">
+    <!-- beer cards with toggles will be rendered here -->
+  </div>
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {

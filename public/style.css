@@ -308,34 +308,36 @@ footer {
    ========================= */
 #adminPage {
   display: none;
-  position: relative; /* was fixed */
+  position: relative; /* panel scrolls with page */
   width: 100%;
   background: #fbfbfb;
   padding: 14px;
   box-sizing: border-box;
-  z-index: 10; /* below beer cards (z-index:2 relative to container) */
+  z-index: 10; /* below beer cards */
 }
 
-#adminPage > div:first-child {
-  position: sticky;
-  top: 0;
+/* Manage Taplist Banner */
+#adminPage > .admin-header {
+  position: relative;       /* not sticky, so it doesn't overlay */
   background: #fbfbfb;
   padding: 14px 0;
-  z-index: 201;
+  z-index: 5;               /* below beer cards */
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  border-bottom: 1px solid #e0e0e0;
 }
 
+/* Beer list scrollable inside panel */
 #beerList {
   max-height: 60vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding-top: 8px;  /* small gap from header */
 }
-
 /* =========================
    ADMIN LOGIN MODAL
    ========================= */
