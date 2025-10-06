@@ -248,7 +248,7 @@ input[type=search] {
 /* Mobile / iPhone adjustments */
 @media (max-width: 500px) {
   .toggle {
-    width: 50px;
+    width: 40px;
   }
   .slider:before {
     width: 22px;

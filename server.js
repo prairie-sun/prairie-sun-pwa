@@ -18,6 +18,12 @@ const branch = "main";            // Branch to update
 
 // --- Middleware ---
 app.use(bodyParser.json());
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  next();
+}); // < ---- Remove this after done testing
 app.use(express.static(path.join(__dirname, 'public'), {
   maxAge: '0',
   etag: false
