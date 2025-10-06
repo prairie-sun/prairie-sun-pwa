@@ -438,7 +438,7 @@ function enterAdminMode() {
   document.getElementById('adminLoginBtn').onclick = async () => {
     const input = document.getElementById('adminPasswordInput').value;
     const inputHash = await sha256(input);
-    const ADMIN_PASSWORD_HASH = "fa9fdcce5d12f32fd2018b3ca1299fea52be175ed53930e04203a4eed7480158";
+    const ADMIN_PASSWORD_HASH = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4";
     if(inputHash===ADMIN_PASSWORD_HASH){
       adminModal.style.display = 'none';
       enterAdminMode();
