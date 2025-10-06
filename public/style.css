@@ -114,7 +114,7 @@ header > div {
   z-index: 0;
   width: 25%;
   aspect-ratio: 1 / 1;
-  animation: pulseWatermark 2s infinite ease-in-out;
+  animation: pulseWatermark 4s infinite ease-in-out;
 }
 
 /* =========================
@@ -196,7 +196,6 @@ input[type=search] {
 }
 
 .toggle-container .toggle {
-  margin-left: auto; /* push slider far right */
   flex-shrink: 0;
 }
 
@@ -419,8 +418,8 @@ footer {
    ANIMATIONS
    ========================= */
 @keyframes pulseWatermark {
-  0%, 100% { opacity: 0.12; }
-  50% { opacity: 0.50; }
+  0%, 100% { opacity: 0.50; }
+  50% { opacity: 0.75; }
 }
 
 html, body {
