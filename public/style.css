@@ -307,6 +307,20 @@ footer {
 }
 
 /* =========================
+   ADMIN LOGIN MODAL
+   ========================= */
+   
+#saveTaplistBtn,
+#exitAdminBtn {
+  display: none; /* hide by default */
+}
+body.admin-mode #saveTaplistBtn,
+body.admin-mode #exitAdminBtn {
+  display: inline-block; /* show in admin mode */
+}
+
+   
+/* =========================
    ADMIN PAGE
    ========================= */
 #adminPage {

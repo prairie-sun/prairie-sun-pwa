@@ -113,6 +113,8 @@ footer { padding: 12px; color: #666; text-align: center; font-size: 0.9rem; }
       </div>
     </div>
     <button id="adminBtn" style="padding:6px 12px; border-radius:6px; border:none; background:var(--accent); color:white; cursor:pointer;">Admin</button>
+    <button id="saveTaplistBtn" style="padding:6px 12px; border-radius:6px; border:none; background:var(--accent); color:white; cursor:pointer;">Save Changes</button>
+    <button id="exitAdminBtn" style="padding:6px 12px; border-radius:6px; border:none; background:var(--accent); color:white; cursor:pointer;">Exit Admin</button>
   </div>
 </header>
 
@@ -134,8 +136,6 @@ footer { padding: 12px; color: #666; text-align: center; font-size: 0.9rem; }
   <!-- ADMIN PANEL (only visible in admin mode) -->
   <div id="adminPage">
     <div id="adminPanelHeader">
-      <button id="saveTaplistBtn">Save Changes</button>
-      <button id="exitAdminBtn">Exit Admin</button>
       <button id="addBeerBtn">+ Add Beer</button>
     </div>
     <div id="adminBeerList"></div>
@@ -378,6 +378,7 @@ saveTaplistBtn.onclick = async () => {
   exitAdminBtn.onclick = () => {
     isAdmin = false;
     sessionStorage.removeItem('isAdmin');
+    document.body.classList.remove('admin-mode'); // hides Save / Exit buttons
     adminPanel.style.display = 'none';
     renderTaplist();
   }
@@ -387,6 +388,7 @@ function enterAdminMode() {
   sessionStorage.setItem('isAdmin','true');
 
   // show admin panel buttons at top
+  document.body.classList.add('admin-mode'); // shows Save / Exit buttons
   adminPanel.style.display = 'block';
 
   // ensure the main beer grid is visible
