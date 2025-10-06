@@ -36,13 +36,10 @@ body {
 header {
   background: linear-gradient(90deg, #6b3e1b, #8b5a32);
   color: white;
-  padding: 18px 14px;
+  padding: 18px 0;        /* only vertical padding, horizontal handled inside */
   position: sticky;
   top: 0;
   z-index: 1000;
-
-  /* new */
-  margin: -20px -20px 0 -20px;  /* negates the body padding */
 }
 
 header h1 {
@@ -55,6 +52,17 @@ header p {
   margin: 6px 0 0 0;
   font-size: 0.9rem;
   opacity: 0.95;
+}
+
+/* Header inner container */
+header > div {
+  max-width: 1200px;      /* same as main container */
+  margin: 0 auto;         /* centers content */
+  padding: 0 16px;        /* horizontal spacing from edges */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
 }
 
 /* =========================
