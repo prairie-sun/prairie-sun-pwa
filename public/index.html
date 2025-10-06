@@ -128,8 +128,6 @@ footer { padding: 12px; color: #666; text-align: center; font-size: 0.9rem; }
     </div>
   </div>
 
-  <div id="beerGrid" class="grid" aria-live="polite"></div>
-
   <footer>
     <div id="status">Loading menu…</div>
     <div style="margin-top:6px; font-size:0.85rem">Scan QR around the taproom for this live menu.</div>
@@ -148,8 +146,6 @@ footer { padding: 12px; color: #666; text-align: center; font-size: 0.9rem; }
 </div>
 
 <div class="container">
-
-<div id="beerGrid" class="grid"></div>
 
 <div id="adminPage">
   <div id="adminPanelHeader">
@@ -379,25 +375,16 @@ function enterAdminMode() {
   isAdmin = true;
   sessionStorage.setItem('isAdmin','true');
 
-  // Show top-right buttons
-  document.getElementById('adminPanel').style.display = 'block';
-  document.getElementById('adminBtn').style.display = 'none';
+  // show admin panel buttons at top
+  adminPanel.style.display = 'block';
 
-  // Render beer cards immediately
-  if(taplist){
-    renderTaplist(searchEl.value);        // beer cards with toggles
-    renderAdminBeerInputs();              // editable fields below
-  } else {
-    // If taplist not ready, wait until it is
-    const interval = setInterval(()=>{
-      if(taplist){
-        clearInterval(interval);
-        renderTaplist(searchEl.value);
-        renderAdminBeerInputs();
-      }
-    },50);
-  }
+  // ensure the main beer grid is visible
+  beerGrid.style.display = 'grid';
+
+  renderTaplist();
+  renderAdminBeerInputs();
 }
+
 
   // --- Admin login ---
   adminBtn.addEventListener('click', () => {
