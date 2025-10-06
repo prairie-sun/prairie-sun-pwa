@@ -193,7 +193,7 @@ input[type=search] {
   border-radius: var(--pill-radius);
   background: #dff5e1;
   font-size: var(--pill-font-size);
-  max-width: var(--pill-max-width);
+  max-width: calc(100% - 12px);
 }
 
 .toggle-container span.toggle-label {
@@ -431,3 +431,10 @@ html, body {
   .card { padding: 8px; }
   .tags, .sizes { gap: 4px; }
 }
+
+@media (max-width: 500px) {
+  .pill, .on-tap, .not-on {
+    max-width: 120px; /* allow more room */
+  }
+}
+
