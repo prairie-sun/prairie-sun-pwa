@@ -283,14 +283,12 @@ document.addEventListener('DOMContentLoaded', () => {
     beerGrid.innerHTML = '';
     beersToShow.forEach(upsertBeerCard);
   }
-
+  
+  
 function renderAdminBeerInputs() {
   adminBeerList.innerHTML = '';
 
-  // Sort beers by sort_order before rendering
-  const sortedBeers = (taplist.beers || []).slice().sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
-
-  sortedBeers.forEach((beer, index) => {
+  (taplist.beers || []).forEach((beer, index) => {
     const card = document.createElement('div');
     card.className = 'card';
     card.style.display = 'flex';
@@ -324,8 +322,6 @@ function renderAdminBeerInputs() {
       </div>
       <input type="text" placeholder="Price Note" value="${beer.price_note || ''}" data-index="${index}" data-field="price_note" />
       <div style="display:flex; gap:6px;">
-        <button class="admin-btn" data-index="${index}" data-action="move-up">⬆️</button>
-        <button class="admin-btn" data-index="${index}" data-action="move-down">⬇️</button>
         <button class="admin-btn" data-index="${index}" data-action="delete">Delete</button>
       </div>
     `;
@@ -337,54 +333,41 @@ function renderAdminBeerInputs() {
   adminBeerList.addEventListener('input', handleBeerInputChange);
   adminBeerList.addEventListener('change', handleBeerInputChange);
 
-adminBeerList.addEventListener('click', e => {
-  const btn = e.target;
+  // --- Event delegation for buttons ---
+  adminBeerList.addEventListener('click', e => {
+    const btn = e.target;
 
-  // --- Move beer up ---
-  if (btn.dataset.action === 'move-up') {
-    const index = parseInt(btn.dataset.index);
-    if (index > 0) {
-      // Swap sort_order
-      const current = taplist.beers[index];
-      const above = taplist.beers[index - 1];
-      const tempOrder = current.sort_order;
-      current.sort_order = above.sort_order;
-      above.sort_order = tempOrder;
-
-      // Swap positions in array
-      taplist.beers[index] = above;
-      taplist.beers[index - 1] = current;
-
-      // Re-render admin inputs and guest cards
-      renderAdminBeerInputs();
-      taplist.beers.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
-      renderTaplist();
+    // Delete beer
+    if (btn.dataset.action === 'delete') {
+      const index = parseInt(btn.dataset.index);
+      if (confirm('Are you sure you want to delete this beer?')) {
+        taplist.beers.splice(index, 1);
+        renderAdminBeerInputs();
+        renderTaplist();
+      }
     }
-  }
 
-  // --- Move beer down ---
-  else if (btn.dataset.action === 'move-down') {
-    const index = parseInt(btn.dataset.index);
-    if (index < taplist.beers.length - 1) {
-      const current = taplist.beers[index];
-      const below = taplist.beers[index + 1];
-      const tempOrder = current.sort_order;
-      current.sort_order = below.sort_order;
-      below.sort_order = tempOrder;
-
-      // Swap positions in array
-      taplist.beers[index] = below;
-      taplist.beers[index + 1] = current;
-
-      // Re-render admin inputs and guest cards
+    // Add size
+    else if (btn.classList.contains('add-size-btn')) {
+      const index = parseInt(btn.dataset.index);
+      const beer = taplist.beers[index];
+      if (!beer.sizes) beer.sizes = [];
+      beer.sizes.push({ label: '', price: 0 });
       renderAdminBeerInputs();
-      taplist.beers.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
-      renderTaplist();
     }
-  }
-});
 
-
+    // Remove size
+    else if (btn.classList.contains('remove-size-btn')) {
+      const index = parseInt(btn.dataset.index);
+      const sizeIndex = parseInt(btn.dataset.size);
+      const beer = taplist.beers[index];
+      if (beer.sizes && beer.sizes[sizeIndex] !== undefined) {
+        beer.sizes.splice(sizeIndex, 1);
+        renderAdminBeerInputs();
+      }
+    }
+  });
+}
 
   // --- Add beer ---
 addBeerBtn.onclick = () => {
