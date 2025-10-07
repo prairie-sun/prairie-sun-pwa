@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-07T21:41:31.157Z"
+    "last_updated": "2025-10-07T21:43:14.638Z"
   },
   "beers": [
     {
@@ -554,6 +554,34 @@
       "sort_order": 190
     },
     {
+      "id": "new-beer-1759856392477",
+      "name": "Obsession",
+      "style": "ISA",
+      "producer": "Prairie Sun Brewery",
+      "location": "Saskatoon, SK",
+      "abv": "4.2",
+      "ibu": "",
+      "tags": [],
+      "on_tap": true,
+      "sizes": [
+        {
+          "label": "Tulip",
+          "price": 7.5
+        },
+        {
+          "label": "Pint",
+          "price": 9
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
+        }
+      ],
+      "description": "",
+      "price_note": "",
+      "sort_order": 200
+    },
+    {
       "id": "crisp-flatlander-01",
       "name": "Crisp",
       "producer": "Flatlander Cidery",
@@ -580,7 +608,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 200
+      "sort_order": 210
     },
     {
       "id": "rotating-flatlander-01",
@@ -609,7 +637,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 210
+      "sort_order": 220
     },
     {
       "id": "straight-cut-sour-9mile-01",
@@ -638,7 +666,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 220
+      "sort_order": 230
     },
     {
       "id": "berry-tea-luckybastard-01",
@@ -659,7 +687,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 230
+      "sort_order": 240
     },
     {
       "id": "raspberry-mango-sour-highkey-01",
@@ -688,34 +716,6 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 240
-    },
-    {
-      "id": "new-beer-1759856392477",
-      "name": "Obsession",
-      "style": "ISA",
-      "producer": "Prairie Sun Brewery",
-      "location": "Saskatoon, SK",
-      "abv": "4.2",
-      "ibu": "",
-      "tags": [],
-      "on_tap": true,
-      "sizes": [
-        {
-          "label": "Tulip",
-          "price": 7.5
-        },
-        {
-          "label": "Pint",
-          "price": 9
-        },
-        {
-          "label": "Pitcher",
-          "price": 31
-        }
-      ],
-      "description": "",
-      "price_note": "",
       "sort_order": 250
     }
   ]
