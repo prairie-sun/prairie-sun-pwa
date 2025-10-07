@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-07T15:44:34.429Z"
+    "last_updated": "2025-10-07T15:44:56.582Z"
   },
   "beers": [
     {
@@ -28,7 +28,7 @@
         }
       ],
       "price_note": "",
-      "description": "Salty dog.",
+      "description": "",
       "tags": [],
       "on_tap": true,
       "image": "",
