@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-07T21:43:38.639Z"
+    "last_updated": "2025-10-07T21:45:01.731Z"
   },
   "beers": [
     {
@@ -351,35 +351,6 @@
       "sort_order": 120
     },
     {
-      "id": "totally-radler-prairie-01",
-      "name": "Totally Radler",
-      "producer": "Prairie Sun Brewery",
-      "location": "Saskatoon, SK",
-      "style": "Radler",
-      "abv": "3.0",
-      "ibu": null,
-      "sizes": [
-        {
-          "label": "Tulip",
-          "price": 7.5
-        },
-        {
-          "label": "Pint",
-          "price": 9
-        },
-        {
-          "label": "Pitcher",
-          "price": 28.5
-        }
-      ],
-      "price_note": "",
-      "description": "",
-      "tags": [],
-      "on_tap": true,
-      "image": "",
-      "sort_order": 130
-    },
-    {
       "id": "raspberry-wheat-ale-pileobones-01",
       "name": "Raspberry Wheat Ale",
       "producer": "Pile O' Bones Brewing",
@@ -406,7 +377,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 140
+      "sort_order": 130
     },
     {
       "id": "lovertime-ipa-prairie-01",
@@ -435,7 +406,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 150
+      "sort_order": 140
     },
     {
       "id": "white-ipa-pileobones-01",
@@ -464,7 +435,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 160
+      "sort_order": 150
     },
     {
       "id": "hazy-ipa-saskatoon-01",
@@ -493,7 +464,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 170
+      "sort_order": 160
     },
     {
       "id": "west-coast-ipa-saskatoon-01",
@@ -522,7 +493,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 180
+      "sort_order": 170
     },
     {
       "id": "juicy-ipa-armoury-01",
@@ -551,7 +522,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 190
+      "sort_order": 180
     },
     {
       "id": "new-beer-1759856392477",
@@ -579,6 +550,35 @@
       ],
       "description": "",
       "price_note": "",
+      "sort_order": 190
+    },
+    {
+      "id": "totally-radler-prairie-01",
+      "name": "Totally Radler",
+      "producer": "Prairie Sun Brewery",
+      "location": "Saskatoon, SK",
+      "style": "Radler",
+      "abv": "3.0",
+      "ibu": null,
+      "sizes": [
+        {
+          "label": "Tulip",
+          "price": 7.5
+        },
+        {
+          "label": "Pint",
+          "price": 9
+        },
+        {
+          "label": "Pitcher",
+          "price": 28.5
+        }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
       "sort_order": 200
     },
     {
@@ -669,6 +669,27 @@
       "sort_order": 230
     },
     {
+      "id": "berry-tea-luckybastard-01",
+      "name": "Berry Tea",
+      "producer": "Lucky Bastard",
+      "location": "Saskatoon, SK",
+      "style": "Seltzer",
+      "abv": "5.0",
+      "ibu": null,
+      "sizes": [
+        {
+          "label": "Tulip",
+          "price": 8.5
+        }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 240
+    },
+    {
       "id": "raspberry-mango-sour-highkey-01",
       "name": "Raspberry Mango Sour",
       "producer": "High Key Brewing",
@@ -688,27 +709,6 @@
         {
           "label": "Pitcher",
           "price": 31
-        }
-      ],
-      "price_note": "",
-      "description": "",
-      "tags": [],
-      "on_tap": true,
-      "image": "",
-      "sort_order": 240
-    },
-    {
-      "id": "berry-tea-luckybastard-01",
-      "name": "Berry Tea",
-      "producer": "Lucky Bastard",
-      "location": "Saskatoon, SK",
-      "style": "Seltzer",
-      "abv": "5.0",
-      "ibu": null,
-      "sizes": [
-        {
-          "label": "Tulip",
-          "price": 8.5
         }
       ],
       "price_note": "",
