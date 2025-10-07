@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-07T18:34:59.818Z"
+    "last_updated": "2025-10-07T18:35:49.575Z"
   },
   "beers": [
     {
@@ -32,7 +32,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 20
+      "sort_order": 30
     },
     {
       "id": "ryed-or-die-paddockwood-01",
@@ -61,7 +61,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 30
+      "sort_order": 10
     },
     {
       "id": "the-ticket-9mile-01",
@@ -90,7 +90,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 40
+      "sort_order": 20
     },
     {
       "id": "prairie-sun-pale-ale-01",
@@ -119,7 +119,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 10
+      "sort_order": 40
     },
     {
       "id": "hopped-honey-amber-paddockwood-01",
@@ -409,7 +409,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 150
+      "sort_order": 140
     },
     {
       "id": "white-ipa-pileobones-01",
@@ -438,7 +438,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 160
+      "sort_order": 150
     },
     {
       "id": "hazy-ipa-saskatoon-01",
@@ -467,7 +467,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 170
+      "sort_order": 160
     },
     {
       "id": "west-coast-ipa-saskatoon-01",
@@ -496,7 +496,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 180
+      "sort_order": 170
     },
     {
       "id": "juicy-ipa-armoury-01",
@@ -525,7 +525,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 190
+      "sort_order": 180
     },
     {
       "id": "crisp-flatlander-01",
@@ -554,7 +554,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 200
+      "sort_order": 190
     },
     {
       "id": "rotating-flatlander-01",
@@ -583,7 +583,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 210
+      "sort_order": 200
     },
     {
       "id": "raspberry-mango-sour-highkey-01",
@@ -612,7 +612,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 220
+      "sort_order": 210
     },
     {
       "id": "straight-cut-sour-9mile-01",
@@ -641,7 +641,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 230
+      "sort_order": 220
     },
     {
       "id": "berry-tea-luckybastard-01",
@@ -662,7 +662,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 240
+      "sort_order": 230
     },
     {
       "id": "undefined",
@@ -688,7 +688,7 @@
           "price": 28.5
         }
       ],
-      "sort_order": 250
+      "sort_order": 240
     },
     {
       "id": "new-beer-1759856392477",
@@ -716,7 +716,7 @@
       ],
       "description": "",
       "price_note": "",
-      "sort_order": 140
+      "sort_order": 250
     }
   ]
 }
