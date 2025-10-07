@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-07T02:06:54.491Z"
+    "last_updated": "2025-10-07T02:53:13.080Z"
   },
   "beers": [
     {
@@ -137,6 +137,10 @@
         {
           "label": "Pint",
           "price": 9.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
         }
       ],
       "price_note": "",
@@ -394,6 +398,10 @@
         {
           "label": "Pint",
           "price": 9
+        },
+        {
+          "label": "Pitcher",
+          "price": 28.5
         }
       ],
       "price_note": "",
@@ -477,6 +485,10 @@
         {
           "label": "Pint",
           "price": 9.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
         }
       ],
       "price_note": "",
@@ -502,6 +514,10 @@
         {
           "label": "Pint",
           "price": 9.75
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
         }
       ],
       "price_note": "",
@@ -657,7 +673,21 @@
       "abv": "4.0",
       "ibu": "",
       "tags": [],
-      "on_tap": true
+      "on_tap": true,
+      "sizes": [
+        {
+          "label": "Tulip",
+          "price": 7.5
+        },
+        {
+          "label": "Pint",
+          "price": 9
+        },
+        {
+          "label": "Pitcher",
+          "price": 28.5
+        }
+      ]
     }
   ]
 }
