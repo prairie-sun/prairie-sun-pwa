@@ -292,9 +292,8 @@ function renderTaplist(searchTerm = '') {
   document.getElementById('lastUpdated').textContent = `Updated: ${new Date(taplist.meta.last_updated).toLocaleString()}`;
 }
 
-  
   // --- Render Admin taplist ---
-  function renderAdminBeerInputs() {
+function renderAdminBeerInputs() {
   adminBeerList.innerHTML = '';
 
   (taplist.beers || []).forEach((beer, index) => {
@@ -332,7 +331,6 @@ function renderTaplist(searchTerm = '') {
       <input type="text" placeholder="Price Note" value="${beer.price_note || ''}" data-index="${index}" data-field="price_note" />
       <div style="display:flex; gap:6px; align-items:center;">
         <button class="admin-btn" data-index="${index}" data-action="delete">Delete</button>
-        <!-- Up/Down buttons for reordering -->
         <button class="admin-btn" data-index="${index}" data-action="move-up" ${index === 0 ? 'disabled' : ''}>↑</button>
         <button class="admin-btn" data-index="${index}" data-action="move-down" ${index === (taplist.beers.length - 1) ? 'disabled' : ''}>↓</button>
       </div>
@@ -341,48 +339,66 @@ function renderTaplist(searchTerm = '') {
     adminBeerList.appendChild(card);
   });
 
-  // --- Event delegation for inputs ---
-  adminBeerList.addEventListener('input', handleBeerInputChange);
-  adminBeerList.addEventListener('change', handleBeerInputChange);
+  // --- Event delegation (single listener) ---
+  if (!adminBeerList._listenersAdded) {
+    adminBeerList.addEventListener('input', handleBeerInputChange);
+    adminBeerList.addEventListener('change', handleBeerInputChange);
 
-  // --- Event delegation for buttons ---
-  adminBeerList.addEventListener('click', e => {
-    const btn = e.target;
-    const index = parseInt(btn.dataset.index);
+    adminBeerList.addEventListener('click', e => {
+      const btn = e.target;
+      const index = parseInt(btn.dataset.index);
+      if (isNaN(index)) return;
 
-    if (btn.dataset.action === 'delete') {
-      if (confirm('Are you sure you want to delete this beer?')) {
-        taplist.beers.splice(index, 1);
-        renderAdminBeerInputs();
-        renderTaplist();
+      // Delete beer
+      if (btn.dataset.action === 'delete') {
+        if (confirm('Are you sure you want to delete this beer?')) {
+          taplist.beers.splice(index, 1);
+          updateSortOrders();
+          renderAdminBeerInputs();
+          renderTaplist();
+        }
       }
-    } 
-    else if (btn.classList.contains('add-size-btn')) {
-      const beer = taplist.beers[index];
-      if (!beer.sizes) beer.sizes = [];
-      beer.sizes.push({ label: '', price: 0 });
-      renderAdminBeerInputs();
-    } 
-    else if (btn.classList.contains('remove-size-btn')) {
-      const sizeIndex = parseInt(btn.dataset.size);
-      const beer = taplist.beers[index];
-      if (beer.sizes && beer.sizes[sizeIndex] !== undefined) {
-        beer.sizes.splice(sizeIndex, 1);
+      // Add size
+      else if (btn.classList.contains('add-size-btn')) {
+        const beer = taplist.beers[index];
+        if (!beer.sizes) beer.sizes = [];
+        beer.sizes.push({ label: '', price: 0 });
         renderAdminBeerInputs();
       }
-    }
-    else if (btn.dataset.action === 'move-up' && index > 0) {
-      [taplist.beers[index - 1], taplist.beers[index]] = [taplist.beers[index], taplist.beers[index - 1]];
-      renderAdminBeerInputs();
-    }
-    else if (btn.dataset.action === 'move-down' && index < taplist.beers.length - 1) {
-      [taplist.beers[index + 1], taplist.beers[index]] = [taplist.beers[index], taplist.beers[index + 1]];
-      renderAdminBeerInputs();
-    }
+      // Remove size
+      else if (btn.classList.contains('remove-size-btn')) {
+        const sizeIndex = parseInt(btn.dataset.size);
+        const beer = taplist.beers[index];
+        if (beer.sizes && beer.sizes[sizeIndex] !== undefined) {
+          beer.sizes.splice(sizeIndex, 1);
+          renderAdminBeerInputs();
+        }
+      }
+      // Move up
+      else if (btn.dataset.action === 'move-up' && index > 0) {
+        [taplist.beers[index - 1], taplist.beers[index]] = [taplist.beers[index], taplist.beers[index - 1]];
+        updateSortOrders();
+        renderAdminBeerInputs();
+      }
+      // Move down
+      else if (btn.dataset.action === 'move-down' && index < taplist.beers.length - 1) {
+        [taplist.beers[index + 1], taplist.beers[index]] = [taplist.beers[index], taplist.beers[index + 1]];
+        updateSortOrders();
+        renderAdminBeerInputs();
+      }
 
-    renderTaplist();
-  });
+      renderTaplist();
+    });
+
+    adminBeerList._listenersAdded = true; // flag so listeners only attach once
+  }
 }
+
+// --- Update sort_order field based on current array order ---
+function updateSortOrders() {
+  taplist.beers.forEach((b, i) => b.sort_order = (i + 1) * 10);
+}
+
 
 
   // --- Add beer ---
