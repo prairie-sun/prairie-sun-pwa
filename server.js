@@ -96,39 +96,47 @@ app.post('/update-beer-status', async (req, res) => {
 });
 
 app.post('/save-taplist', async (req, res) => {
-  const { updates } = req.body;
-  if (!updates || typeof updates !== 'object') {
+  const { updates, delete: deletedIds } = req.body;
+
+  if ((!updates || typeof updates !== 'object') && !Array.isArray(deletedIds)) {
     return res.status(400).json({ success: false, message: 'Invalid request' });
   }
 
-  // Loop through each beer ID in the updates
-  Object.entries(updates).forEach(([beerId, changedFields]) => {
-    if (typeof changedFields !== 'object') return;
+  // --- Apply updates ---
+  if (updates && typeof updates === 'object') {
+    Object.entries(updates).forEach(([beerId, changedFields]) => {
+      if (typeof changedFields !== 'object') return;
 
-    // Check if beer already exists
-    let beer = taplist.beers.find(b => b.id === beerId);
+      // Find existing beer
+      let beer = taplist.beers.find(b => b.id === beerId);
 
-    if (beer) {
-      // Update existing beer
-      Object.entries(changedFields).forEach(([field, value]) => {
-        beer[field] = value;
-      });
-    } else {
-      // Add new beer
-      taplist.beers.push({ id: beerId, ...changedFields });
-    }
-  });
+      if (beer) {
+        // Update existing beer fields
+        Object.entries(changedFields).forEach(([field, value]) => {
+          beer[field] = value;
+        });
+      } else {
+        // Add new beer (for new IDs)
+        taplist.beers.push({ id: beerId, ...changedFields });
+      }
+    });
+  }
 
-  // Update the last_updated timestamp
+  // --- Handle deletions ---
+  if (Array.isArray(deletedIds) && deletedIds.length > 0) {
+    taplist.beers = taplist.beers.filter(b => !deletedIds.includes(b.id));
+  }
+
+  // --- Update timestamp ---
   taplist.meta.last_updated = new Date().toISOString();
 
-  // Write updated taplist.json
+  // --- Write updated file ---
   fs.writeFileSync(
     path.join(__dirname, 'public', 'taplist.json'),
     JSON.stringify(taplist, null, 2)
   );
 
-  // Broadcast update via WebSocket
+  // --- WebSocket broadcast ---
   const wss = app.get('wss');
   if (wss) {
     wss.clients.forEach(client => {
@@ -138,11 +146,12 @@ app.post('/save-taplist', async (req, res) => {
     });
   }
 
-  // Update GitHub
+  // --- Update GitHub (async for persistence) ---
   await updateTaplistOnGitHub(taplist);
 
   res.json({ success: true });
 });
+
 
 
 // --- Start server (delayed startup for Render stability) ---

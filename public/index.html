@@ -336,15 +336,22 @@ function renderAdminBeerInputs() {
   adminBeerList.addEventListener('click', e => {
     const btn = e.target;
 
-    // Delete beer
-    if (btn.dataset.action === 'delete') {
-      const index = parseInt(btn.dataset.index);
-      if (confirm('Are you sure you want to delete this beer?')) {
-        taplist.beers.splice(index, 1);
-        renderAdminBeerInputs();
-        renderTaplist();
-      }
+  // Delete beer
+  if (btn.dataset.action === 'delete') {
+    const index = parseInt(btn.dataset.index);
+    const beer = taplist.beers[index];
+    if (beer && confirm('Are you sure you want to delete this beer?')) {
+      // Track deletion for saving
+      deletedBeerIds.push(beer.id);
+
+      // Remove from list
+      taplist.beers.splice(index, 1);
+
+      // Re-render
+      renderAdminBeerInputs();
+      renderTaplist();
     }
+  }
 
     // Add size
     else if (btn.classList.contains('add-size-btn')) {
