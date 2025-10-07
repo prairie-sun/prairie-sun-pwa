@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-07T02:04:25.790Z"
+    "last_updated": "2025-10-07T02:05:12.509Z"
   },
   "beers": [
     {
@@ -647,6 +647,17 @@
       "on_tap": true,
       "image": "",
       "sort_order": 230
+    },
+    {
+      "id": "undefined",
+      "name": "Torch",
+      "style": "Lager",
+      "producer": "Prairie Sun Brewery",
+      "location": "Saskatoon, SK",
+      "abv": "4.0",
+      "ibu": "",
+      "tags": [],
+      "on_tap": false
     }
   ]
 }
