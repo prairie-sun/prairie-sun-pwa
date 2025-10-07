@@ -285,6 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function renderAdminBeerInputs() {
   adminBeerList.innerHTML = '';
+
   (taplist.beers || []).forEach((beer, index) => {
     const card = document.createElement('div');
     card.className = 'card';
@@ -326,38 +327,46 @@ function renderAdminBeerInputs() {
     adminBeerList.appendChild(card);
   });
 
-  // --- Add event listeners ---
-  adminBeerList.querySelectorAll('input, textarea').forEach(input => {
-    input.addEventListener('input', handleBeerInputChange);
-    input.addEventListener('change', handleBeerInputChange);
-  });
+  // --- Event delegation for inputs ---
+  adminBeerList.addEventListener('input', handleBeerInputChange);
+  adminBeerList.addEventListener('change', handleBeerInputChange);
 
-  adminBeerList.querySelectorAll('button[data-action="delete"]').forEach(btn => {
-    btn.addEventListener('click', handleDeleteBeer);
-  });
+  // --- Event delegation for buttons ---
+  adminBeerList.addEventListener('click', e => {
+    const btn = e.target;
 
-  adminBeerList.querySelectorAll('.add-size-btn').forEach(btn => {
-    btn.addEventListener('click', e => {
-      const index = e.target.dataset.index;
+    // Delete beer
+    if (btn.dataset.action === 'delete') {
+      const index = parseInt(btn.dataset.index);
+      if (confirm('Are you sure you want to delete this beer?')) {
+        taplist.beers.splice(index, 1);
+        renderAdminBeerInputs();
+        renderTaplist();
+      }
+    }
+
+    // Add size
+    else if (btn.classList.contains('add-size-btn')) {
+      const index = parseInt(btn.dataset.index);
       const beer = taplist.beers[index];
       if (!beer.sizes) beer.sizes = [];
       beer.sizes.push({ label: '', price: 0 });
       renderAdminBeerInputs();
-    });
-  });
+    }
 
-  adminBeerList.querySelectorAll('.remove-size-btn').forEach(btn => {
-    btn.addEventListener('click', e => {
-      const index = e.target.dataset.index;
-      const sizeIndex = e.target.dataset.size;
+    // Remove size
+    else if (btn.classList.contains('remove-size-btn')) {
+      const index = parseInt(btn.dataset.index);
+      const sizeIndex = parseInt(btn.dataset.size);
       const beer = taplist.beers[index];
       if (beer.sizes && beer.sizes[sizeIndex] !== undefined) {
         beer.sizes.splice(sizeIndex, 1);
         renderAdminBeerInputs();
       }
-    });
+    }
   });
 }
+
 
 
   // --- Add beer ---
@@ -534,12 +543,11 @@ function enterAdminMode() {
     fetch(API_URL).then(r=>r.json()).then(data=>renderTaplist(data)).catch(console.error);
   });
   
-  // --- Handle input changes ---
+// --- Handle input changes ---
 function handleBeerInputChange(e) {
-  const index = e.target.dataset.index;
+  const index = parseInt(e.target.dataset.index);
   const field = e.target.dataset.field;
   const beer = taplist.beers[index];
-
   if (!beer) return;
 
   // Handle tags
@@ -550,26 +558,27 @@ function handleBeerInputChange(e) {
   else if (field === 'on_tap') {
     beer.on_tap = e.target.checked;
   }
-  // Handle sizes
-  else if (field.startsWith('sizes-label-')) {
-    const i = parseInt(field.split('-')[2]);
+  // Handle sizes dynamically
+  else if (field?.startsWith('sizes-')) {
     if (!beer.sizes) beer.sizes = [];
-    if (!beer.sizes[i]) beer.sizes[i] = { label: '', price: 0 };
-    beer.sizes[i].label = e.target.value;
-  }
-  else if (field.startsWith('sizes-price-')) {
-    const i = parseInt(field.split('-')[2]);
-    if (!beer.sizes) beer.sizes = [];
-    if (!beer.sizes[i]) beer.sizes[i] = { label: '', price: 0 };
-    beer.sizes[i].price = parseFloat(e.target.value) || 0;
+
+    // Match "sizes-label-0" or "sizes-price-1"
+    const match = field.match(/^sizes-(label|price)-(\d+)$/);
+    if (match) {
+      const prop = match[1];      // "label" or "price"
+      const i = parseInt(match[2]); // size index
+      if (!beer.sizes[i]) beer.sizes[i] = { label: '', price: 0 };
+      beer.sizes[i][prop] = prop === 'price' ? parseFloat(e.target.value) || 0 : e.target.value;
+    }
   }
   // All other fields (name, style, producer, location, abv, ibu, description, price_note)
-  else {
+  else if (field) {
     beer[field] = e.target.value;
   }
 
   renderTaplist(); // update beer cards in real time
 }
+
 
   // --- Initial load ---
   fetch(API_URL).then(r=>r.json()).then(data=>{
