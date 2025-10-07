@@ -493,12 +493,21 @@ function enterAdminMode() {
   renderAdminBeerInputs();
 }
 
-  // --- Admin login ---
-  adminBtn.addEventListener('click', () => {
-    adminModal.style.display = 'flex';
-    document.getElementById('adminPasswordInput').value = '';
-    document.getElementById('adminLoginError').style.display = 'none';
-  });
+// --- Admin login ---
+adminBtn.addEventListener('click', () => {
+  adminModal.style.display = 'flex';
+  const passwordInput = document.getElementById('adminPasswordInput');
+  passwordInput.value = '';
+  document.getElementById('adminLoginError').style.display = 'none';
+
+  // Press Enter to log in
+  passwordInput.addEventListener('keydown', async (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // prevent default behavior
+      document.getElementById('adminLoginBtn').click();
+    }
+  }, { once: true }); // 'once: true' ensures the listener is attached only once per modal open
+});
 
   // --- Password check ---
   document.getElementById('adminLoginBtn').onclick = async () => {
