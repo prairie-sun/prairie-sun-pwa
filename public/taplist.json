@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-07T21:43:14.638Z"
+    "last_updated": "2025-10-07T21:43:38.639Z"
   },
   "beers": [
     {
@@ -669,27 +669,6 @@
       "sort_order": 230
     },
     {
-      "id": "berry-tea-luckybastard-01",
-      "name": "Berry Tea",
-      "producer": "Lucky Bastard",
-      "location": "Saskatoon, SK",
-      "style": "Seltzer",
-      "abv": "5.0",
-      "ibu": null,
-      "sizes": [
-        {
-          "label": "Tulip",
-          "price": 8.5
-        }
-      ],
-      "price_note": "",
-      "description": "",
-      "tags": [],
-      "on_tap": true,
-      "image": "",
-      "sort_order": 240
-    },
-    {
       "id": "raspberry-mango-sour-highkey-01",
       "name": "Raspberry Mango Sour",
       "producer": "High Key Brewing",
@@ -709,6 +688,27 @@
         {
           "label": "Pitcher",
           "price": 31
+        }
+      ],
+      "price_note": "",
+      "description": "",
+      "tags": [],
+      "on_tap": true,
+      "image": "",
+      "sort_order": 240
+    },
+    {
+      "id": "berry-tea-luckybastard-01",
+      "name": "Berry Tea",
+      "producer": "Lucky Bastard",
+      "location": "Saskatoon, SK",
+      "style": "Seltzer",
+      "abv": "5.0",
+      "ibu": null,
+      "sizes": [
+        {
+          "label": "Tulip",
+          "price": 8.5
         }
       ],
       "price_note": "",
