@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-07T21:22:24.369Z"
+    "last_updated": "2025-10-07T21:25:22.669Z"
   },
   "beers": [
     {
@@ -554,7 +554,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 200
+      "sort_order": 190
     },
     {
       "id": "rotating-flatlander-01",
@@ -583,7 +583,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 210
+      "sort_order": 200
     },
     {
       "id": "raspberry-mango-sour-highkey-01",
@@ -612,7 +612,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 220
+      "sort_order": 210
     },
     {
       "id": "straight-cut-sour-9mile-01",
@@ -662,7 +662,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 240
+      "sort_order": 250
     },
     {
       "id": "undefined",
@@ -688,7 +688,7 @@
           "price": 28.5
         }
       ],
-      "sort_order": 250
+      "sort_order": 220
     },
     {
       "id": "new-beer-1759856392477",
@@ -716,7 +716,7 @@
       ],
       "description": "",
       "price_note": "",
-      "sort_order": 190
+      "sort_order": 240
     }
   ]
 }
