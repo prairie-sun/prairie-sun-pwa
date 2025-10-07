@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-07T17:59:27.892Z"
+    "last_updated": "2025-10-07T18:30:51.944Z"
   },
   "beers": [
     {
@@ -32,7 +32,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 10
+      "sort_order": 20
     },
     {
       "id": "ryed-or-die-paddockwood-01",
@@ -61,7 +61,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 20
+      "sort_order": 10
     },
     {
       "id": "the-ticket-9mile-01",
