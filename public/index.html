@@ -177,6 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let taplist = null;
   let isAdmin = sessionStorage.getItem('isAdmin') === 'true';
   let pendingUpdates = {};
+  let deletedBeerIds = [];
 
   // --- Utilities ---
   function escapeHtml(s) {
@@ -367,8 +368,6 @@ function renderAdminBeerInputs() {
   });
 }
 
-
-
   // --- Add beer ---
 addBeerBtn.onclick = () => {
   const nextSortOrder = (taplist.beers.length > 0)
@@ -400,56 +399,60 @@ addBeerBtn.onclick = () => {
   renderAdminBeerInputs();
   renderTaplist();
 };
+
+  function handleDeleteBeer(e) {
+  const index = e.target.dataset.index;
+  const beer = taplist.beers[index];
+  if (!beer) return;
+
+  // Add to deleted list
+  deletedBeerIds.push(beer.id);
+
+  // Remove from taplist array
+  taplist.beers.splice(index, 1);
+
+  // Re-render admin inputs and main taplist
+  renderAdminBeerInputs();
+  renderTaplist();
+}
   
 saveTaplistBtn.onclick = async () => {
   try {
     const updates = {};
-
     (taplist.beers || []).forEach(beer => {
-      // Make a shallow copy to clean up sizes
-      const beerCopy = { ...beer };
-
-      // Filter out empty sizes
-      if (Array.isArray(beerCopy.sizes)) {
-        beerCopy.sizes = beerCopy.sizes.filter(s => s.label.trim() !== '' && s.price > 0);
-      }
-
       const original = pendingUpdates[beer.id] || {};
-
-      // Compare each field to detect changes
       const changedFields = {};
       ['name','style','producer','location','abv','ibu','tags','on_tap','sizes','description','price_note'].forEach(field => {
-        const value = beerCopy[field];
+        const value = beer[field];
         const origValue = original[field];
         if (Array.isArray(value) && Array.isArray(origValue)) {
-          // For arrays, join for simple comparison
-          if (JSON.stringify(value) !== JSON.stringify(origValue)) changedFields[field] = value;
+          if (value.join(',') !== origValue.join(',')) changedFields[field] = value;
         } else if (value !== origValue) {
           changedFields[field] = value;
         }
       });
-
       if (Object.keys(changedFields).length > 0) updates[beer.id] = changedFields;
     });
 
-    if (Object.keys(updates).length === 0) {
+    if (Object.keys(updates).length === 0 && deletedBeerIds.length === 0) {
       alert('No changes to save!');
       return;
     }
 
-    // Update last_updated
     taplist.meta.last_updated = new Date().toISOString();
 
     const res = await fetch('/save-taplist', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ updates })
+      body: JSON.stringify({ updates, delete: deletedBeerIds }) // <-- send deletions
     });
 
     if (res.ok) {
       alert('Taplist saved successfully!');
       pendingUpdates = {};
-      renderTaplist();  // re-render UI including any new beers
+      deletedBeerIds = [];
+      renderTaplist();
+      renderAdminBeerInputs();
     } else {
       const data = await res.json();
       alert(`Failed to save taplist: ${data.message || res.statusText}`);
@@ -459,8 +462,6 @@ saveTaplistBtn.onclick = async () => {
     alert('Error saving taplist.');
   }
 };
-
-
 
   // --- Exit Admin ---
   exitAdminBtn.onclick = () => {
@@ -499,14 +500,16 @@ adminBtn.addEventListener('click', () => {
   const passwordInput = document.getElementById('adminPasswordInput');
   passwordInput.value = '';
   document.getElementById('adminLoginError').style.display = 'none';
+  passwordInput.focus();
+});
 
-  // Press Enter to log in
-  passwordInput.addEventListener('keydown', async (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault(); // prevent default behavior
-      document.getElementById('adminLoginBtn').click();
-    }
-  }, { once: true }); // 'once: true' ensures the listener is attached only once per modal open
+// --- Press Enter to log in ---
+const passwordInput = document.getElementById('adminPasswordInput');
+passwordInput.addEventListener('keydown', async (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault(); // prevent form submission / default behavior
+    document.getElementById('adminLoginBtn').click();
+  }
 });
 
   // --- Password check ---
