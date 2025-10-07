@@ -126,6 +126,17 @@ app.post('/save-taplist', async (req, res) => {
   if (Array.isArray(deletedIds) && deletedIds.length > 0) {
     taplist.beers = taplist.beers.filter(b => !deletedIds.includes(b.id));
   }
+  
+    // --- Ensure all beers have a sort_order and re-sort accordingly ---
+  taplist.beers.forEach((b, i) => {
+    if (typeof b.sort_order !== 'number') b.sort_order = (i + 1) * 10;
+  });
+  taplist.beers.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+
+  // --- Normalize sort_order to maintain consistent spacing ---
+  taplist.beers.forEach((b, i) => {
+    b.sort_order = (i + 1) * 10;
+  });
 
   // --- Update timestamp ---
   taplist.meta.last_updated = new Date().toISOString();

@@ -360,7 +360,6 @@ function renderAdminBeerInputs() {
           const beerToDelete = [...taplist.beers].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))[index];
           const realIndex = taplist.beers.findIndex(b => b.id === beerToDelete.id);
           taplist.beers.splice(realIndex, 1);
-          updateSortOrders();
           renderAdminBeerInputs();
           renderTaplist();
         }
@@ -472,11 +471,6 @@ addBeerBtn.onclick = () => {
 saveTaplistBtn.onclick = async () => {
   try {
     const updates = {};
-
-    // --- Update sort_order according to current array order
-    (taplist.beers || []).forEach((beer, idx) => {
-      beer.sort_order = (idx + 1) * 10; // incremental sort_order
-    });
 
     (taplist.beers || []).forEach(beer => {
       const original = pendingUpdates[beer.id] || {};
