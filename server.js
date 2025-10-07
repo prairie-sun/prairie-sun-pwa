@@ -97,17 +97,25 @@ app.post('/update-beer-status', async (req, res) => {
 
 app.post('/save-taplist', async (req, res) => {
   const { updates } = req.body;
-  if (!updates || typeof updates !== 'object')
+  if (!updates || typeof updates !== 'object') {
     return res.status(400).json({ success: false, message: 'Invalid request' });
+  }
 
-  // Loop through each beer ID sent in the updates
+  // Loop through each beer ID in the updates
   Object.entries(updates).forEach(([beerId, changedFields]) => {
-    const beer = taplist.beers.find(b => b.id === beerId);
-    if (beer && typeof changedFields === 'object') {
-      // Merge only the changed fields
+    if (typeof changedFields !== 'object') return;
+
+    // Check if beer already exists
+    let beer = taplist.beers.find(b => b.id === beerId);
+
+    if (beer) {
+      // Update existing beer
       Object.entries(changedFields).forEach(([field, value]) => {
         beer[field] = value;
       });
+    } else {
+      // Add new beer
+      taplist.beers.push({ id: beerId, ...changedFields });
     }
   });
 
@@ -135,6 +143,7 @@ app.post('/save-taplist', async (req, res) => {
 
   res.json({ success: true });
 });
+
 
 // --- Start server (delayed startup for Render stability) ---
 setTimeout(() => {

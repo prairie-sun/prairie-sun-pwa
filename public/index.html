@@ -344,14 +344,12 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTaplist();
   }
   
-// --- Save taplist ---
 saveTaplistBtn.onclick = async () => {
   try {
-    // Collect only beers that have changed
     const updates = {};
-    (taplist.beers || []).forEach((beer, index) => {
-      const original = pendingUpdates[beer.id];
-      if (!original) return; // skip beers with no changes
+
+    (taplist.beers || []).forEach(beer => {
+      const original = pendingUpdates[beer.id] || {}; // <-- use empty object for new beers
 
       // Compare each field to detect changes
       const changedFields = {};
@@ -384,9 +382,8 @@ saveTaplistBtn.onclick = async () => {
 
     if (res.ok) {
       alert('Taplist saved successfully!');
-      // Reset pendingUpdates
       pendingUpdates = {};
-      renderTaplist();  // re-render UI to reflect current taplist
+      renderTaplist();  // re-render UI including any new beers
     } else {
       const data = await res.json();
       alert(`Failed to save taplist: ${data.message || res.statusText}`);
@@ -396,6 +393,7 @@ saveTaplistBtn.onclick = async () => {
     alert('Error saving taplist.');
   }
 };
+
 
   // --- Exit admin ---
   exitAdminBtn.onclick = () => {
