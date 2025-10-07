@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-07T03:06:03.607Z"
+    "last_updated": "2025-10-07T03:08:35.651Z"
   },
   "beers": [
     {
@@ -688,6 +688,33 @@
           "price": 28.5
         }
       ]
+    },
+    {
+      "id": "new-beer-1759806452345",
+      "name": "Leigha's Beer",
+      "style": "Ale",
+      "producer": "Prairie Sun Brewery",
+      "location": "Saskatoon, SK",
+      "abv": "2.5",
+      "ibu": "",
+      "tags": [],
+      "on_tap": true,
+      "sizes": [
+        {
+          "label": "Tulip",
+          "price": 8
+        },
+        {
+          "label": "Pint",
+          "price": 10
+        },
+        {
+          "label": "Pitcher",
+          "price": 30
+        }
+      ],
+      "description": "",
+      "price_note": ""
     }
   ]
 }
