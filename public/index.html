@@ -284,49 +284,52 @@ document.addEventListener('DOMContentLoaded', () => {
     beersToShow.forEach(upsertBeerCard);
   }
 
-function renderAdminBeerInputs() {
+fufunction renderAdminBeerInputs() {
   adminBeerList.innerHTML = '';
 
-  // Sort beers by sort_order before rendering
+  // Sort beers by sort_order for admin display
   const sortedBeers = (taplist.beers || []).slice().sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
 
-  sortedBeers.forEach((beer, index) => {
+  sortedBeers.forEach((beer) => {
+    // Find the actual index in taplist.beers
+    const realIndex = taplist.beers.findIndex(b => b.id === beer.id);
+
+    const sizesHTML = (beer.sizes || []).map((s, i) => `
+      <div style="display:flex; gap:4px; align-items:center;">
+        <input type="text" placeholder="Size label" value="${s.label}" data-index="${realIndex}" data-field="sizes-label-${i}" style="flex:1;" />
+        <input type="number" placeholder="Price" value="${s.price}" data-index="${realIndex}" data-field="sizes-price-${i}" style="width:70px;" />
+        <button type="button" class="remove-size-btn" data-index="${realIndex}" data-size="${i}">Remove</button>
+      </div>
+    `).join('');
+
     const card = document.createElement('div');
     card.className = 'card';
     card.style.display = 'flex';
     card.style.flexDirection = 'column';
     card.style.gap = '6px';
 
-    const sizesHTML = (beer.sizes || []).map((s, i) => `
-      <div style="display:flex; gap:4px; align-items:center;">
-        <input type="text" placeholder="Size label" value="${s.label}" data-index="${index}" data-field="sizes-label-${i}" style="flex:1;" />
-        <input type="number" placeholder="Price" value="${s.price}" data-index="${index}" data-field="sizes-price-${i}" style="width:70px;" />
-        <button type="button" class="remove-size-btn" data-index="${index}" data-size="${i}">Remove</button>
-      </div>
-    `).join('');
-
     card.innerHTML = `
-      <input type="text" placeholder="Name" value="${beer.name || ''}" data-index="${index}" data-field="name" />
-      <input type="text" placeholder="Style" value="${beer.style || ''}" data-index="${index}" data-field="style" />
-      <input type="text" placeholder="Producer" value="${beer.producer || ''}" data-index="${index}" data-field="producer" />
-      <input type="text" placeholder="Location" value="${beer.location || ''}" data-index="${index}" data-field="location" />
-      <input type="text" placeholder="ABV" value="${beer.abv || ''}" data-index="${index}" data-field="abv" />
-      <input type="text" placeholder="IBU" value="${beer.ibu || ''}" data-index="${index}" data-field="ibu" />
-      <textarea placeholder="Description" data-index="${index}" data-field="description">${beer.description || ''}</textarea>
-      <input type="text" placeholder="Tags (comma-separated)" value="${(beer.tags || []).join(', ')}" data-index="${index}" data-field="tags" />
+      <input type="text" placeholder="Name" value="${beer.name || ''}" data-index="${realIndex}" data-field="name" />
+      <input type="text" placeholder="Style" value="${beer.style || ''}" data-index="${realIndex}" data-field="style" />
+      <input type="text" placeholder="Producer" value="${beer.producer || ''}" data-index="${realIndex}" data-field="producer" />
+      <input type="text" placeholder="Location" value="${beer.location || ''}" data-index="${realIndex}" data-field="location" />
+      <input type="text" placeholder="ABV" value="${beer.abv || ''}" data-index="${realIndex}" data-field="abv" />
+      <input type="text" placeholder="IBU" value="${beer.ibu || ''}" data-index="${realIndex}" data-field="ibu" />
+      <textarea placeholder="Description" data-index="${realIndex}" data-field="description">${beer.description || ''}</textarea>
+      <input type="text" placeholder="Tags (comma-separated)" value="${(beer.tags || []).join(', ')}" data-index="${realIndex}" data-field="tags" />
       <div style="display:flex; gap:6px; align-items:center;">
-        <label>On Tap: <input type="checkbox" data-index="${index}" data-field="on_tap" ${beer.on_tap ? 'checked' : ''} /></label>
+        <label>On Tap: <input type="checkbox" data-index="${realIndex}" data-field="on_tap" ${beer.on_tap ? 'checked' : ''} /></label>
       </div>
       <div>
         <label>Sizes:</label>
         ${sizesHTML}
-        <button type="button" class="add-size-btn" data-index="${index}">+ Add Size</button>
+        <button type="button" class="add-size-btn" data-index="${realIndex}">+ Add Size</button>
       </div>
-      <input type="text" placeholder="Price Note" value="${beer.price_note || ''}" data-index="${index}" data-field="price_note" />
+      <input type="text" placeholder="Price Note" value="${beer.price_note || ''}" data-index="${realIndex}" data-field="price_note" />
       <div style="display:flex; gap:6px;">
-        <button class="admin-btn" data-index="${index}" data-action="delete">Delete</button>
-        <button class="move-up" data-index="${index}">↑</button>
-        <button class="move-down" data-index="${index}">↓</button>
+        <button class="admin-btn" data-index="${realIndex}" data-action="move-up" ${realIndex === 0 ? 'disabled' : ''}>⬆️</button>
+        <button class="admin-btn" data-index="${realIndex}" data-action="move-down" ${realIndex === taplist.beers.length - 1 ? 'disabled' : ''}>⬇️</button>
+        <button class="admin-btn" data-index="${realIndex}" data-action="delete">Delete</button>
       </div>
     `;
 
@@ -341,60 +344,52 @@ function renderAdminBeerInputs() {
   adminBeerList.addEventListener('click', e => {
     const btn = e.target;
     const index = parseInt(btn.dataset.index);
-    const beer = sortedBeers[index];
-    if (!beer) return;
 
-    // Delete beer
-    if (btn.dataset.action === 'delete') {
-      if (confirm('Are you sure you want to delete this beer?')) {
-        deletedBeerIds.push(beer.id);
-        const beerIndex = taplist.beers.findIndex(b => b.id === beer.id);
-        if (beerIndex !== -1) taplist.beers.splice(beerIndex, 1);
-        renderAdminBeerInputs();
-        renderTaplist();
-      }
+    if (btn.dataset.action === 'move-up' && index > 0) {
+      const current = taplist.beers[index];
+      const above = taplist.beers[index - 1];
+
+      // Swap sort_order
+      [current.sort_order, above.sort_order] = [above.sort_order, current.sort_order];
+      // Swap positions in array
+      [taplist.beers[index - 1], taplist.beers[index]] = [current, above];
+
+      renderAdminBeerInputs();
+      renderTaplist();
     }
 
-    // Add size
+    else if (btn.dataset.action === 'move-down' && index < taplist.beers.length - 1) {
+      const current = taplist.beers[index];
+      const below = taplist.beers[index + 1];
+
+      [current.sort_order, below.sort_order] = [below.sort_order, current.sort_order];
+      [taplist.beers[index + 1], taplist.beers[index]] = [current, below];
+
+      renderAdminBeerInputs();
+      renderTaplist();
+    }
+
+    else if (btn.dataset.action === 'delete') {
+      handleDeleteBeer(e);
+    }
+
     else if (btn.classList.contains('add-size-btn')) {
+      const beer = taplist.beers[index];
       if (!beer.sizes) beer.sizes = [];
       beer.sizes.push({ label: '', price: 0 });
       renderAdminBeerInputs();
     }
 
-    // Remove size
     else if (btn.classList.contains('remove-size-btn')) {
+      const beer = taplist.beers[index];
       const sizeIndex = parseInt(btn.dataset.size);
       if (beer.sizes && beer.sizes[sizeIndex] !== undefined) {
         beer.sizes.splice(sizeIndex, 1);
         renderAdminBeerInputs();
       }
     }
-
-    // Move Up
-    else if (btn.classList.contains('move-up')) {
-      const beerIndex = taplist.beers.findIndex(b => b.id === beer.id);
-      if (beerIndex > 0) {
-        const prevBeer = taplist.beers[beerIndex - 1];
-        [beer.sort_order, prevBeer.sort_order] = [prevBeer.sort_order, beer.sort_order];
-        renderAdminBeerInputs();
-        renderTaplist();
-      }
-    }
-
-    // Move Down
-    else if (btn.classList.contains('move-down')) {
-      const beerIndex = taplist.beers.findIndex(b => b.id === beer.id);
-      if (beerIndex < taplist.beers.length - 1) {
-        const nextBeer = taplist.beers[beerIndex + 1];
-        [beer.sort_order, nextBeer.sort_order] = [nextBeer.sort_order, beer.sort_order];
-        renderAdminBeerInputs();
-        renderTaplist();
-      }
-    }
   });
 }
-
 
   // --- Add beer ---
 addBeerBtn.onclick = () => {
