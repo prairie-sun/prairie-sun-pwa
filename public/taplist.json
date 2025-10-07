@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-07T16:38:56.189Z"
+    "last_updated": "2025-10-07T17:03:40.243Z"
   },
   "beers": [
     {
@@ -32,7 +32,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 40
+      "sort_order": 20
     },
     {
       "id": "ryed-or-die-paddockwood-01",
@@ -90,7 +90,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 20
+      "sort_order": 40
     },
     {
       "id": "prairie-sun-pale-ale-01",
@@ -554,7 +554,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 200
+      "sort_order": 210
     },
     {
       "id": "rotating-flatlander-01",
@@ -583,7 +583,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 210
+      "sort_order": 220
     },
     {
       "id": "raspberry-mango-sour-highkey-01",
@@ -612,7 +612,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 220
+      "sort_order": 230
     },
     {
       "id": "straight-cut-sour-9mile-01",
@@ -641,7 +641,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 230
+      "sort_order": 240
     },
     {
       "id": "berry-tea-luckybastard-01",
@@ -662,7 +662,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 240
+      "sort_order": 250
     },
     {
       "id": "undefined",
@@ -689,6 +689,34 @@
         }
       ],
       "sort_order": 10
+    },
+    {
+      "id": "new-beer-1759856392477",
+      "name": "Obsession",
+      "style": "ISA",
+      "producer": "Prairie Sun Brewery",
+      "location": "Saskatoon, SK",
+      "abv": "4.2",
+      "ibu": "",
+      "tags": [],
+      "on_tap": true,
+      "sizes": [
+        {
+          "label": "Tulip",
+          "price": 7.5
+        },
+        {
+          "label": "Pint",
+          "price": 9
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
+        }
+      ],
+      "description": "",
+      "price_note": "",
+      "sort_order": 200
     }
   ]
 }
