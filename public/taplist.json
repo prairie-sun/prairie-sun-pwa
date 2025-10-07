@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-07T21:47:48.368Z"
+    "last_updated": "2025-10-07T21:48:30.291Z"
   },
   "beers": [
     {
@@ -380,6 +380,34 @@
       "sort_order": 130
     },
     {
+      "id": "new-beer-1759856392477",
+      "name": "Obsession",
+      "style": "ISA",
+      "producer": "Prairie Sun Brewery",
+      "location": "Saskatoon, SK",
+      "abv": "4.2",
+      "ibu": "",
+      "tags": [],
+      "on_tap": true,
+      "sizes": [
+        {
+          "label": "Tulip",
+          "price": 7.5
+        },
+        {
+          "label": "Pint",
+          "price": 9
+        },
+        {
+          "label": "Pitcher",
+          "price": 31
+        }
+      ],
+      "description": "",
+      "price_note": "",
+      "sort_order": 140
+    },
+    {
       "id": "lovertime-ipa-prairie-01",
       "name": "Lovertime IPA",
       "producer": "Prairie Sun Brewery",
@@ -406,7 +434,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 140
+      "sort_order": 150
     },
     {
       "id": "white-ipa-pileobones-01",
@@ -435,7 +463,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 150
+      "sort_order": 160
     },
     {
       "id": "hazy-ipa-saskatoon-01",
@@ -464,7 +492,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 160
+      "sort_order": 170
     },
     {
       "id": "west-coast-ipa-saskatoon-01",
@@ -493,7 +521,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 170
+      "sort_order": 180
     },
     {
       "id": "juicy-ipa-armoury-01",
@@ -522,34 +550,6 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 180
-    },
-    {
-      "id": "new-beer-1759856392477",
-      "name": "Obsession",
-      "style": "ISA",
-      "producer": "Prairie Sun Brewery",
-      "location": "Saskatoon, SK",
-      "abv": "4.2",
-      "ibu": "",
-      "tags": [],
-      "on_tap": true,
-      "sizes": [
-        {
-          "label": "Tulip",
-          "price": 7.5
-        },
-        {
-          "label": "Pint",
-          "price": 9
-        },
-        {
-          "label": "Pitcher",
-          "price": 31
-        }
-      ],
-      "description": "",
-      "price_note": "",
       "sort_order": 190
     },
     {
