@@ -469,15 +469,18 @@ addBeerBtn.onclick = () => {
   renderTaplist();
 }
   
-saveTaplistBtn.onclick = async () => {
+saveTaplistBtn.onclick = async () => { 
   try {
     const updates = {};
 
-    // Update sort_order according to current array order
+    // --- Update sort_order according to current array order
     (taplist.beers || []).forEach((beer, idx) => {
-      beer.sort_order = (idx + 1) * 10; // simple incremental sort_order
+      beer.sort_order = (idx + 1) * 10; // incremental sort_order
+      // Keep pendingUpdates in sync so order doesn't revert
+      if (pendingUpdates[beer.id]) pendingUpdates[beer.id].sort_order = beer.sort_order;
     });
 
+    // --- Compare current beers with pendingUpdates to detect changes
     (taplist.beers || []).forEach(beer => {
       const original = pendingUpdates[beer.id] || {};
       const changedFields = {};
@@ -495,6 +498,7 @@ saveTaplistBtn.onclick = async () => {
       if (Object.keys(changedFields).length > 0) updates[beer.id] = changedFields;
     });
 
+    // --- Nothing to save
     if (Object.keys(updates).length === 0 && deletedBeerIds.length === 0) {
       alert('No changes to save!');
       return;
@@ -502,6 +506,7 @@ saveTaplistBtn.onclick = async () => {
 
     taplist.meta.last_updated = new Date().toISOString();
 
+    // --- Send updates to server
     const res = await fetch('/save-taplist', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -510,8 +515,10 @@ saveTaplistBtn.onclick = async () => {
 
     if (res.ok) {
       alert('Taplist saved successfully!');
+      // Reset pendingUpdates and deletedBeerIds
       pendingUpdates = {};
       deletedBeerIds = [];
+      // Re-render
       renderTaplist();
       renderAdminBeerInputs();
     } else {
@@ -523,7 +530,6 @@ saveTaplistBtn.onclick = async () => {
     alert('Error saving taplist.');
   }
 };
-
 
   // --- Exit Admin ---
   exitAdminBtn.onclick = () => {
