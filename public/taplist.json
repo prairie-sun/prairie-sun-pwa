@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-07T21:20:29.908Z"
+    "last_updated": "2025-10-07T21:21:26.834Z"
   },
   "beers": [
     {
@@ -351,7 +351,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 120
+      "sort_order": 180
     },
     {
       "id": "raspberry-wheat-ale-pileobones-01",
@@ -380,7 +380,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 130
+      "sort_order": 120
     },
     {
       "id": "lovertime-ipa-prairie-01",
@@ -409,7 +409,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 140
+      "sort_order": 130
     },
     {
       "id": "white-ipa-pileobones-01",
@@ -438,7 +438,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 150
+      "sort_order": 140
     },
     {
       "id": "hazy-ipa-saskatoon-01",
@@ -467,7 +467,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 160
+      "sort_order": 150
     },
     {
       "id": "west-coast-ipa-saskatoon-01",
@@ -496,7 +496,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 170
+      "sort_order": 160
     },
     {
       "id": "juicy-ipa-armoury-01",
@@ -525,7 +525,7 @@
       "tags": [],
       "on_tap": true,
       "image": "",
-      "sort_order": 180
+      "sort_order": 170
     },
     {
       "id": "crisp-flatlander-01",
