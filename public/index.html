@@ -355,15 +355,31 @@ function renderAdminBeerInputs() {
       if (isNaN(index)) return;
 
       // --- Delete beer ---
-      if (btn.dataset.action === 'delete') {
-        if (confirm('Are you sure you want to delete this beer?')) {
-          const beerToDelete = [...taplist.beers].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))[index];
-          const realIndex = taplist.beers.findIndex(b => b.id === beerToDelete.id);
-          taplist.beers.splice(realIndex, 1);
-          renderAdminBeerInputs();
-          renderTaplist();
-        }
-      }
+if (btn.dataset.action === 'delete') {
+  if (!confirm('Are you sure you want to delete this beer?')) return;
+
+  // beersSorted is the array shown in admin UI (sorted by sort_order)
+  const beersSorted = [...taplist.beers].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+  const beerToDelete = beersSorted[index];
+  if (!beerToDelete) return;
+
+  // Add to deleted list so backend removes it on save
+  // If it's a newly created beer that was never saved to server, this is harmless.
+  deletedBeerIds.push(String(beerToDelete.id));
+
+  // Remove from taplist array (find real index)
+  const realIndex = taplist.beers.findIndex(b => b.id === beerToDelete.id);
+  if (realIndex !== -1) {
+    taplist.beers.splice(realIndex, 1);
+  }
+
+  // Re-render
+  renderAdminBeerInputs();
+  renderTaplist();
+
+  console.log('Deleted locally (queued):', beerToDelete.id, 'deletedBeerIds=', deletedBeerIds);
+}
+
 
       // --- Add size ---
       else if (btn.classList.contains('add-size-btn')) {
@@ -519,6 +535,7 @@ saveTaplistBtn.onclick = async () => {
     console.error(err);
     alert('Error saving taplist.');
   }
+  console.log('Saving, updates keys:', Object.keys(updates || {}), 'deletedIds:', deletedBeerIds);
 };
 
 
