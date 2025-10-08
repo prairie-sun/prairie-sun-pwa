@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-08T18:12:52.068Z"
+    "last_updated": "2025-10-08T23:58:49.914Z"
   },
   "beers": [
     {
@@ -724,13 +724,15 @@
     {
       "id": "new-beer-1759880747954",
       "name": "Lazy Sunday IPA",
-      "style": "IPA",
+      "style": "Hazy IPA",
       "producer": "Prairie Sun Brewery",
       "location": "Saskatoon, SK",
       "abv": "6.0",
       "ibu": "25",
       "tags": [
-        ""
+        "Hoppy",
+        "hazy",
+        "NEIPA"
       ],
       "on_tap": true,
       "sizes": [
@@ -747,7 +749,7 @@
           "price": 31
         }
       ],
-      "description": "",
+      "description": "Tropical hops, pillow soft, low bitterness. ",
       "price_note": "",
       "sort_order": 260
     },
