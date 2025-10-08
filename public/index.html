@@ -659,10 +659,17 @@ passwordInput.addEventListener('keydown', async (e) => {
   });
 
   // --- Refresh ---
-  document.getElementById('refresh').addEventListener('click', () => {
-    searchEl.value = '';
-    fetch(API_URL).then(r=>r.json()).then(data=>renderTaplist(data)).catch(console.error);
-  });
+document.getElementById('refresh').addEventListener('click', () => {
+  searchEl.value = '';
+  fetch(API_URL)
+    .then(r => r.json())
+    .then(data => {
+      taplist = data;   // update global taplist
+      renderTaplist();  // render all beers
+    })
+    .catch(console.error);
+});
+
   
 // --- Handle input changes ---
 function handleBeerInputChange(e) {
