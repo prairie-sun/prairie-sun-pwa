@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-08T06:39:21.678Z"
+    "last_updated": "2025-10-08T06:40:42.333Z"
   },
   "beers": [
     {
@@ -14,7 +14,7 @@
       "abv": "4.0",
       "ibu": "",
       "tags": [],
-      "on_tap": false,
+      "on_tap": true,
       "sizes": [
         {
           "label": "Tulip",
@@ -807,9 +807,9 @@
     {
       "id": "new-beer-1759889473978",
       "name": "Delete me.",
-      "style": "Dang",
-      "producer": "This",
-      "location": "Persists",
+      "style": "",
+      "producer": "",
+      "location": "",
       "abv": "",
       "ibu": "",
       "tags": [],
