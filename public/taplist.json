@@ -2,12 +2,12 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-08T00:44:53.766Z"
+    "last_updated": "2025-10-08T00:46:07.680Z"
   },
   "beers": [
     {
       "id": "undefined",
-      "name": "Torch",
+      "name": "Torch Lager",
       "style": "Lager",
       "producer": "Prairie Sun Brewery",
       "location": "Saskatoon, SK",
@@ -722,14 +722,14 @@
       "id": "new-beer-1759880747954",
       "name": "L’hazy Sunday IPA",
       "style": "IPA",
-      "producer": "Prairie Sun Brewery",
+      "producer": "",
       "location": "Saskatoon, SK",
       "abv": "6.0",
       "ibu": "25",
       "tags": [
         ""
       ],
-      "on_tap": true,
+      "on_tap": false,
       "sizes": [
         {
           "label": "Tulip",
