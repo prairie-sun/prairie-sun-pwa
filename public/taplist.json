@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-08T08:53:39.385Z"
+    "last_updated": "2025-10-08T18:12:28.549Z"
   },
   "beers": [
     {
@@ -14,7 +14,8 @@
       "abv": "4.0",
       "ibu": "",
       "tags": [
-        ""
+        "Smooth",
+        "Crisp"
       ],
       "on_tap": true,
       "sizes": [
