@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-08T00:26:04.477Z"
+    "last_updated": "2025-10-08T00:34:16.106Z"
   },
   "beers": [
     {
@@ -749,6 +749,62 @@
       "description": "Soft and tropical, strong hop aroma and flavour with minimal bitterness ",
       "price_note": "",
       "sort_order": 260
+    },
+    {
+      "id": "new-beer-1759883502167",
+      "name": "Hold the lime",
+      "style": "Cerveza",
+      "producer": "Prairie Sun Brewery",
+      "location": "Saskatoon",
+      "abv": "4.7",
+      "ibu": "",
+      "tags": [],
+      "on_tap": true,
+      "sizes": [
+        {
+          "label": "Tulip",
+          "price": 7.5
+        },
+        {
+          "label": "Pint",
+          "price": 9
+        },
+        {
+          "label": "Pitcher",
+          "price": 28.5
+        }
+      ],
+      "description": "",
+      "price_note": "",
+      "sort_order": 270
+    },
+    {
+      "id": "new-beer-1759883577555",
+      "name": "",
+      "style": "",
+      "producer": "",
+      "location": "",
+      "abv": "",
+      "ibu": "",
+      "tags": [],
+      "on_tap": true,
+      "sizes": [
+        {
+          "label": "Tulip",
+          "price": 0
+        },
+        {
+          "label": "Pint",
+          "price": 0
+        },
+        {
+          "label": "Pitcher",
+          "price": 0
+        }
+      ],
+      "description": "",
+      "price_note": "",
+      "sort_order": 280
     }
   ]
 }
