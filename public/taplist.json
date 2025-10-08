@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-08T00:25:33.520Z"
+    "last_updated": "2025-10-08T00:26:04.477Z"
   },
   "beers": [
     {
@@ -731,7 +731,7 @@
         "soft",
         "tropical"
       ],
-      "on_tap": true,
+      "on_tap": false,
       "sizes": [
         {
           "label": "Tulip",
