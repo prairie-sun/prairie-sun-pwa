@@ -117,6 +117,12 @@ header > div {
   animation: pulseWatermark 4s infinite ease-in-out;
 }
 
+/* Keep all content above the overlay */
+.card > *:not(.ps-overlay) {
+  position: relative;
+  z-index: 1;
+}
+
 /* =========================
    META / SEARCH
    ========================= */
