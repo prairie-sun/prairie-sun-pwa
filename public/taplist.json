@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-08T00:38:14.147Z"
+    "last_updated": "2025-10-08T00:41:04.266Z"
   },
   "beers": [
     {
@@ -782,9 +782,9 @@
       "id": "new-beer-1759883577555",
       "name": "",
       "style": "",
-      "producer": "",
-      "location": "",
-      "abv": "",
+      "producer": "Prairie Sun Brewery",
+      "location": "Saskatoon",
+      "abv": "5.5",
       "ibu": "",
       "tags": [],
       "on_tap": true,
