@@ -223,9 +223,9 @@ document.addEventListener('DOMContentLoaded', () => {
         ${beer.ibu ? `<div class="pill">IBU: ${beer.ibu}</div>` : ''}
       </div>
       ${toggleHTML}
-      <p style="margin-top:8px; color:var(--muted); font-size:0.95rem">
-        ${escapeHtml(beer.description || '')}
-      </p>
+	<p class="beer-description" style="margin-top:8px; color:var(--muted); font-size:0.95rem; width:70%; box-sizing:border-box;">
+	  ${escapeHtml(beer.description || '')}
+	</p>
       <div class="sizes">
         ${(beer.sizes || []).map(s => `<div class="size">${escapeHtml(s.label)} — $${Number(s.price).toFixed(2)}</div>`).join('')}
       </div>
@@ -315,7 +315,7 @@ function renderAdminBeerInputs() {
     `).join('');
 
     card.innerHTML = `
-      <input type="text" placeholder="Name" value="${beer.name || ''}" data-index="${index}" data-field="name" />
+      <input type="text" class="beer-name" placeholder="Name" value="${beer.name || ''}" data-index="${index}" data-field="name" />
       <input type="text" placeholder="Style" value="${beer.style || ''}" data-index="${index}" data-field="style" />
       <input type="text" placeholder="Producer" value="${beer.producer || ''}" data-index="${index}" data-field="producer" />
       <input type="text" placeholder="Location" value="${beer.location || ''}" data-index="${index}" data-field="location" />

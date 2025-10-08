@@ -478,13 +478,33 @@ html, body {
    COLOR ADMIN UP AND DOWN BUTTONS
    =============================== */
 .admin-btn[data-action="move-up"] {
-  color: green;
-  font-weight: bold;
+  background-color: #4CAF50; /* green */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
 }
 
 .admin-btn[data-action="move-down"] {
-  color: red;
-  font-weight: bold;
+  background-color: #f44336; /* red */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
 }
+
+/* ===============================
+   Highlight Beer name in renderAdminBeerInputs
+   =============================== */
+input.beer-name {
+  background-color: #fff9c4; /* pale yellow */
+  border: 1px solid #fdd835;
+  border-radius: 4px;
+  padding: 4px 6px;
+}
+
+
 
 
