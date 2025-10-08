@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-08T00:13:08.869Z"
+    "last_updated": "2025-10-08T00:13:50.370Z"
   },
   "beers": [
     {
@@ -120,7 +120,7 @@
     },
     {
       "id": "prairie-sun-pale-ale-01",
-      "name": "Prairie Sun Pale Ale",
+      "name": "English Pale Ale",
       "producer": "Prairie Sun Brewery",
       "location": "Saskatoon, SK",
       "style": "Ale",
