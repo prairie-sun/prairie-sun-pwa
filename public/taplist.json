@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-08T07:08:25.641Z"
+    "last_updated": "2025-10-08T07:28:26.542Z"
   },
   "beers": [
     {
@@ -803,34 +803,6 @@
       "description": "",
       "price_note": "",
       "sort_order": 280
-    },
-    {
-      "id": "new-beer-1759889473978",
-      "name": "Delete me.",
-      "style": "",
-      "producer": "",
-      "location": "",
-      "abv": "",
-      "ibu": "",
-      "tags": [],
-      "on_tap": false,
-      "sizes": [
-        {
-          "label": "Tulip",
-          "price": 0
-        },
-        {
-          "label": "Pint",
-          "price": 0
-        },
-        {
-          "label": "Pitcher",
-          "price": 0
-        }
-      ],
-      "description": "",
-      "price_note": "",
-      "sort_order": 290
     }
   ]
 }
