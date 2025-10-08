@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-07T23:46:03.328Z"
+    "last_updated": "2025-10-08T00:08:28.619Z"
   },
   "beers": [
     {
@@ -720,13 +720,17 @@
     },
     {
       "id": "new-beer-1759880747954",
-      "name": "",
+      "name": "L’hazy Sunday IPA",
       "style": "",
       "producer": "",
       "location": "",
       "abv": "",
       "ibu": "",
-      "tags": [],
+      "tags": [
+        "Hoppy",
+        "soft",
+        "tropical"
+      ],
       "on_tap": true,
       "sizes": [
         {
@@ -742,7 +746,7 @@
           "price": 0
         }
       ],
-      "description": "",
+      "description": "Soft and tropical, strong hop aroma and flavour with minimal bitterness ",
       "price_note": "",
       "sort_order": 260
     }
