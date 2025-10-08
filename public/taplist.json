@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-08T08:43:40.097Z"
+    "last_updated": "2025-10-08T08:53:39.385Z"
   },
   "beers": [
     {
@@ -14,9 +14,7 @@
       "abv": "4.0",
       "ibu": "",
       "tags": [
-        "Light",
-        "Crisp",
-        "Smooth"
+        ""
       ],
       "on_tap": true,
       "sizes": [
@@ -33,7 +31,8 @@
           "price": 28.5
         }
       ],
-      "sort_order": 10
+      "sort_order": 10,
+      "description": ""
     },
     {
       "id": "cerveza-rebelion-01",
