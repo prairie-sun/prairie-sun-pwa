@@ -123,9 +123,11 @@ app.post('/save-taplist', async (req, res) => {
   }
 
   // --- Handle deletions ---
-  if (Array.isArray(deletedIds) && deletedIds.length > 0) {
-    taplist.beers = taplist.beers.filter(b => !deletedIds.includes(b.id));
-  }
+if (Array.isArray(deletedIds) && deletedIds.length > 0) {
+  const deletedSet = new Set(deletedIds.map(String)); // normalize to string
+  taplist.beers = taplist.beers.filter(b => !deletedSet.has(String(b.id)));
+}
+
   
     // --- Ensure all beers have a sort_order and re-sort accordingly ---
   taplist.beers.forEach((b, i) => {
