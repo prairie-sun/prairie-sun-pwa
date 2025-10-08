@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-08T07:29:40.614Z"
+    "last_updated": "2025-10-08T07:30:14.445Z"
   },
   "beers": [
     {
@@ -750,10 +750,10 @@
     },
     {
       "id": "new-beer-1759883502167",
-      "name": "Hold the lime",
+      "name": "Hold the Lime",
       "style": "Cerveza",
       "producer": "Prairie Sun Brewery",
-      "location": "Saskatoon",
+      "location": "Saskatoon,SK",
       "abv": "4.7",
       "ibu": "",
       "tags": [],
