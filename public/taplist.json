@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-08T08:43:33.059Z"
+    "last_updated": "2025-10-08T08:43:40.097Z"
   },
   "beers": [
     {
@@ -785,7 +785,7 @@
       "name": "Nitro Panther",
       "style": "Irish Stout",
       "producer": "Prairie Sun Brewery",
-      "location": "Saskatoon,SK",
+      "location": "Saskatoon, SK",
       "abv": "5.5",
       "ibu": "",
       "tags": [],
