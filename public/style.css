@@ -474,4 +474,17 @@ html, body {
   }
 }
 
+/* ===============================
+   COLOR ADMIN UP AND DOWN BUTTONS
+   =============================== */
+.admin-btn[data-action="move-up"] {
+  color: green;
+  font-weight: bold;
+}
+
+.admin-btn[data-action="move-down"] {
+  color: red;
+  font-weight: bold;
+}
+
 
