@@ -505,6 +505,30 @@ input.beer-name {
   padding: 4px 6px;
 }
 
+/* ===============================
+   Solo beer save button
+   =============================== */
+.admin-btn.save-beer-btn {
+  background-color: #1e90ff; /* Dodger blue */
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.admin-btn.save-beer-btn:hover:not(:disabled) {
+  background-color: #1c86ee; /* slightly darker blue on hover */
+}
+
+.admin-btn.save-beer-btn:disabled {
+  background-color: #a0c4ff; /* light blue for disabled */
+  cursor: not-allowed;
+}
+
+
 
 
 

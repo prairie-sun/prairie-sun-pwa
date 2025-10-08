@@ -336,6 +336,7 @@ function renderAdminBeerInputs() {
         <button class="admin-btn" data-index="${index}" data-action="delete">Delete</button>
         <button class="admin-btn" data-index="${index}" data-action="move-up" ${index === 0 ? 'disabled' : ''}>↑</button>
         <button class="admin-btn" data-index="${index}" data-action="move-down" ${index === (beersSorted.length - 1) ? 'disabled' : ''}>↓</button>
+	 <button class="admin-btn save-beer-btn" data-index="${index}" data-action="save">Save</button>
       </div>
     `;
 
@@ -355,21 +356,21 @@ function renderAdminBeerInputs() {
       if (isNaN(index)) return;
 
       // --- Delete beer ---
-if (btn.dataset.action === 'delete') {
-  if (!confirm('Are you sure you want to delete this beer?')) return;
+    if (btn.dataset.action === 'delete') {
+    if (!confirm('Are you sure you want to delete this beer?')) return;
 
-  // beersSorted is the array shown in admin UI (sorted by sort_order)
-  const beersSorted = [...taplist.beers].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
-  const beerToDelete = beersSorted[index];
-  if (!beerToDelete) return;
+    // beersSorted is the array shown in admin UI (sorted by sort_order)
+    const beersSorted = [...taplist.beers].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+    const beerToDelete = beersSorted[index];
+    if (!beerToDelete) return;
 
-  // Add to deleted list so backend removes it on save
-  // If it's a newly created beer that was never saved to server, this is harmless.
-  deletedBeerIds.push(String(beerToDelete.id));
+    // Add to deleted list so backend removes it on save
+    // If it's a newly created beer that was never saved to server, this is harmless.
+    deletedBeerIds.push(String(beerToDelete.id));
 
-  // Remove from taplist array (find real index)
-  const realIndex = taplist.beers.findIndex(b => b.id === beerToDelete.id);
-  if (realIndex !== -1) {
+    // Remove from taplist array (find real index)
+    const realIndex = taplist.beers.findIndex(b => b.id === beerToDelete.id);
+    if (realIndex !== -1) {
     taplist.beers.splice(realIndex, 1);
   }
 
@@ -422,6 +423,38 @@ if (btn.dataset.action === 'delete') {
         updateSortOrders();
         renderAdminBeerInputs();
       }
+      
+      else if (btn.dataset.action === 'save') {
+	  const beerIndex = parseInt(btn.dataset.index);
+	  const beer = taplist.beers.find(b => b.id === beersSorted[beerIndex].id);
+	  if (!beer) return;
+
+	  // Prepare updates object for this beer only
+	  const updates = {};
+	  updates[beer.id] = { ...beer }; // send all fields of the beer
+
+	  const deleted = []; // nothing deleted for single-beer save
+
+	  fetch('/save-taplist', {
+	    method: 'POST',
+	    headers: { 'Content-Type': 'application/json' },
+	    body: JSON.stringify({ updates, delete: deleted })
+	  })
+	  .then(res => {
+	    if (res.ok) {
+	      alert(`Beer "${beer.name}" saved successfully!`);
+	      renderTaplist();
+	      renderAdminBeerInputs();
+	    } else {
+	      res.json().then(data => alert(`Failed to save beer: ${data.message || res.statusText}`));
+	    }
+	  })
+	  .catch(err => {
+	    console.error(err);
+	    alert('Error saving beer.');
+	  });
+	}
+
 
       // Refresh guest view
       renderTaplist();
