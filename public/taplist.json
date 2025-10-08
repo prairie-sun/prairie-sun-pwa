@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-08T02:11:01.415Z"
+    "last_updated": "2025-10-08T02:11:23.265Z"
   },
   "beers": [
     {
@@ -803,6 +803,34 @@
       "description": "",
       "price_note": "",
       "sort_order": 280
+    },
+    {
+      "id": "new-beer-1759889473978",
+      "name": "",
+      "style": "",
+      "producer": "",
+      "location": "",
+      "abv": "",
+      "ibu": "",
+      "tags": [],
+      "on_tap": true,
+      "sizes": [
+        {
+          "label": "Tulip",
+          "price": 0
+        },
+        {
+          "label": "Pint",
+          "price": 0
+        },
+        {
+          "label": "Pitcher",
+          "price": 0
+        }
+      ],
+      "description": "",
+      "price_note": "",
+      "sort_order": 290
     }
   ]
 }
