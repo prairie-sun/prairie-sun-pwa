@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-08T08:21:50.845Z"
+    "last_updated": "2025-10-08T08:23:26.929Z"
   },
   "beers": [
     {
@@ -793,7 +793,7 @@
         },
         {
           "label": "Pint",
-          "price": 9
+          "price": 9.5
         },
         {
           "label": "Pitcher",
