@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-08T00:11:10.364Z"
+    "last_updated": "2025-10-08T00:13:08.869Z"
   },
   "beers": [
     {
@@ -723,9 +723,9 @@
       "name": "L’hazy Sunday IPA",
       "style": "",
       "producer": "",
-      "location": "",
-      "abv": "",
-      "ibu": "",
+      "location": "Saskatoon, SK",
+      "abv": "6.0",
+      "ibu": "25",
       "tags": [
         "Hoppy",
         "soft",
