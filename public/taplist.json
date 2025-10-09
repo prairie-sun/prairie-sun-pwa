@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-09T22:24:32.307Z"
+    "last_updated": "2025-10-09T22:24:57.143Z"
   },
   "beers": [
     {
@@ -809,36 +809,6 @@
       "description": "",
       "price_note": "",
       "sort_order": 280
-    },
-    {
-      "id": "new-beer-1760048529487",
-      "name": "Testing",
-      "style": "Lager",
-      "producer": "Prairie Sun Brewery",
-      "location": "Saskatoon, SK",
-      "abv": "4.0",
-      "ibu": "18",
-      "tags": [
-        ""
-      ],
-      "on_tap": true,
-      "sizes": [
-        {
-          "label": "Tulip",
-          "price": 0
-        },
-        {
-          "label": "Pint",
-          "price": 0
-        },
-        {
-          "label": "Pitcher",
-          "price": 0
-        }
-      ],
-      "description": "Blah blah blah",
-      "price_note": "",
-      "sort_order": 290
     }
   ]
 }
