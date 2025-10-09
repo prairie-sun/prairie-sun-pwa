@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-09T06:52:54.866Z"
+    "last_updated": "2025-10-09T06:53:48.124Z"
   },
   "beers": [
     {
@@ -809,34 +809,6 @@
       "description": "",
       "price_note": "",
       "sort_order": 280
-    },
-    {
-      "id": "new-beer-1759992705528",
-      "name": "Test",
-      "style": "Lager",
-      "producer": "Me",
-      "location": "Here",
-      "abv": "4.5",
-      "ibu": "",
-      "tags": [],
-      "on_tap": true,
-      "sizes": [
-        {
-          "label": "Tulip",
-          "price": 6
-        },
-        {
-          "label": "Pint",
-          "price": 9
-        },
-        {
-          "label": "Pitcher",
-          "price": 30
-        }
-      ],
-      "description": "",
-      "price_note": "",
-      "sort_order": 290
     }
   ]
 }
