@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-10T00:50:29.625Z"
+    "last_updated": "2025-10-10T00:53:32.184Z"
   },
   "beers": [
     {
@@ -128,7 +128,7 @@
       "producer": "Prairie Sun Brewery",
       "location": "Saskatoon, SK",
       "style": "Ale",
-      "abv": 4.2,
+      "abv": "4.2",
       "ibu": null,
       "sizes": [
         {
