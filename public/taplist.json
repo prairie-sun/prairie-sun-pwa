@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-10T00:57:52.677Z"
+    "last_updated": "2025-10-10T02:15:49.994Z"
   },
   "beers": [
     {
@@ -762,7 +762,10 @@
       "location": "Saskatoon,SK",
       "abv": "4.7",
       "ibu": "",
-      "tags": [],
+      "tags": [
+        "Crisp",
+        "refreshing"
+      ],
       "on_tap": true,
       "sizes": [
         {
@@ -778,7 +781,7 @@
           "price": 28.5
         }
       ],
-      "description": "",
+      "description": "A classic Cervesa brewed with corn.",
       "price_note": "",
       "sort_order": 270
     },
