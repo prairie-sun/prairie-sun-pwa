@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-10T00:53:32.184Z"
+    "last_updated": "2025-10-10T00:57:44.750Z"
   },
   "beers": [
     {
@@ -788,9 +788,14 @@
       "style": "Irish Stout",
       "producer": "Prairie Sun Brewery",
       "location": "Saskatoon, SK",
-      "abv": "5.5",
+      "abv": "5.0",
       "ibu": "",
-      "tags": [],
+      "tags": [
+        "Dark",
+        "roast",
+        "choclate",
+        "coffee"
+      ],
       "on_tap": true,
       "sizes": [
         {
@@ -806,7 +811,7 @@
           "price": 31
         }
       ],
-      "description": "",
+      "description": " Nitro",
       "price_note": "",
       "sort_order": 280
     }
