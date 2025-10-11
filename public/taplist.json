@@ -2,7 +2,7 @@
   "meta": {
     "venue": "Prairie Sun Brewery",
     "location": "Saskatoon, SK",
-    "last_updated": "2025-10-11T16:30:22.206Z"
+    "last_updated": "2025-10-11T16:30:59.576Z"
   },
   "beers": [
     {
@@ -817,6 +817,34 @@
       "description": " Nitro",
       "price_note": "",
       "sort_order": 280
+    },
+    {
+      "id": "new-beer-1760200240678",
+      "name": "New beer",
+      "style": "",
+      "producer": "",
+      "location": "",
+      "abv": "",
+      "ibu": "",
+      "tags": [],
+      "on_tap": true,
+      "sizes": [
+        {
+          "label": "Tulip",
+          "price": 0
+        },
+        {
+          "label": "Pint",
+          "price": 0
+        },
+        {
+          "label": "Pitcher",
+          "price": 0
+        }
+      ],
+      "description": "",
+      "price_note": "",
+      "sort_order": 290
     }
   ]
 }
